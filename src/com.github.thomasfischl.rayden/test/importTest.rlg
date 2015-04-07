@@ -1,0 +1,5 @@
+import library "expression.rlg"
+
+keyword<testcase> Use Keyword From Library! {
+	ExprTest2
+}

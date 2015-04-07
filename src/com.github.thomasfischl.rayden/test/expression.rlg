@@ -1,0 +1,58 @@
+keyword<testcase> ExprTest1{
+	Print("Hello World")
+	Print("Hello " + "World " + "!")
+	Print(1)
+	Print(true)
+	Print(false)
+	Print(true + " = true")
+
+	//Boolean Opt Test
+	Print("false && true = " + (false && true))
+	Print("false || true = " + (false || true))
+	
+	Print("true && true = " + (true && true))
+	Print("true || true = " + (true || true))
+	
+	Print("false && false = " + (false && false))
+	Print("false || false = " + (false || false))
+	
+	//Number Opt Test
+	Print(1 + 2 + " = 3")	
+	Print(1 - 2 + " = -1")	
+	Print(1 * 2 + " = 2")	
+	Print(1 / 2 + " = 0.5")	
+	Print(1 % 2 + " = 1")	
+	
+	//Equal Opt Test
+	Print((1 == 1) + " = true")
+	Print((1 == 2) + " = false")
+	
+	Print((1 != 1) + " = false")
+	Print((1 != 2) + " = true")
+	
+	//Special
+	Print(:index)
+	Print(@website->orf->articles->1)
+}
+
+keyword<testcase> ExprTest2{
+	Assert(1 == 1)
+}
+
+keyword<testcase> ExprTest3{
+	Assert(1 != 2)
+}
+
+keyword<testcase> ExprTest4{
+	Assert(1 + 1 == 2)
+}
+
+keyword<scripted> Print{
+	property text
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+}
+
+keyword<scripted> Assert{
+	property assert
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.AssertKeyword"
+}

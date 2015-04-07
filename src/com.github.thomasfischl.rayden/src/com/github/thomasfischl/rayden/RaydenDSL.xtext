@@ -1,0 +1,152 @@
+grammar com.github.thomasfischl.rayden.RaydenDSL hidden(WS, ML_COMMENT, SL_COMMENT)
+/*with org.eclipse.xtext.common.Terminals*/
+generate raydenDSL "http://www.github.com/thomasfischl/rayden/RaydenDSL"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+/* ----------------------------------------------- */
+/*                DOC                              */
+/* ----------------------------------------------- */
+// * one or none (operator ?)
+// * any (zero or more, operator *)
+// * one or more (operator +)
+Model:
+	(imports+=Import)*
+	(keywords+=KeywordDecl)+;
+
+Import: 
+	'import' 'library' importedNamespace=STRING;
+
+KeywordDecl:
+	'keyword'
+	('<' metatype=KeywordMetatype '>')?
+	name=IDEXT
+	'{'
+	(desc=Description)?
+	(properties+=PropertyDecl)*
+	(script=KeywordScript | keywordlist=KeywordList)
+	'}';
+
+KeywordList:
+	(children+=KeywordCall)+;
+
+KeywordCall:
+	name=IDEXT
+	(parameters=KeywordCallParameter)?
+	(keywordList=KeywordCallKeywordList)?;
+
+KeywordCallParameter:
+	'(' parameters+=Expr (',' parameters+=Expr)* ')';
+
+KeywordCallKeywordList:
+	'{' keywordlist=KeywordList '}';
+
+KeywordScript:
+	'implement' 'as' scriptType=ScriptType '=>' class=STRING;
+
+Description:
+	'description' text=ML_STRING;
+
+Expr:
+	expr=OrExpr;
+
+OrExpr:
+	expr+=AndExpr (opt+='||' expr+=AndExpr)*;
+
+AndExpr:
+	expr+=RelExpr (opt+='&&' expr+=RelExpr)*;
+
+RelExpr:
+	expr+=SimpleExpr ((opt='==' | opt='!=' | opt='<' | opt='<=' | opt='>' | opt='>=') expr+=SimpleExpr)?;
+
+SimpleExpr:
+	preopt=('+' | '-')? expr+=Term (opt+=('+' | '-') expr+=Term)*;
+
+Term:
+	expr+=NotFact ((opt+='*' | opt+='/' | opt+='%') expr+=NotFact)*;
+
+NotFact:
+	(opt='!')? expr=Fact;
+
+Fact:
+	bool='false' |
+	bool='true' |
+	number=NUMBER |
+	string=STRING |
+	ident=IDEXT |
+	locator=IDEXT_LOCATOR |
+	symbol=IDEXT_SYMBOL |
+	'(' expr=Expr ')';
+
+PropertyDecl:
+	'property' ('in' | 'out' | 'inout')? name=IDEXT
+	('as'
+	('number' | 'string' | 'boolean' | 'enumeration' '(' values+=IDEXT (',' values+=IDEXT)+ ')'))?;
+
+enum KeywordMetatype:
+	USERDEFINED='userdefined' | TESTCASE='testcase' | SCRIPTED='scripted';
+
+enum ScriptType:
+	JAVA='java';
+
+/* ----------------------------------------------- */
+/*                lexer                            */
+/* ----------------------------------------------- */
+
+//grammar org.eclipse.xtext.common.Terminals hidden(WS, ML_COMMENT, SL_COMMENT)
+//											
+//import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+//
+//terminal ID  		: '^'?('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+//terminal INT returns ecore::EInt: ('0'..'9')+;
+//terminal STRING	: 
+//			'"' ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
+//			"'" ( '\\' ('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'"
+//		; 
+//terminal ML_COMMENT	: '/*' -> '*/';
+//terminal SL_COMMENT 	: '//' !('\n'|'\r')* ('\r'? '\n')?;
+//
+//terminal WS			: (' '|'\t'|'\r'|'\n')+;
+//
+//terminal ANY_OTHER: .;
+terminal fragment ID_CHARS:
+	'a'..'z' | 'A'..'Z' | '0'..'9';
+
+terminal fragment IDEXT_CHARS:
+	'a'..'z' | 'A'..'Z' | '0'..'9' | '$' | "'";
+
+terminal fragment IDEXT_SENTENCE:
+	('A'..'Z') IDEXT_CHARS* (' ' (IDEXT_CHARS | ' ')*)?;
+
+terminal fragment IDEXT_IDENTIFIER:
+	('a'..'z') IDEXT_CHARS*;
+
+terminal IDEXT:
+	(IDEXT_SENTENCE |
+	IDEXT_IDENTIFIER) ('.' | '!' | '?')?;
+
+terminal IDEXT_SYMBOL:
+	':' ('a'..'z') ID_CHARS*;
+
+terminal IDEXT_LOCATOR:
+	'@' (ID_CHARS | '->')*;
+
+terminal STRING:
+	'"' ('\\' ('b' | 't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';
+
+terminal ML_STRING:
+	"'''"->"'''";
+
+terminal NUMBER returns ecore::EDouble:
+	('0'..'9')+ ('.' ('0'..'9')+)?;
+
+terminal ML_COMMENT:
+	'/*'->'*/';
+
+terminal SL_COMMENT:
+	'//' !('\n' | '\r')* ('\r'? '\n')?;
+
+terminal WS:
+	(' ' | '\t' | '\r' | '\n')+;
+
+terminal ANY_OTHER:
+	.;

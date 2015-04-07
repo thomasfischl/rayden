@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.github.thomasfischl.rayden/src-gen" editDirectory="/com.github.thomasfischl.rayden.edit/src"
+    editorDirectory="/com.github.thomasfischl.rayden.editor/src" modelPluginID="com.github.thomasfischl.rayden"
+    forceOverwrite="true" modelName="RaydenDSL" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="com.github.thomasfischl.rayden.edit"
+    editorPluginID="com.github.thomasfischl.rayden.editor" runtimeVersion="2.10">
+  <genPackages prefix="RaydenDSL" basePackage="com.github.thomasfischl.rayden" disposableProviderFactory="true"
+      fileExtensions="rlg" ecorePackage="RaydenDSL.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RaydenDSL.ecore#//KeywordMetatype">
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordMetatype/USERDEFINED"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordMetatype/TESTCASE"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordMetatype/SCRIPTED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RaydenDSL.ecore#//ScriptType">
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//ScriptType/JAVA"/>
+    </genEnums>
+    <genClasses ecoreClass="RaydenDSL.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/keywords"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//Import">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Import/importedNamespace"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//KeywordDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/metatype"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/desc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/script"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/keywordlist"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//KeywordList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordList/children"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//KeywordCall">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordCall/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCall/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCall/keywordList"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//KeywordCallParameter">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCallParameter/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//KeywordCallKeywordList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCallKeywordList/keywordlist"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//KeywordScript">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordScript/scriptType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordScript/class"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//Description">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Description/text"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//Expr">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Expr/expr"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//OrExpr">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//OrExpr/expr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//OrExpr/opt"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//AndExpr">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//AndExpr/expr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//AndExpr/opt"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//RelExpr">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//RelExpr/expr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//RelExpr/opt"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//SimpleExpr">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//SimpleExpr/preopt"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//SimpleExpr/expr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//SimpleExpr/opt"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//Term">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Term/expr"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Term/opt"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//NotFact">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//NotFact/opt"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//NotFact/expr"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//Fact">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/bool"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/number"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/string"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/ident"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/locator"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/symbol"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Fact/expr"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//PropertyDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//PropertyDecl/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//PropertyDecl/values"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

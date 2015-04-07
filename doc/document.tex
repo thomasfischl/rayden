@@ -1,0 +1,69 @@
+﻿\documentclass[master,german]{hgbthesis}
+% Zulässige Class Options: 
+%   Typ der Arbeit: diplom, master (default), bachelor, praktikum 
+%   Hauptsprache: german (default), english
+%%------------------------------------------------------------
+
+\graphicspath{{images/}}    % name of directory containing the images
+\logofile{}			% name of PDF, remove or use \logofile{} for no logo
+\bibliography{literatur}  	% name of the BibTeX (.bib) file
+
+
+%%%----------------------------------------------------------
+\begin{document}
+%%%----------------------------------------------------------
+
+% Einträge für ALLE Arbeiten: --------------------------------
+\title{Rayden - Eine universelle Sprache für funktionale Tests mit Spezialisierung auf Abnahmetests}
+\author{Thomas Fischl}
+\studiengang{Software Engineering}
+\studienort{Hagenberg}
+\abgabedatum{2015}{05}{31}	% {YYYY}{MM}{DD}
+
+%%% zusätzlich für eine Bachelorarbeit: ---------------------
+\nummer{1310454009}   % XX...X = Stud-ID, z.B. 0310238045-A  
+                        % (A = 1. Bachelorarbeit)
+\semester{Sommersemester 2015} 
+\gegenstand{Formale Sprachen, Compiler- und Werkzeugbau} 
+\betreuer{FH-Prof. DI Dr. Heinz Dobler}
+
+%%\strictlicense  % erzeugt restriktive Lizenzformel
+
+%%%----------------------------------------------------------
+\frontmatter
+\maketitle
+\tableofcontents
+%%%----------------------------------------------------------
+
+\include{kurzfassung}		
+\include{abstract}			
+
+%%%----------------------------------------------------------
+\mainmatter         % Hauptteil (ab hier arab. Seitenzahlen)
+%%%----------------------------------------------------------
+
+\include{einleitung}
+\include{problemanalyse}
+\include{standdertechnik}
+\include{konzept}
+\include{designundimplementierung}
+\include{testen}
+\include{diskussion}
+\include{zusammenfassung}
+
+%%%----------------------------------------------------------
+%%%Anhang
+\appendix
+%%\include{anhang_a}	% Technische Ergänzungen
+%%\include{anhang_b}	% Inhalt der CD-ROM/DVD
+%%\include{anhang_c}	% Chronologische Liste der Änderungen
+%%\include{anhang_d}	% Quelltext dieses Dokuments
+
+%%%----------------------------------------------------------
+\MakeBibliography
+%%%----------------------------------------------------------
+
+%%%Messbox zur Druckkontrolle
+\include{messbox}
+
+\end{document}

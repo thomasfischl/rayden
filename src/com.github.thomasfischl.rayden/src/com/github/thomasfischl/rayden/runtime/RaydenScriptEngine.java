@@ -10,6 +10,8 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 
+import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
+
 public class RaydenScriptEngine extends AbstractScriptEngine {
 
   public final static String WORKING_FOLDER = "RAYDEN_WORKING_FOLDER";
@@ -18,13 +20,13 @@ public class RaydenScriptEngine extends AbstractScriptEngine {
 
   private ScriptEngineFactory factory;
 
-  private RaydenReporter reporter;
+  private IRaydenExtReporter reporter;
 
   public RaydenScriptEngine(ScriptEngineFactory factory) {
     this.factory = factory;
   }
 
-  public void setReporter(RaydenReporter reporter) {
+  public void setReporter(IRaydenExtReporter reporter) {
     this.reporter = reporter;
   }
 

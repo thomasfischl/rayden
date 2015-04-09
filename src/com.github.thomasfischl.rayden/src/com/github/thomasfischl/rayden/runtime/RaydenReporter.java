@@ -1,8 +1,8 @@
 package com.github.thomasfischl.rayden.runtime;
 
-import com.github.thomasfischl.rayden.api.keywords.IRaydenReporter;
+import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
 
-public class RaydenReporter implements IRaydenReporter{
+public class RaydenReporter implements IRaydenExtReporter {
 
   private int indentation;
 
@@ -47,6 +47,18 @@ public class RaydenReporter implements IRaydenReporter{
 
   protected String formatMessae(String msg) {
     return "                                                                       ".substring(0, indentation * 2) + msg;
+  }
+
+  @Override
+  public void start() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void stop() {
+    // TODO Auto-generated method stub
+
   }
 
 }

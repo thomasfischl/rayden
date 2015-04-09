@@ -18,6 +18,7 @@ import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ParseException;
 
 import com.github.thomasfischl.rayden.RaydenDSLStandaloneSetupGenerated;
+import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
 import com.github.thomasfischl.rayden.api.keywords.IScriptedCompoundKeyword;
 import com.github.thomasfischl.rayden.api.keywords.IScriptedKeyword;
 import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
@@ -41,7 +42,7 @@ public class RaydenRuntime {
   @Inject
   private IParser parser;
 
-  private RaydenReporter reporter;
+  private IRaydenExtReporter reporter;
 
   private final Map<String, KeywordDecl> definedKeywords = new HashMap<>();
 
@@ -58,7 +59,7 @@ public class RaydenRuntime {
     setWorkingFolder(new File("."));
   }
 
-  public void setReporter(RaydenReporter reporter) {
+  public void setReporter(IRaydenExtReporter reporter) {
     this.reporter = reporter;
   }
 
@@ -112,6 +113,8 @@ public class RaydenRuntime {
 
     RaydenScriptResult result = new RaydenScriptResult();
 
+    reporter.start();
+
     for (KeywordDecl keyword : definedKeywords.values()) {
       if (RaydenModelUtils.isTestSuiteKeyword(keyword)) {
         try {
@@ -140,6 +143,8 @@ public class RaydenRuntime {
         }
       }
     }
+
+    reporter.stop();
 
     reporter.log("  Results:");
     reporter.log("  Success Tests     : " + successTests);

@@ -1,6 +1,6 @@
-package com.github.thomasfischl.rayden.api.keywords;
+package com.github.thomasfischl.rayden.api;
 
-public interface IRaydenReporter {
+public interface IRaydenExtReporter extends IRaydenReporter {
 
   void reportKeywordBegin(String name);
 
@@ -8,14 +8,12 @@ public interface IRaydenReporter {
 
   void reportUnkownKeyword(String name);
 
-  void log(String msg);
-
-  void error(String msg);
-
-  void error(Throwable e);
-
   void reportTestCaseStart(String keywordName);
 
   void reportTestCaseEnd(String keywordName);
+
+  void start();
+
+  void stop();
 
 }

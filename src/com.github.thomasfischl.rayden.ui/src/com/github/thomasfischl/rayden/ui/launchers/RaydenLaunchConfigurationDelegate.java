@@ -1,5 +1,6 @@
 package com.github.thomasfischl.rayden.ui.launchers;
 
+import java.io.File;
 import java.io.InputStreamReader;
 
 import javax.script.ScriptException;
@@ -15,6 +16,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 
+import com.github.thomasfischl.rayden.reporting.RaydenXMLReporter;
 import com.github.thomasfischl.rayden.runtime.RaydenReporter;
 import com.github.thomasfischl.rayden.runtime.RaydenScriptEngine;
 import com.github.thomasfischl.rayden.runtime.RaydenScriptEngineFactory;
@@ -28,13 +30,8 @@ public class RaydenLaunchConfigurationDelegate extends LaunchConfigurationDelega
     // clear problem view
     UiHelpers.removeMarkers();
 
-    // boolean isTest = false;
-    // String commandline = "";
-    // String srcpath = "/src/";
     String projectname = configuration.getAttribute(RaydenLaunchConfiguration.RESOURCE_PROJECT_NAME, new String());
-    // String projectpath = configuration.getAttribute(KyLangLaunchConfiguration.RESOURCE_PROJECT_PATH, new String());
     String programpath = configuration.getAttribute(RaydenLaunchConfiguration.TEST_FILE, new String());
-    // String programname = programpath.substring(0, programpath.lastIndexOf("."));
 
     IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectname);
     IResource resource = project.findMember(programpath);
@@ -45,12 +42,16 @@ public class RaydenLaunchConfigurationDelegate extends LaunchConfigurationDelega
       try {
         RaydenScriptEngineFactory factory = new RaydenScriptEngineFactory();
         RaydenScriptEngine engine = (RaydenScriptEngine) factory.getScriptEngine();
-        engine.setReporter(reporter);
-
         // set correct working directory for eclipse usage
         SimpleScriptContext context = new SimpleScriptContext();
-        context.setAttribute(RaydenScriptEngine.WORKING_FOLDER, project.getLocation().toFile(), SimpleScriptContext.ENGINE_SCOPE);
+        File workingDirectory = project.getLocation().toFile();
+        context.setAttribute(RaydenScriptEngine.WORKING_FOLDER, workingDirectory, SimpleScriptContext.ENGINE_SCOPE);
         engine.setContext(context);
+
+        RaydenXMLReporter reporterXml = new RaydenXMLReporter();
+        reporterXml.setWorkingDirectory(new File(workingDirectory, "log"));
+        engine.setReporter(reporterXml);
+        // engine.setReporter(reporter);
 
         engine.eval(new InputStreamReader(((IFile) resource).getContents()));
       } catch (ScriptException e) {

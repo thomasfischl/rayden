@@ -11,8 +11,7 @@ import org.eclipse.xtext.validation.Issue;
 import com.github.thomasfischl.rayden.raydenDSL.Description;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordCall;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordDecl;
-import com.github.thomasfischl.rayden.raydenDSL.KeywordList;
-import com.github.thomasfischl.rayden.raydenDSL.KeywordMetatype;
+import com.github.thomasfischl.rayden.raydenDSL.KeywordType;
 import com.github.thomasfischl.rayden.raydenDSL.Model;
 import com.github.thomasfischl.rayden.raydenDSL.PropertyDecl;
 import com.github.thomasfischl.rayden.raydenDSL.RaydenDSLFactory;
@@ -35,13 +34,13 @@ public class RaydenQuickfixProvider extends DefaultQuickfixProvider {
 
         KeywordDecl keywordImpl = RaydenDSLFactory.eINSTANCE.createKeywordDecl();
         keywordImpl.setName(RaydenModelUtils.normalizeKeyword(keywordCall.getName()));
-        keywordImpl.setMetatype(KeywordMetatype.SCRIPTED);
+        keywordImpl.setType(KeywordType.KEYWORD);
         keywordImpl.setScript(RaydenDSLFactory.eINSTANCE.createKeywordScript());
         keywordImpl.getScript().setScriptType(ScriptType.JAVA);
         keywordImpl.getScript().setClass("com.github.thomasfischl.rayden.runtime.keywords.impl.UnimplementedKeyword");
 
         Description description = RaydenDSLFactory.eINSTANCE.createDescription();
-        description.setText("'''TODO: Implement'''");
+        description.setText("'''TODO: Implement Keyword'''");
         keywordImpl.setDesc(description);
 
         defineParameters(keywordCall, keywordImpl);
@@ -60,18 +59,11 @@ public class RaydenQuickfixProvider extends DefaultQuickfixProvider {
 
         KeywordDecl keywordImpl = RaydenDSLFactory.eINSTANCE.createKeywordDecl();
         keywordImpl.setName(keywordCall.getName());
-        keywordImpl.setMetatype(KeywordMetatype.USERDEFINED);
+        keywordImpl.setType(KeywordType.KEYWORD);
 
         Description description = RaydenDSLFactory.eINSTANCE.createDescription();
         description.setText("'''TODO: Implement'''");
         keywordImpl.setDesc(description);
-
-        KeywordList keywordList = RaydenDSLFactory.eINSTANCE.createKeywordList();
-
-        KeywordCall callKeyword = RaydenDSLFactory.eINSTANCE.createKeywordCall();
-        callKeyword.setName("Unimplemented Keyword");
-        keywordList.getChildren().add(callKeyword);
-        keywordImpl.setKeywordlist(keywordList);
 
         defineParameters(keywordCall, keywordImpl);
 

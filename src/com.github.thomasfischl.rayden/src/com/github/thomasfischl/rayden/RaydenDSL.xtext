@@ -10,20 +10,19 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 // * any (zero or more, operator *)
 // * one or more (operator +)
 Model:
-	(imports+=Import)*
-	(keywords+=KeywordDecl)+;
+	(imports+=ImportDecl)*
+	(keywords+=KeywordDecl)*;
 
-Import: 
-	'import' 'library' importedNamespace=STRING;
+ImportDecl: 
+	'import' 'library' importLibrary=STRING;
 
 KeywordDecl:
-	'keyword'
-	('<' metatype=KeywordMetatype '>')?
+	type=KeywordType
 	name=IDEXT
 	'{'
 	(desc=Description)?
 	(properties+=PropertyDecl)*
-	(script=KeywordScript | keywordlist=KeywordList)
+	(script=KeywordScript | keywordlist=KeywordList)?
 	'}';
 
 KeywordList:
@@ -35,7 +34,9 @@ KeywordCall:
 	(keywordList=KeywordCallKeywordList)?;
 
 KeywordCallParameter:
-	'(' parameters+=Expr (',' parameters+=Expr)* ')';
+	call='(' 
+		(parameters+=Expr (',' parameters+=Expr)* )?
+	 ')';
 
 KeywordCallKeywordList:
 	'{' keywordlist=KeywordList '}';
@@ -44,7 +45,7 @@ KeywordScript:
 	'implement' 'as' scriptType=ScriptType '=>' class=STRING;
 
 Description:
-	'description' text=ML_STRING;
+	text=ML_STRING;
 
 Expr:
 	expr=OrExpr;
@@ -82,8 +83,15 @@ PropertyDecl:
 	('as'
 	('number' | 'string' | 'boolean' | 'enumeration' '(' values+=IDEXT (',' values+=IDEXT)+ ')'))?;
 
-enum KeywordMetatype:
-	USERDEFINED='userdefined' | TESTCASE='testcase' | SCRIPTED='scripted';
+enum KeywordType:
+	KEYWORD='keyword'                 | 
+	REQUIREMENT='requirement'         | 
+	UNITTEST='unittest'               | 
+	INTEGRATIONTEST='integrationtest' |
+	APITEST='apitest'                 |
+	UATEST='uatest'                   |
+	TESTSUITE='testsuite'             |
+	TESTCASE='testcase';
 
 enum ScriptType:
 	JAVA='java';
@@ -112,10 +120,15 @@ terminal fragment ID_CHARS:
 	'a'..'z' | 'A'..'Z' | '0'..'9';
 
 terminal fragment IDEXT_CHARS:
-	'a'..'z' | 'A'..'Z' | '0'..'9' | '$' | "'";
+	'a'..'z' | 'A'..'Z' | '0'..'9' | '$' | "'" ;
 
 terminal fragment IDEXT_SENTENCE:
-	('A'..'Z') IDEXT_CHARS* (' ' (IDEXT_CHARS | ' ')*)?;
+	('A'..'Z') 
+	IDEXT_CHARS* 
+	( 
+		(' '|',') 
+		(IDEXT_CHARS | ' ' | ',' )*
+	)?;
 
 terminal fragment IDEXT_IDENTIFIER:
 	('a'..'z') IDEXT_CHARS*;

@@ -1,5 +1,6 @@
-import library "expression.rlg"
+import library "control-structure.rlg"
 
 keyword<testcase> Use Keyword From Library! {
-	ExprTest2
+	if(true)
+	for(0, 0, 10)
 }

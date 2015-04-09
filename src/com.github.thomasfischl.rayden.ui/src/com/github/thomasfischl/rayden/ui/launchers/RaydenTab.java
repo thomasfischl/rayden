@@ -145,7 +145,7 @@ public class RaydenTab extends AbstractLaunchConfigurationTab {
     });
     List<IFile> elements = new ArrayList<IFile>();
     try {
-      for (IResource resource : ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getFolder("src").members()) {
+      for (IResource resource : ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).members()) {
         if (resource instanceof IFile && (resource.getName().endsWith(".rlg"))) {
           elements.add((IFile) resource);
         }

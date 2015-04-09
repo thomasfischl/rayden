@@ -4,15 +4,15 @@
     nsPrefix="raydenDSL">
   <eClassifiers xsi:type="ecore:EClass" name="Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
-        eType="#//Import" containment="true"/>
+        eType="#//ImportDecl" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="keywords" upperBound="-1"
         eType="#//KeywordDecl" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Import">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ImportDecl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importLibrary" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="KeywordDecl">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="metatype" eType="#//KeywordMetatype"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//KeywordType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="desc" eType="#//Description"
         containment="true"/>
@@ -35,6 +35,7 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="KeywordCallParameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="call" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
         eType="#//Expr" containment="true"/>
   </eClassifiers>
@@ -101,10 +102,15 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="KeywordMetatype">
-    <eLiterals name="USERDEFINED" literal="userdefined"/>
-    <eLiterals name="TESTCASE" value="1" literal="testcase"/>
-    <eLiterals name="SCRIPTED" value="2" literal="scripted"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="KeywordType">
+    <eLiterals name="KEYWORD" literal="keyword"/>
+    <eLiterals name="REQUIREMENT" value="1" literal="requirement"/>
+    <eLiterals name="UNITTEST" value="2" literal="unittest"/>
+    <eLiterals name="INTEGRATIONTEST" value="3" literal="integrationtest"/>
+    <eLiterals name="APITEST" value="4" literal="apitest"/>
+    <eLiterals name="UATEST" value="5" literal="uatest"/>
+    <eLiterals name="TESTSUITE" value="6" literal="testsuite"/>
+    <eLiterals name="TESTCASE" value="7" literal="testcase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ScriptType">
     <eLiterals name="JAVA" literal="java"/>

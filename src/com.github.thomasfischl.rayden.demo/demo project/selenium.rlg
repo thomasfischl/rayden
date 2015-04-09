@@ -1,0 +1,41 @@
+keyword Open Browser {
+	property in browserType as string
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword Click Right {
+	property in location as string
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword Click Left {
+	property in location as string
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword Type Text {
+	property in location as string
+	property in text as string
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword Close Browser {
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword Verify Text {
+	property in locator as string
+	property in text as string
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword Wait Until Exists {
+	property in locator as string
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}

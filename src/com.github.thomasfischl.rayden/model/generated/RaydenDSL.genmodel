@@ -7,10 +7,15 @@
     editorPluginID="com.github.thomasfischl.rayden.editor" runtimeVersion="2.10">
   <genPackages prefix="RaydenDSL" basePackage="com.github.thomasfischl.rayden" disposableProviderFactory="true"
       fileExtensions="rlg" ecorePackage="RaydenDSL.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RaydenDSL.ecore#//KeywordMetatype">
-      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordMetatype/USERDEFINED"/>
-      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordMetatype/TESTCASE"/>
-      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordMetatype/SCRIPTED"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="RaydenDSL.ecore#//KeywordType">
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/KEYWORD"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/REQUIREMENT"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/UNITTEST"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/INTEGRATIONTEST"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/APITEST"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/UATEST"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/TESTSUITE"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/TESTCASE"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="RaydenDSL.ecore#//ScriptType">
       <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//ScriptType/JAVA"/>
@@ -19,11 +24,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/imports"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/keywords"/>
     </genClasses>
-    <genClasses ecoreClass="RaydenDSL.ecore#//Import">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Import/importedNamespace"/>
+    <genClasses ecoreClass="RaydenDSL.ecore#//ImportDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ImportDecl/importLibrary"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//KeywordDecl">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/metatype"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/desc"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/properties"/>
@@ -39,6 +44,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCall/keywordList"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//KeywordCallParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordCallParameter/call"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCallParameter/parameters"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//KeywordCallKeywordList">

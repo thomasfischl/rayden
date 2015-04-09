@@ -5,13 +5,7 @@ package com.github.thomasfischl.rayden.ui.contentassist;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
@@ -29,7 +23,6 @@ public class RaydenDSLProposalProvider extends com.github.thomasfischl.rayden.ui
       ICompletionProposalAcceptor acceptor) {
     super.completeKeywordCall_Name(model, assignment, context, acceptor);
 
-    
     List<KeywordDecl> keywords = RaydenModelUtils.getAllKeywords(model);
     KeywordDecl parentKeyword = RaydenModelUtils.getKeywordDecl(model);
 

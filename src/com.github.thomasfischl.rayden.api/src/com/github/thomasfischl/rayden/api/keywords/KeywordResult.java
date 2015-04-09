@@ -1,4 +1,4 @@
-package com.github.thomasfischl.rayden.runtime.keywords;
+package com.github.thomasfischl.rayden.api.keywords;
 
 public class KeywordResult {
 

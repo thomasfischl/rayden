@@ -1,5 +1,7 @@
 package com.github.thomasfischl.rayden.runtime;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,22 +11,25 @@ import java.util.Stack;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.parser.ParseException;
 
 import com.github.thomasfischl.rayden.RaydenDSLStandaloneSetupGenerated;
+import com.github.thomasfischl.rayden.api.keywords.IScriptedCompoundKeyword;
+import com.github.thomasfischl.rayden.api.keywords.IScriptedKeyword;
+import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
 import com.github.thomasfischl.rayden.raydenDSL.Expr;
+import com.github.thomasfischl.rayden.raydenDSL.ImportDecl;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordCall;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordDecl;
-import com.github.thomasfischl.rayden.raydenDSL.KeywordMetatype;
+import com.github.thomasfischl.rayden.raydenDSL.KeywordType;
 import com.github.thomasfischl.rayden.raydenDSL.Model;
 import com.github.thomasfischl.rayden.raydenDSL.PropertyDecl;
 import com.github.thomasfischl.rayden.raydenDSL.RaydenDSLFactory;
 import com.github.thomasfischl.rayden.raydenDSL.ScriptType;
-import com.github.thomasfischl.rayden.runtime.keywords.IScriptedKeyword;
-import com.github.thomasfischl.rayden.runtime.keywords.KeywordResult;
 import com.github.thomasfischl.rayden.util.RaydenModelUtils;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -40,17 +45,32 @@ public class RaydenRuntime {
 
   private final Map<String, KeywordDecl> definedKeywords = new HashMap<>();
 
+  private final Map<String, KeywordDecl> definedImportedKeywords = new HashMap<>();
+
   private final Stack<RaydenScriptScope> stack = new Stack<>();
+
+  private File workingFolder;
+
+  private ClassLoader classLoader;
 
   protected RaydenRuntime() {
     reporter = new RaydenReporter();
+    setWorkingFolder(new File("."));
   }
 
   public void setReporter(RaydenReporter reporter) {
     this.reporter = reporter;
   }
 
-  public void loadLibrary(Reader reader) {
+  public void loadRaydenFile(Reader reader) {
+    loadFile(reader, definedKeywords);
+  }
+
+  public void loadLibraryFile(Reader reader) {
+    loadFile(reader, definedImportedKeywords);
+  }
+
+  private void loadFile(Reader reader, Map<String, KeywordDecl> keywordStore) {
     IParseResult result = parser.parse(reader);
     if (result.hasSyntaxErrors()) {
       for (INode error : result.getSyntaxErrors()) {
@@ -68,38 +88,53 @@ public class RaydenRuntime {
       List<String> keywordNames = new ArrayList<>();
       for (KeywordDecl keyword : keywords) {
         keywordNames.add("\"" + RaydenModelUtils.normalizeKeyword(keyword.getName()) + "\"");
-        definedKeywords.put(RaydenModelUtils.normalizeKeyword(keyword.getName()), keyword);
+        keywordStore.put(RaydenModelUtils.normalizeKeyword(keyword.getName()), keyword);
       }
       reporter.log("Loaded Keywords (" + Joiner.on(",").join(keywordNames) + ")");
+
+      EList<ImportDecl> imports = model.getImports();
+      for (ImportDecl importDecl : imports) {
+        try {
+          loadLibraryFile(new FileReader(new File(workingFolder, importDecl.getImportLibrary())));
+        } catch (Exception e) {
+          reporter.error("Error during loading library '" + importDecl.getImportLibrary() + "'");
+          reporter.error(e);
+        }
+      }
     }
   }
 
-  public void executeAllTestcases() {
+  public RaydenScriptResult executeAllTestSuites() {
 
     int successTests = 0;
     int failedTests = 0;
     int errorTests = 0;
 
+    RaydenScriptResult result = new RaydenScriptResult();
+
     for (KeywordDecl keyword : definedKeywords.values()) {
-      if (RaydenModelUtils.isTestcaseKeyword(keyword)) {
+      if (RaydenModelUtils.isTestSuiteKeyword(keyword)) {
         try {
           reporter.log("----------------------------------------------------------------");
-          reporter.log("Execute Testcase '" + keyword.getName() + "'");
+          reporter.log("Execute Testsuite '" + keyword.getName() + "'");
           reporter.log("----------------------------------------------------------------");
-          executeTestCase(keyword.getName());
+          executeKeyword(keyword.getName());
           successTests++;
         } catch (RaydenScriptException e) {
           e.printStackTrace();
           errorTests++;
           reporter.error(e.getMessage());
+          result.addErrorMessage(e.getMessage());
         } catch (RaydenScriptFailedException e) {
           e.printStackTrace();
           failedTests++;
           reporter.error(e.getMessage());
+          result.addErrorMessage(e.getMessage());
         } catch (Exception e) {
           e.printStackTrace();
           errorTests++;
           reporter.error(e.getMessage());
+          result.addErrorMessage(e.getMessage());
         } finally {
           reporter.log("----------------------------------------------------------------");
         }
@@ -112,12 +147,14 @@ public class RaydenRuntime {
     reporter.log("  Fatal Failed Tests: " + errorTests);
     reporter.log("----------------------------------------------------------------");
 
-    if (errorTests > 0) {
-      throw new IllegalStateException("Fatal failed tests!");
-    }
+    result.setSuccessTestCount(successTests);
+    result.setFailedTestCount(failedTests);
+    result.setFatalFailedTestCount(errorTests);
+
+    return result;
   }
 
-  private void executeTestCase(String keywordName) {
+  private void executeKeyword(String keywordName) {
     stack.clear();
 
     try {
@@ -146,18 +183,79 @@ public class RaydenRuntime {
         if (currKeyword instanceof KeywordDecl) {
           KeywordDecl keyword = (KeywordDecl) currKeyword;
 
-          if (currScope.isKeywordBegin()) {
-            executeKeywordDeclBegin(keyword, currScope);
-          } else if (currScope.isKeywordEnd()) {
-            executeKeywordDeclEnd(keyword, currScope);
+          if (currScope.getKeywordCall().getKeywordList() != null && currScope.getKeywordCall().getParameters() != null) {
+            // System.out.println("Scripted Compound Keyword");
+
+            if (currScope.isKeywordBegin()) {
+              executeScriptedCompoundKeywordDeclBegin(keyword, currScope);
+            } else if (currScope.isKeywordEnd()) {
+              executeScriptedCompoundKeywordDeclEnd(keyword, currScope);
+            } else {
+              // TODO invalid state
+              throw new IllegalStateException("The runtime has an invalid state.");
+            }
           } else {
-            // TODO invalid state
-            throw new IllegalStateException("The runtime has an invalid state.");
+            executeKeywordDecl(currScope, keyword);
           }
         }
       }
     } finally {
       reporter.reportTestCaseEnd(keywordName);
+    }
+  }
+
+  private void executeScriptedCompoundKeywordDeclBegin(KeywordDecl keyword, RaydenScriptScope currScope) {
+    reporter.reportKeywordBegin(keyword.getName());
+
+    String name = RaydenModelUtils.normalizeKeyword(keyword.getName());
+    IScriptedCompoundKeyword keywordImpl = loadKeywordImplementation(keyword, IScriptedCompoundKeyword.class);
+
+    keywordImpl.initializeKeyword(name, currScope, reporter);
+
+    boolean execute = keywordImpl.executeBefore();
+    if (execute) {
+      stack.push(new RaydenScriptScope(currScope, currScope.getKeywordCall().getKeywordList().getKeywordlist().getChildren()));
+      currScope.setScriptedCompoundKeyword(keywordImpl);
+    }
+  }
+
+  private void executeScriptedCompoundKeywordDeclEnd(KeywordDecl keyword, RaydenScriptScope currScope) {
+
+    IScriptedCompoundKeyword keywordImpl = currScope.getScriptedCompoundKeyword();
+    if (keywordImpl != null) {
+      boolean repeat = keywordImpl.executeAfter();
+
+      if (repeat) {
+        reporter.reportKeywordEnd(keyword.getName());
+
+        boolean execute = keywordImpl.executeBefore();
+        if (execute) {
+          stack.push(new RaydenScriptScope(currScope, currScope.getKeywordCall().getKeywordList().getKeywordlist().getChildren()));
+          currScope.resetCursor();
+        }
+      } else {
+        KeywordResult result = keywordImpl.finalizeKeyword();
+        if (!result.isSuccess()) {
+          // TODO improve this implementation
+          throw new RaydenScriptFailedException("Scripted Keyword '" + keyword.getName() + "' failed!");
+        }
+        reporter.reportKeywordEnd(keyword.getName());
+      }
+
+    } else {
+      reporter.reportKeywordEnd(keyword.getName());
+    }
+
+  }
+
+  private void executeKeywordDecl(RaydenScriptScope currScope, KeywordDecl keyword) {
+    if (currScope.isKeywordBegin()) {
+      executeKeywordDeclBegin(keyword, currScope);
+    } else if (currScope.isKeywordEnd()) {
+      executeKeywordDeclEnd(keyword, currScope);
+    } else {
+      // TODO invalid state
+      throw new IllegalStateException("The runtime has an invalid state.");
     }
   }
 
@@ -169,34 +267,40 @@ public class RaydenRuntime {
     reporter.reportKeywordBegin(keyword.getName());
 
     if (RaydenModelUtils.isScriptedKeyword(keyword)) {
-      executeScriptedKeyword(currScope, keyword);
+      // Execute a scripted keyword
+      String name = RaydenModelUtils.normalizeKeyword(keyword.getName());
+      IScriptedKeyword keywordImpl = loadKeywordImplementation(keyword, IScriptedKeyword.class);
+      KeywordResult result = keywordImpl.execute(name, currScope, reporter);
+      if (!result.isSuccess()) {
+        // TODO improve this implementation
+        throw new RaydenScriptFailedException("Scripted Keyword '" + name + "' failed!");
+      }
     } else {
-      // Execute a container keyword
+      // Execute a compound keyword
       if (keyword.getKeywordlist() != null) {
         stack.push(new RaydenScriptScope(currScope, keyword.getKeywordlist().getChildren()));
       }
     }
   }
 
-  private void executeScriptedKeyword(RaydenScriptScope currScope, KeywordDecl keyword) {
+  private <T> T loadKeywordImplementation(KeywordDecl keyword, Class<T> clazz) {
     if (keyword.getScript() == null) {
       throw new RaydenScriptException("Keyword '" + keyword.getName() + "': Missing script configuraiton.");
     }
     if (ScriptType.JAVA == keyword.getScript().getScriptType()) {
       String keywordClass = keyword.getScript().getClass_();
       try {
-        Class<?> clazz = getClass().getClassLoader().loadClass(keywordClass);
-        if (IScriptedKeyword.class.isAssignableFrom(clazz)) {
-          IScriptedKeyword scripedKeyword = (IScriptedKeyword) clazz.newInstance();
 
-          KeywordResult result = scripedKeyword.execute(keyword.getName(), currScope, reporter);
-          if (!result.isSuccess()) {
-            // TODO improve this implementation
-            throw new RaydenScriptFailedException("Failed Keyword");
-          }
+        Class<?> keywordClassObject = classLoader.loadClass(keywordClass);
+        Object keywordObj = keywordClassObject.newInstance();
+
+        if (clazz.isAssignableFrom(keywordObj.getClass())) {
+          return clazz.cast(keywordObj);
         } else {
-          throw new RaydenScriptException("Class '" + clazz.getSimpleName() + "' does not implement the IScriptedKeyword.");
+          throw new RaydenScriptException("Class '" + keywordObj.getClass().getSimpleName() + "' does not implement the '"
+              + clazz.getSimpleName() + "'.");
         }
+
       } catch (ClassNotFoundException e) {
         reporter.error(e);
         throw new RaydenScriptException("Keyword class '" + keywordClass + "' can't be found.");
@@ -215,9 +319,10 @@ public class RaydenRuntime {
       // Create a temporary keyword implementation for the inline keyword and push it on the execution stack
       KeywordDecl keywordImpl = RaydenDSLFactory.eINSTANCE.createKeywordDecl();
       keywordImpl.setName(keyword.getName());
-      keywordImpl.setMetatype(KeywordMetatype.USERDEFINED);
-      keywordImpl.setKeywordlist(keyword.getKeywordList().getKeywordlist());
-      stack.push(new RaydenScriptScope(currScope, keywordImpl));
+      keywordImpl.setType(KeywordType.KEYWORD);
+      keywordImpl.setKeywordlist(EcoreUtil.copy(keyword.getKeywordList().getKeywordlist()));
+
+      stack.push(new RaydenScriptScope(currScope, keyword, keywordImpl));
     } else {
       KeywordDecl keywordImpl = getKeywordDefinition(keyword.getName());
       if (keywordImpl != null) {
@@ -231,7 +336,7 @@ public class RaydenRuntime {
   }
 
   private RaydenScriptScope createCallScope(KeywordCall keyword, RaydenScriptScope currScope, KeywordDecl keywordImpl) {
-    RaydenScriptScope scope = new RaydenScriptScope(currScope, keywordImpl);
+    RaydenScriptScope scope = new RaydenScriptScope(currScope, keyword, keywordImpl);
 
     EList<Expr> callParameters = new BasicEList<>();
     EList<PropertyDecl> properties = new BasicEList<>();
@@ -250,7 +355,7 @@ public class RaydenRuntime {
 
       // TODO check parameter type (in, out, inout)
       for (int i = 0; i < callParameters.size(); i++) {
-        scope.addVariable(properties.get(i).getName(), exprEval.eval(callParameters.get(i)));
+        scope.setVariable(properties.get(i).getName(), exprEval.eval(callParameters.get(i)));
       }
 
     } else {
@@ -261,11 +366,29 @@ public class RaydenRuntime {
   }
 
   private KeywordDecl getKeywordDefinition(String keywordName) {
-    return definedKeywords.get(RaydenModelUtils.normalizeKeyword(keywordName));
+    String normalizeKeywordName = RaydenModelUtils.normalizeKeyword(keywordName);
+    KeywordDecl keywordDecl = definedKeywords.get(normalizeKeywordName);
+    if (keywordDecl == null) {
+      keywordDecl = definedImportedKeywords.get(normalizeKeywordName);
+    }
+    return keywordDecl;
   }
 
   public static RaydenRuntime createRuntime() {
     Injector injector = new RaydenDSLStandaloneSetupGenerated().createInjectorAndDoEMFRegistration();
     return injector.getInstance(RaydenRuntime.class);
+  }
+
+  public void setWorkingFolder(File workingFolder) {
+    this.workingFolder = workingFolder;
+    classLoader = new RaydenClassLoader(getClass().getClassLoader(), workingFolder);
+  }
+
+  public Map<String, KeywordDecl> getDefinedImportedKeywords() {
+    return definedImportedKeywords;
+  }
+
+  public Map<String, KeywordDecl> getDefinedKeywords() {
+    return definedKeywords;
   }
 }

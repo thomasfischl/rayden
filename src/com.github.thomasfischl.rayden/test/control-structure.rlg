@@ -1,7 +1,7 @@
 keyword<scripted> if{
 	property condition as boolean
 
-	implement as java => ""
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 
 keyword<scripted> for{
@@ -9,7 +9,7 @@ keyword<scripted> for{
 	property from
 	property to
 
-	implement as java => ""
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 
 keyword<scripted> set{

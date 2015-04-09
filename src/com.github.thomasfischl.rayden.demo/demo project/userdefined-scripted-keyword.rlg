@@ -1,0 +1,8 @@
+testsuite Samples {
+	Custom Print("Hello World")
+}
+ 
+keyword Custom Print {
+	property text
+	implement as java => "com.github.thomasfischl.rayden.test.keywords.PrintKeyword"
+}

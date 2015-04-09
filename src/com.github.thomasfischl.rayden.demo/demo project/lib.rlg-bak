@@ -1,4 +1,4 @@
-keyword<scripted> IF { 
+keyword<scripted> IF {
 	implement as java => ""
 }
 
@@ -10,4 +10,3 @@ keyword<scripted> PRINT {
 	implement as java => ""
 }
 
- 

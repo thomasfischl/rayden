@@ -1,6 +1,8 @@
 package com.github.thomasfischl.rayden.runtime;
 
-public class RaydenReporter {
+import com.github.thomasfischl.rayden.api.keywords.IRaydenReporter;
+
+public class RaydenReporter implements IRaydenReporter{
 
   private int indentation;
 
@@ -11,7 +13,7 @@ public class RaydenReporter {
 
   public void reportKeywordEnd(String name) {
     indentation--;
-    report("<-- end keyword: " + name);
+    report("<-- end keyword  : " + name);
   }
 
   public void reportUnkownKeyword(String name) {
@@ -44,7 +46,7 @@ public class RaydenReporter {
   }
 
   protected String formatMessae(String msg) {
-    return "                         ".substring(0, indentation * 2) + msg;
+    return "                                                                       ".substring(0, indentation * 2) + msg;
   }
 
 }

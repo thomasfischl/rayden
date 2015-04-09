@@ -1,12 +1,18 @@
-keyword<testcase> Test  {
+import library "lib.rlg"
+
+keyword<testcase> Test {
 	Open Browser!
+	Open Browser.
+	Open Browser?
 	Login on Silk Central.
-	Go to Project Page. 
+	Go to Project Page.
 	Add new Project.
+	IF
 }
 
-keyword<scripted> Open Browser!{
+keyword<scripted> Open Browse {
 	description '''TODO: Implement'''
 
 	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.UnimplementedKeyword"
-}
+} 
+

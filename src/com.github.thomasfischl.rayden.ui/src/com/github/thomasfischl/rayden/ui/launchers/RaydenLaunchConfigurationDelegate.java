@@ -3,8 +3,10 @@ package com.github.thomasfischl.rayden.ui.launchers;
 import java.io.InputStreamReader;
 
 import javax.script.ScriptException;
+import javax.script.SimpleScriptContext;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -17,7 +19,6 @@ import com.github.thomasfischl.rayden.runtime.RaydenReporter;
 import com.github.thomasfischl.rayden.runtime.RaydenScriptEngine;
 import com.github.thomasfischl.rayden.runtime.RaydenScriptEngineFactory;
 import com.github.thomasfischl.rayden.ui.helpers.ConsoleDisplayManager;
-import com.github.thomasfischl.rayden.ui.helpers.LaunchHelper;
 import com.github.thomasfischl.rayden.ui.helpers.UiHelpers;
 
 public class RaydenLaunchConfigurationDelegate extends LaunchConfigurationDelegate {
@@ -35,8 +36,9 @@ public class RaydenLaunchConfigurationDelegate extends LaunchConfigurationDelega
     String programpath = configuration.getAttribute(RaydenLaunchConfiguration.TEST_FILE, new String());
     // String programname = programpath.substring(0, programpath.lastIndexOf("."));
 
-    IResource resource = LaunchHelper.GetResourceFromFile(ResourcesPlugin.getWorkspace().getRoot().getProject(projectname), programpath,
-        false);
+    IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectname);
+    IResource resource = project.findMember(programpath);
+
     if (resource instanceof IFile) {
 
       RaydenReporterExtension reporter = new RaydenReporterExtension();
@@ -44,6 +46,12 @@ public class RaydenLaunchConfigurationDelegate extends LaunchConfigurationDelega
         RaydenScriptEngineFactory factory = new RaydenScriptEngineFactory();
         RaydenScriptEngine engine = (RaydenScriptEngine) factory.getScriptEngine();
         engine.setReporter(reporter);
+
+        // set correct working directory for eclipse usage
+        SimpleScriptContext context = new SimpleScriptContext();
+        context.setAttribute(RaydenScriptEngine.WORKING_FOLDER, project.getLocation().toFile(), SimpleScriptContext.ENGINE_SCOPE);
+        engine.setContext(context);
+
         engine.eval(new InputStreamReader(((IFile) resource).getContents()));
       } catch (ScriptException e) {
         reporter.error(e);

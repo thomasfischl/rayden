@@ -1,0 +1,86 @@
+testsuite Samples {
+	
+	Test Scripted Keyword. 
+	
+	For Test {
+		Test Scripted Compound Keyword  !
+		Test Scripted Compound Keyword Simple
+	}
+	
+	if {
+		Test Scripted Compound Keyword If
+	}
+}
+ 
+keyword Test Scripted Compound Keyword {
+	For ("i", 0, 2){
+		For1 ("j", 0, 2){
+			Test {
+				Print("Hello - " + i + " - " + j)
+			}
+		}
+	}
+}
+
+keyword Test Scripted Compound Keyword Simple{
+	For ("i", 0, 2){
+		Test {
+			Print("Hello - " + i)
+		}
+	}
+}
+
+keyword Test Scripted Compound Keyword If {
+	If (true){
+		Test {
+			Print("If condition: " + true)
+		}
+	}
+	If (false){
+		Test {
+			Print("If condition: " + false)
+		}
+	}
+	If (1 != 2){
+		Test {
+			Print("If condition: " + true)
+		}
+	}
+	If (1 == 2){
+		Test {
+			Print("If condition: " + false)
+		}
+	}
+}
+
+keyword Test Scripted Keyword {
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword For { 
+	property in variable as string
+	property in from as number
+	property in to as number
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+
+keyword For1 { 
+	property in variable as string
+	property in from as number
+	property in to as number
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+
+keyword Print {
+	property text
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+}
+
+keyword If { 
+	property in condition as boolean
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
+}

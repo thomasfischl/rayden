@@ -23,22 +23,22 @@ public class RaydenFormatter extends AbstractDeclarativeFormatter {
     // KeywordDecl
     c.setLinewrap().after(f.getKeywordDeclRule());
 
-    c.setNoSpace().before(f.getKeywordDeclAccess().getLessThanSignKeyword_1_0());
-    c.setNoSpace().after(f.getKeywordDeclAccess().getLessThanSignKeyword_1_0());
-    c.setNoSpace().before(f.getKeywordDeclAccess().getGreaterThanSignKeyword_1_2());
-    c.setSpace(" ").after(f.getKeywordDeclAccess().getGreaterThanSignKeyword_1_2());
-    c.setNoSpace().after(f.getKeywordDeclAccess().getNameIDEXTTerminalRuleCall_2_0());
+    // c.setNoSpace().before(f.getKeywordDeclAccess().getLessThanSignKeyword_1_0());
+    // c.setNoSpace().after(f.getKeywordDeclAccess().getLessThanSignKeyword_1_0());
+    // c.setNoSpace().before(f.getKeywordDeclAccess().getGreaterThanSignKeyword_1_2());
+    // c.setSpace(" ").after(f.getKeywordDeclAccess().getGreaterThanSignKeyword_1_2());
+    // c.setNoSpace().after(f.getKeywordDeclAccess().getNameIDEXTTerminalRuleCall_2_0());
 
-    c.setLinewrap(2).after(f.getKeywordDeclAccess().getPropertiesPropertyDeclParserRuleCall_5_0());
-    c.setLinewrap(2).after(f.getKeywordDeclAccess().getDescDescriptionParserRuleCall_4_0());
+    c.setLinewrap(2).after(f.getKeywordDeclAccess().getPropertiesPropertyDeclParserRuleCall_4_0());
+    c.setLinewrap(2).after(f.getKeywordDeclAccess().getDescDescriptionParserRuleCall_3_0());
 
-    c.setLinewrap().after(f.getKeywordDeclAccess().getLeftCurlyBracketKeyword_3());
-    c.setLinewrap(2).after(f.getKeywordDeclAccess().getRightCurlyBracketKeyword_7());
+    c.setLinewrap().after(f.getKeywordDeclAccess().getLeftCurlyBracketKeyword_2());
+    c.setLinewrap(2).after(f.getKeywordDeclAccess().getRightCurlyBracketKeyword_6());
 
-    c.setIndentationIncrement().after(f.getKeywordDeclAccess().getLeftCurlyBracketKeyword_3());
-    c.setIndentationDecrement().before(f.getKeywordDeclAccess().getRightCurlyBracketKeyword_7());
+    c.setIndentationIncrement().after(f.getKeywordDeclAccess().getLeftCurlyBracketKeyword_2());
+    c.setIndentationDecrement().before(f.getKeywordDeclAccess().getRightCurlyBracketKeyword_6());
 
-    c.setLinewrap().after(f.getKeywordDeclAccess().getScriptAssignment_6_0());
+    c.setLinewrap().after(f.getKeywordDeclAccess().getScriptAssignment_5_0());
 
     // PropertyDecl
     c.setLinewrap().after(f.getPropertyDeclRule());
@@ -51,6 +51,10 @@ public class RaydenFormatter extends AbstractDeclarativeFormatter {
     c.setNoSpace().before(f.getKeywordCallKeywordListAccess().getLeftCurlyBracketKeyword_0());
     c.setLinewrap().after(f.getKeywordCallKeywordListAccess().getLeftCurlyBracketKeyword_0());
     c.setLinewrap().after(f.getKeywordCallKeywordListAccess().getRightCurlyBracketKeyword_2());
+
+    // ImportDecl
+    c.setLinewrap().after(f.getImportDeclRule());
+    // c.setLinewrap(2).after(f.getModelAccess().getImportsImportDeclParserRuleCall_0_0());
 
   }
 }

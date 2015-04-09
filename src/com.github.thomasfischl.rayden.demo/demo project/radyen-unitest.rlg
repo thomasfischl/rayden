@@ -1,0 +1,51 @@
+import library "selenium.rlg"
+
+testsuite Calculator {
+	
+	TestAddFunction (1,1,2)
+	TestInternalMemory
+	TestAddFunctionWeb
+}
+
+
+unittest TestAddFunction {
+	''' This tests verifies the add method '''
+	
+	property in value1 as number
+	property in value2 as number
+	property in result as number
+	
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+
+integrationtest TestInternalMemory {
+	''' The calculator has an internal memory to store results old calculations. This componentent 
+	is used in several other components.'''
+
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+uatest TestAddFunctionWeb {
+	Prepare
+	Click Left("./div/div")
+	Type Number on Calc("1")
+	Click Left("./div/div[text='plus']")
+	Type Number on Calc("2")
+	Wait Until Exists("./div/div[text='calc']")
+	Click Left("./div/div[text='calc']")
+	Verify Text("./div/div[text='result']", "3")
+	Cleanup 
+} 
+
+keyword Prepare {
+	Open Browser("http://localhost:8080/calc")
+}
+
+keyword Cleanup {
+	Close Browser 
+}
+keyword Type Number on Calc {
+	property in num as string
+	Type Text ("./div", num)
+}

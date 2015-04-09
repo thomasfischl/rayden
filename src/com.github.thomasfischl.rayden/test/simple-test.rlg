@@ -5,11 +5,15 @@ keyword<testcase> Simple Test Case for KyTest{
 	Do some stuff first
 	Do another stuff
 	Inline Keyword {
-		Do some realy cool stuff		
+		Do some really cool stuff		
 	}
 }
 
 keyword<scripted> Do some stuff first{
+	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword<scripted> Do some really cool stuff {
 	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 

@@ -153,7 +153,7 @@ public class LaunchHelper {
     }
   }
 
-  public static IResource GetResourceFromFile(IProject project, String filename, boolean isTest) {
+  public static IResource getResourceFromFile(IProject project, String filename, boolean isTest) {
 
     try {
       if (project != null) {

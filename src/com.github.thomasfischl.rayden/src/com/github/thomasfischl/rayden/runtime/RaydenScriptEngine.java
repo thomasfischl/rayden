@@ -1,6 +1,6 @@
 package com.github.thomasfischl.rayden.runtime;
 
-import java.io.InputStreamReader;
+import java.io.File;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -11,6 +11,10 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 
 public class RaydenScriptEngine extends AbstractScriptEngine {
+
+  public final static String WORKING_FOLDER = "RAYDEN_WORKING_FOLDER";
+
+  public final static String TEST_RESULT = "RAYDEN_TEST_RESULT";
 
   private ScriptEngineFactory factory;
 
@@ -35,10 +39,15 @@ public class RaydenScriptEngine extends AbstractScriptEngine {
     if (reporter != null) {
       runtime.setReporter(reporter);
     }
-    runtime.loadLibrary(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("control-structure.rlg")));
-    runtime.loadLibrary(reader);
-    runtime.executeAllTestcases();
-    return null;
+
+    if (context.getAttribute(WORKING_FOLDER, ScriptContext.ENGINE_SCOPE) != null) {
+      runtime.setWorkingFolder(new File(String.valueOf(context.getAttribute(WORKING_FOLDER, ScriptContext.ENGINE_SCOPE))));
+    }
+
+    runtime.loadRaydenFile(reader);
+    RaydenScriptResult result = runtime.executeAllTestSuites();
+    getContext().setAttribute(TEST_RESULT, result, ScriptContext.ENGINE_SCOPE);
+    return result;
   }
 
   @Override

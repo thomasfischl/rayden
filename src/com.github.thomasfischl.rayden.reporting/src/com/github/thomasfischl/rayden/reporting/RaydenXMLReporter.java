@@ -1,11 +1,14 @@
 package com.github.thomasfischl.rayden.reporting;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.Stack;
 
 import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
 import com.github.thomasfischl.rayden.reporting.model.Report;
 import com.github.thomasfischl.rayden.reporting.model.ReportKeyword;
+import com.github.thomasfischl.rayden.reporting.model.ReportMessage.ReportMessageType;
 
 public class RaydenXMLReporter implements IRaydenExtReporter {
 
@@ -29,7 +32,7 @@ public class RaydenXMLReporter implements IRaydenExtReporter {
     keyword.setName(name);
     keyword.setStartTime(getTime());
 
-    currReportKeyword.getKeywords().add(keyword);
+    currReportKeyword.addReportKeyword(keyword);
     currReportKeyword = keyword;
   }
 
@@ -46,20 +49,23 @@ public class RaydenXMLReporter implements IRaydenExtReporter {
 
   @Override
   public void log(String msg) {
-    // TODO Auto-generated method stub
-
+    if (currReportKeyword != null) {
+      currReportKeyword.addMessage(ReportMessageType.INFO, msg);
+    }
   }
 
   @Override
   public void error(String msg) {
-    // TODO Auto-generated method stub
-
+    if (currReportKeyword != null) {
+      currReportKeyword.addMessage(ReportMessageType.ERROR, msg);
+    }
   }
 
   @Override
   public void error(Throwable e) {
-    // TODO Auto-generated method stub
-
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    e.printStackTrace(new PrintStream(os, true));
+    error(os.toString());
   }
 
   @Override

@@ -16,6 +16,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.LaunchConfigurationDelegate;
 
+import com.github.thomasfischl.rayden.api.MultiReporter;
 import com.github.thomasfischl.rayden.reporting.RaydenXMLReporter;
 import com.github.thomasfischl.rayden.runtime.RaydenReporter;
 import com.github.thomasfischl.rayden.runtime.RaydenScriptEngine;
@@ -50,8 +51,8 @@ public class RaydenLaunchConfigurationDelegate extends LaunchConfigurationDelega
 
         RaydenXMLReporter reporterXml = new RaydenXMLReporter();
         reporterXml.setWorkingDirectory(new File(workingDirectory, "log"));
-        engine.setReporter(reporterXml);
-        // engine.setReporter(reporter);
+
+        engine.setReporter(new MultiReporter(reporterXml, reporter));
 
         engine.eval(new InputStreamReader(((IFile) resource).getContents()));
       } catch (ScriptException e) {

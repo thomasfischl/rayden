@@ -22,6 +22,18 @@ public class RaydenScriptResult {
     this.fatalFailedTestCount = fatalFailedTestCount;
   }
 
+  public void incSuccessTestCount() {
+    this.successTestCount++;
+  }
+
+  public void incFailedTestCount() {
+    this.failedTestCount++;
+  }
+
+  public void incFatalFailedTestCount() {
+    this.fatalFailedTestCount++;
+  }
+
   public int getFailedTestCount() {
     return failedTestCount;
   }

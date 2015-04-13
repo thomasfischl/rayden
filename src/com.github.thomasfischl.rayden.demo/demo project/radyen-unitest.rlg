@@ -15,7 +15,7 @@ unittest TestAddFunction {
 	property in value2 as number
 	property in result as number
 	
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+	implement as java => "demo.TestAddFunction"
 }
 
 
@@ -23,7 +23,7 @@ integrationtest TestInternalMemory {
 	''' The calculator has an internal memory to store results old calculations. This componentent 
 	is used in several other components.'''
 
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+	implement as java => "demo.TestInternalMemory"
 }
 
 uatest TestAddFunctionWeb {

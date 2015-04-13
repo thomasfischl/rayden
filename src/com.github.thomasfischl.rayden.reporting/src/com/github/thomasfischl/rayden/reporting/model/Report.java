@@ -46,7 +46,7 @@ public class Report {
     this.finishTime = finishTime;
   }
 
-  @XmlElement
+  @XmlElement(name="testcase")
   @XmlElementWrapper(name = "testcases")
   public List<ReportKeyword> getTestCases() {
     return testCases;

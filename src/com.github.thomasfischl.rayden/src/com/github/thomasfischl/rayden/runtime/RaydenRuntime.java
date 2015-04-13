@@ -107,39 +107,14 @@ public class RaydenRuntime {
 
   public RaydenScriptResult executeAllTestSuites() {
 
-    int successTests = 0;
-    int failedTests = 0;
-    int errorTests = 0;
-
     RaydenScriptResult result = new RaydenScriptResult();
 
     reporter.start();
 
     for (KeywordDecl keyword : definedKeywords.values()) {
       if (RaydenModelUtils.isTestSuiteKeyword(keyword)) {
-        try {
-          reporter.log("----------------------------------------------------------------");
-          reporter.log("Execute Testsuite '" + keyword.getName() + "'");
-          reporter.log("----------------------------------------------------------------");
-          executeKeyword(keyword.getName());
-          successTests++;
-        } catch (RaydenScriptException e) {
-          e.printStackTrace();
-          errorTests++;
-          reporter.error(e.getMessage());
-          result.addErrorMessage(e.getMessage());
-        } catch (RaydenScriptFailedException e) {
-          e.printStackTrace();
-          failedTests++;
-          reporter.error(e.getMessage());
-          result.addErrorMessage(e.getMessage());
-        } catch (Exception e) {
-          e.printStackTrace();
-          errorTests++;
-          reporter.error(e.getMessage());
-          result.addErrorMessage(e.getMessage());
-        } finally {
-          reporter.log("----------------------------------------------------------------");
+        for (KeywordCall keywordCall : keyword.getKeywordlist().getChildren()) {
+          runKeyword(result, keywordCall.getName());
         }
       }
     }
@@ -147,16 +122,39 @@ public class RaydenRuntime {
     reporter.stop();
 
     reporter.log("  Results:");
-    reporter.log("  Success Tests     : " + successTests);
-    reporter.log("  Failed Tests      : " + failedTests);
-    reporter.log("  Fatal Failed Tests: " + errorTests);
+    reporter.log("  Success Tests     : " + result.getSuccessTestCount());
+    reporter.log("  Failed Tests      : " + result.getFailedTestCount());
+    reporter.log("  Fatal Failed Tests: " + result.getFailedTestCount());
     reporter.log("----------------------------------------------------------------");
 
-    result.setSuccessTestCount(successTests);
-    result.setFailedTestCount(failedTests);
-    result.setFatalFailedTestCount(errorTests);
-
     return result;
+  }
+
+  public void runKeyword(RaydenScriptResult result, String keywordName) {
+    try {
+      reporter.log("----------------------------------------------------------------");
+      reporter.log("Execute Testsuite '" + keywordName + "'");
+      reporter.log("----------------------------------------------------------------");
+      executeKeyword(keywordName);
+      result.incSuccessTestCount();
+    } catch (RaydenScriptException e) {
+      e.printStackTrace();
+      result.incFailedTestCount();
+      reporter.error(e.getMessage());
+      result.addErrorMessage(e.getMessage());
+    } catch (RaydenScriptFailedException e) {
+      e.printStackTrace();
+      result.incFatalFailedTestCount();
+      reporter.error(e.getMessage());
+      result.addErrorMessage(e.getMessage());
+    } catch (Exception e) {
+      e.printStackTrace();
+      result.incFailedTestCount();
+      reporter.error(e.getMessage());
+      result.addErrorMessage(e.getMessage());
+    } finally {
+      reporter.log("----------------------------------------------------------------");
+    }
   }
 
   private void executeKeyword(String keywordName) {

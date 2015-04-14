@@ -16,8 +16,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="desc" eType="#//Description"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="properties" upperBound="-1"
-        eType="#//PropertyDecl" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//ParameterDecl" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="script" eType="#//KeywordScript"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="keywordlist" eType="#//KeywordList"
@@ -94,11 +94,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="string" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ident" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="locator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="symbol" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="#//Expr" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyDecl">
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterDecl">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
         upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -109,8 +109,9 @@
     <eLiterals name="INTEGRATIONTEST" value="3" literal="integrationtest"/>
     <eLiterals name="APITEST" value="4" literal="apitest"/>
     <eLiterals name="UATEST" value="5" literal="uatest"/>
-    <eLiterals name="TESTSUITE" value="6" literal="testsuite"/>
-    <eLiterals name="TESTCASE" value="7" literal="testcase"/>
+    <eLiterals name="MANUALTEST" value="6" literal="manualtest"/>
+    <eLiterals name="TESTSUITE" value="7" literal="testsuite"/>
+    <eLiterals name="TESTCASE" value="8" literal="testcase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ScriptType">
     <eLiterals name="JAVA" literal="java"/>

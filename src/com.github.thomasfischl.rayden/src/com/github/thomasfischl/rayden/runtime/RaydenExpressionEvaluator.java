@@ -11,7 +11,11 @@ import com.github.thomasfischl.rayden.raydenDSL.Term;
 
 public class RaydenExpressionEvaluator {
 
+  private static final String RESULT_TYPE_VARIABLE = "variable";
+
   private final RaydenScriptScope scope;
+
+  private String resultType;
 
   public RaydenExpressionEvaluator(RaydenScriptScope scope) {
     this.scope = scope;
@@ -20,8 +24,15 @@ public class RaydenExpressionEvaluator {
   //
   // Expr: expr=OrExpr ;
   //
-  public Object eval(Expr expression) {
-    return eval(expression.getExpr());
+  public Object eval(Expr expression, String resultType) {
+    this.resultType = resultType;
+    Object result = eval(expression.getExpr());
+
+    if (RESULT_TYPE_VARIABLE.equals(resultType) && result instanceof String) {
+      return new RaydenExpressionVariable((String) result);
+    }
+
+    return result;
   }
 
   //
@@ -239,13 +250,16 @@ public class RaydenExpressionEvaluator {
     } else if (expr.getString() != null) {
       return expr.getString();
     } else if (expr.getIdent() != null) {
+      if (RESULT_TYPE_VARIABLE.equals(resultType)) {
+        return expr.getIdent();
+      }
       return scope.getVariable(expr.getIdent());
     } else if (expr.getExpr() != null) {
-      return eval(expr.getExpr());
+      return eval(expr.getExpr(), resultType);
     } else if (expr.getLocator() != null) {
       return new RaydenExpressionLocator(expr.getLocator());
-    } else if (expr.getSymbol() != null) {
-      return new RaydenExpressionSymbol(expr.getSymbol());
+      // } else if (expr.getSymbol() != null) {
+      // return new RaydenExpressionSymbol(expr.getSymbol());
     } else {
       return expr.getNumber();
     }

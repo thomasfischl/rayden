@@ -1,10 +1,10 @@
 package com.github.thomasfischl.rayden.runtime;
 
-public class RaydenExpressionSymbol {
+public class RaydenExpressionVariable {
 
   private final String name;
 
-  public RaydenExpressionSymbol(String name) {
+  public RaydenExpressionVariable(String name) {
     this.name = name;
   }
 

@@ -98,6 +98,17 @@ class RaydenScriptScope implements IKeywordScope {
   }
 
   @Override
+  public<T> T getVariable(String name, Class<T> clazz) {
+    if (!variables.containsKey(name)) {
+      if (parent != null) {
+        return parent.getVariable(name, clazz);
+      }
+      throw new RaydenScriptException("Variable '" + name + "' is not declared.");
+    }
+    return clazz.cast(variables.get(name));
+  }
+
+  @Override
   public boolean getVariableAsBoolean(String name) {
     Object value = getVariable(name);
     if (value instanceof Boolean) {

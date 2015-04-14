@@ -13,7 +13,7 @@ import com.github.thomasfischl.rayden.raydenDSL.KeywordCall;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordDecl;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordType;
 import com.github.thomasfischl.rayden.raydenDSL.Model;
-import com.github.thomasfischl.rayden.raydenDSL.PropertyDecl;
+import com.github.thomasfischl.rayden.raydenDSL.ParameterDecl;
 import com.github.thomasfischl.rayden.raydenDSL.RaydenDSLFactory;
 import com.github.thomasfischl.rayden.raydenDSL.ScriptType;
 import com.github.thomasfischl.rayden.util.RaydenModelUtils;
@@ -77,9 +77,9 @@ public class RaydenQuickfixProvider extends DefaultQuickfixProvider {
   private void defineParameters(KeywordCall keywordCall, KeywordDecl keywordImpl) {
     if (keywordCall.getParameters() != null && keywordCall.getParameters().getParameters() != null) {
       for (int i = 0; i < keywordCall.getParameters().getParameters().size(); i++) {
-        PropertyDecl prop = RaydenDSLFactory.eINSTANCE.createPropertyDecl();
-        prop.setName("property" + (i + 1));
-        keywordImpl.getProperties().add(prop);
+        ParameterDecl prop = RaydenDSLFactory.eINSTANCE.createParameterDecl();
+        prop.setName("parameter" + (i + 1));
+        keywordImpl.getParameters().add(prop);
       }
     }
   }

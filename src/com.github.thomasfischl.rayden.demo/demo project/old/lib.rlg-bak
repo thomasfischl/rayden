@@ -1,0 +1,12 @@
+keyword<scripted> IF {
+	implement as java => ""
+}
+
+keyword<scripted> FOR {
+	implement as java => ""
+}
+
+keyword<scripted> PRINT {
+	implement as java => ""
+}
+

@@ -4,6 +4,7 @@ import com.github.thomasfischl.rayden.api.IRaydenReporter;
 import com.github.thomasfischl.rayden.api.keywords.IKeywordScope;
 import com.github.thomasfischl.rayden.api.keywords.IScriptedCompoundKeyword;
 import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
+import com.github.thomasfischl.rayden.runtime.RaydenExpressionVariable;
 
 public class ForKeyword implements IScriptedCompoundKeyword {
 
@@ -21,7 +22,7 @@ public class ForKeyword implements IScriptedCompoundKeyword {
   public void initializeKeyword(String keyword, IKeywordScope scope, IRaydenReporter reporter) {
     this.scope = scope;
 
-    variable = scope.getVariableAsString("variable");
+    variable = scope.getVariable("var", RaydenExpressionVariable.class).getName();
     from = scope.getVariableAsInteger("from");
     to = scope.getVariableAsInteger("to");
 

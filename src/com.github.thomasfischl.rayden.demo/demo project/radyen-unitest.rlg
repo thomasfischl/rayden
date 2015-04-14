@@ -11,11 +11,11 @@ testsuite Calculator {
 unittest TestAddFunction {
 	''' This tests verifies the add method '''
 	
-	property in value1 as number
-	property in value2 as number
-	property in result as number
+	parameter in value1 as number
+	parameter in value2 as number
+	parameter in result as number
 	
-	implement as java => "demo.TestAddFunction"
+	implemented in java -> "demo.TestAddFunction"
 }
 
 
@@ -23,7 +23,7 @@ integrationtest TestInternalMemory {
 	''' The calculator has an internal memory to store results old calculations. This componentent 
 	is used in several other components.'''
 
-	implement as java => "demo.TestInternalMemory"
+	implemented in java -> "demo.TestInternalMemory"
 }
 
 uatest TestAddFunctionWeb {
@@ -46,6 +46,6 @@ keyword Cleanup {
 	Close Browser 
 }
 keyword Type Number on Calc {
-	property in num as string
+	parameter in num as string
 	Type Text ("./div", num)
 }

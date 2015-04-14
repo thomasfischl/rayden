@@ -1,8 +1,31 @@
 testsuite Samples {
-	Custom Print("Hello World")
+	Sample Test
+	Sample Test1
 }
- 
-keyword Custom Print {
-	property text
-	implement as java => "com.github.thomasfischl.rayden.test.keywords.PrintKeyword"
+
+keyword Sample Test {
+	For   ( i + "_" , 0 , 10 ){
+		Custom Print  ( "Hello World " + i_ )
+	}
 }
+
+keyword Sample Test1 {
+	For   ( "i" , 0 , 10 ){
+		Custom Print  ( "Hello World " + i )
+	}
+}
+
+keyword Custom Print  {
+	parameter text
+
+	implemented in java -> "com.github.thomasfischl.rayden.test.keywords.PrintKeyword"
+}
+
+keyword For   {
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+

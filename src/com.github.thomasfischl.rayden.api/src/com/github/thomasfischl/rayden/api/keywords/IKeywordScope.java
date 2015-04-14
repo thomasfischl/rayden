@@ -6,6 +6,8 @@ public interface IKeywordScope {
 
   Object getVariable(String name);
 
+  <T> T getVariable(String name, Class<T> clazz);
+
   boolean getVariableAsBoolean(String name);
 
   int getVariableAsInteger(String name);

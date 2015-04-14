@@ -21,7 +21,7 @@ KeywordDecl:
 	name=IDEXT
 	'{'
 	(desc=Description)?
-	(properties+=PropertyDecl)*
+	(parameters+=ParameterDecl)*
 	(script=KeywordScript | keywordlist=KeywordList)?
 	'}';
 
@@ -42,7 +42,7 @@ KeywordCallKeywordList:
 	'{' keywordlist=KeywordList '}';
 
 KeywordScript:
-	'implement' 'as' scriptType=ScriptType '=>' class=STRING;
+	'implemented' 'in' scriptType=ScriptType '->' class=STRING;
 
 Description:
 	text=ML_STRING;
@@ -75,13 +75,20 @@ Fact:
 	string=STRING |
 	ident=IDEXT |
 	locator=IDEXT_LOCATOR |
-	symbol=IDEXT_SYMBOL |
+//	symbol=IDEXT_SYMBOL |
 	'(' expr=Expr ')';
 
-PropertyDecl:
-	'property' ('in' | 'out' | 'inout')? name=IDEXT
+ParameterDecl:
+	'parameter' ('in' | 'out' | 'inout')? name=IDEXT
 	('as'
-	('number' | 'string' | 'boolean' | 'enumeration' '(' values+=IDEXT (',' values+=IDEXT)+ ')'))?;
+		(
+			type='number'   | 
+			type='string'   | 
+			type='boolean'  | 
+			type='variable' |
+			type='enumeration' '(' values+=IDEXT (',' values+=IDEXT)+ ')'			
+		)
+	)?;
 
 enum KeywordType:
 	KEYWORD='keyword'                 | 
@@ -90,6 +97,7 @@ enum KeywordType:
 	INTEGRATIONTEST='integrationtest' |
 	APITEST='apitest'                 |
 	UATEST='uatest'                   |
+	MANUALTEST='manualtest'           |
 	TESTSUITE='testsuite'             |
 	TESTCASE='testcase';
 
@@ -135,10 +143,10 @@ terminal fragment IDEXT_IDENTIFIER:
 
 terminal IDEXT:
 	(IDEXT_SENTENCE |
-	IDEXT_IDENTIFIER) ('.' | '!' | '?')?;
+	IDEXT_IDENTIFIER) ('.' | '!' | '?')? ('_')?;
 
-terminal IDEXT_SYMBOL:
-	':' ('a'..'z') ID_CHARS*;
+//terminal IDEXT_SYMBOL:
+//	':' ('a'..'z') ID_CHARS*;
 
 terminal IDEXT_LOCATOR:
 	'@' (ID_CHARS | '->')*;

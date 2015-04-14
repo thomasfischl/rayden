@@ -54,33 +54,33 @@ keyword Test Scripted Compound Keyword If {
 }
 
 keyword Test Scripted Keyword {
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 
 keyword For { 
-	property in variable as string
-	property in from as number
-	property in to as number
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
 
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
 }
 
 keyword For1 { 
-	property in variable as string
-	property in from as number
-	property in to as number
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
 
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
 }
 
 keyword Print {
-	property text
+	parameter text
 
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+	implemented in java ->"com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
 }
 
 keyword If { 
-	property in condition as boolean
+	parameter in condition as boolean
 
-	implement as java => "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
 }

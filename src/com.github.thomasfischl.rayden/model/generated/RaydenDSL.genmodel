@@ -14,6 +14,7 @@
       <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/INTEGRATIONTEST"/>
       <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/APITEST"/>
       <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/UATEST"/>
+      <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/MANUALTEST"/>
       <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/TESTSUITE"/>
       <genEnumLiterals ecoreEnumLiteral="RaydenDSL.ecore#//KeywordType/TESTCASE"/>
     </genEnums>
@@ -31,7 +32,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/desc"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/parameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/script"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordDecl/keywordlist"/>
     </genClasses>
@@ -91,12 +92,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/string"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/ident"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/locator"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/symbol"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Fact/expr"/>
     </genClasses>
-    <genClasses ecoreClass="RaydenDSL.ecore#//PropertyDecl">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//PropertyDecl/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//PropertyDecl/values"/>
+    <genClasses ecoreClass="RaydenDSL.ecore#//ParameterDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ParameterDecl/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ParameterDecl/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ParameterDecl/values"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

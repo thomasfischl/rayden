@@ -29,7 +29,7 @@ public class RaydenFormatter extends AbstractDeclarativeFormatter {
     // c.setSpace(" ").after(f.getKeywordDeclAccess().getGreaterThanSignKeyword_1_2());
     // c.setNoSpace().after(f.getKeywordDeclAccess().getNameIDEXTTerminalRuleCall_2_0());
 
-    c.setLinewrap(2).after(f.getKeywordDeclAccess().getPropertiesPropertyDeclParserRuleCall_4_0());
+    c.setLinewrap(2).after(f.getKeywordDeclAccess().getParametersParameterDeclParserRuleCall_4_0());
     c.setLinewrap(2).after(f.getKeywordDeclAccess().getDescDescriptionParserRuleCall_3_0());
 
     c.setLinewrap().after(f.getKeywordDeclAccess().getLeftCurlyBracketKeyword_2());
@@ -40,8 +40,8 @@ public class RaydenFormatter extends AbstractDeclarativeFormatter {
 
     c.setLinewrap().after(f.getKeywordDeclAccess().getScriptAssignment_5_0());
 
-    // PropertyDecl
-    c.setLinewrap().after(f.getPropertyDeclRule());
+    // ParameterDecl
+    c.setLinewrap().after(f.getParameterDeclRule());
 
     // KeywordCall
     c.setLinewrap().after(f.getKeywordCallRule());

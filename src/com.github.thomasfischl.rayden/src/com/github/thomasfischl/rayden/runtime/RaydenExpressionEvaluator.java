@@ -257,7 +257,8 @@ public class RaydenExpressionEvaluator {
     } else if (expr.getExpr() != null) {
       return eval(expr.getExpr(), resultType);
     } else if (expr.getLocator() != null) {
-      return new RaydenExpressionLocator(expr.getLocator());
+      throw new RaydenScriptException("locator is currently not implemented");
+      // return new RaydenExpressionLocator(expr.getLocator());
       // } else if (expr.getSymbol() != null) {
       // return new RaydenExpressionSymbol(expr.getSymbol());
     } else {

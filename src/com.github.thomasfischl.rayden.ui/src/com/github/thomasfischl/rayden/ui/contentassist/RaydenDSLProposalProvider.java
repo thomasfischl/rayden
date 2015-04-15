@@ -7,10 +7,13 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Assignment;
+import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext;
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor;
 
 import com.github.thomasfischl.rayden.raydenDSL.KeywordDecl;
+import com.github.thomasfischl.rayden.raydenDSL.LocatorDecl;
+import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositryControlDecl;
 import com.github.thomasfischl.rayden.util.RaydenModelUtils;
 
 /**
@@ -31,7 +34,41 @@ public class RaydenDSLProposalProvider extends com.github.thomasfischl.rayden.ui
       if (parentKeyword == keyword) {
         continue;
       }
-      acceptor.accept(createCompletionProposal(keyword.getName(), context));
+      acceptor.accept(createCompletionProposal(RaydenModelUtils.normalizeKeyword(keyword.getName()), context));
+    }
+  }
+
+  @Override
+  public void complete_LocatorPartDecl(EObject model, RuleCall ruleCall, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+    super.complete_LocatorPartDecl(model, ruleCall, context, acceptor);
+
+    if (model instanceof LocatorDecl) {
+      LocatorDecl locator = (LocatorDecl) model;
+
+      ObjectRepositryControlDecl control = RaydenModelUtils.getControl(locator);
+      if (control != null) {
+        System.out.println(control);
+
+        for (ObjectRepositryControlDecl ctrl : control.getControls()) {
+          generateProposals(context, acceptor, ctrl, "");
+        }
+      } else {
+        List<ObjectRepositryControlDecl> applications = RaydenModelUtils.getAllApplications(model);
+        for (ObjectRepositryControlDecl applicatoin : applications) {
+          generateProposals(context, acceptor, applicatoin, "");
+        }
+      }
+    }
+  }
+
+  private void generateProposals(ContentAssistContext context, ICompletionProposalAcceptor acceptor, ObjectRepositryControlDecl ctrl,
+      String base) {
+
+    String locator = base + ctrl.getName().trim();
+    acceptor.accept(createCompletionProposal(locator, context));
+
+    for (ObjectRepositryControlDecl child : ctrl.getControls()) {
+      generateProposals(context, acceptor, child, locator + ".");
     }
   }
 

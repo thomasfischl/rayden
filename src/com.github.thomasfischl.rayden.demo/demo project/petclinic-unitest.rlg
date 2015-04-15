@@ -1,0 +1,75 @@
+import library "selenium.rlg"
+
+objectrepository PetClinic1 {
+
+	application PetClinicWeb {
+		location absolute "/browser"
+		
+		page Login {
+			location "/body/div/div[text='bla']"
+			
+			button Go {
+				location "/"
+			}
+			
+			control<Special Button> Cancel {
+				location "bla"
+			}
+		
+			textfield Username {
+				location  "tralala"
+			}
+			
+			textfield Password {
+				location  "babab"
+			}			
+		}
+		
+		page Main Page{
+			list Owners (index) {
+				location  "/ul/ur[$index]"
+			} 		 
+		}
+	}
+}
+
+testsuite PetClinic{
+	
+	TestAddFunctionWeb
+}
+
+
+uatest TestAddFunctionWeb {
+	Prepare
+	
+	Click Left("./div/div")
+	
+	@PetClinic.PetClinicWeb.Login.Go :: Click Left
+	
+	
+	Click Left( @PetClinic.PetClinicWeb.Login.Go )
+
+	@PetClinic.PetClinicWeb.Main.Owners[1] :: Click Left
+	Click Left( @PetClinic.PetClinicWeb.Main.Owners[1] )
+	
+	Type Number on Calc("1")
+	Click Left("./div/div[text='plus']")
+	Type Number on Calc("2")
+	Wait Until Exists("./div/div[text='calc']")
+	Click Left("./div/div[text='calc']")
+	Verify Text("./div/div[text='result']", "3")
+	
+	Cleanup 
+} 
+
+keyword Prepare {
+	Open Browser("http://localhost:8080/calc")
+}
+
+keyword Cleanup {
+	Close Browser 
+}
+keyword Type Number on Calc {
+	parameter in num as string
+	Type Text ("./div", num)
+}

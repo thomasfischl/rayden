@@ -9,12 +9,17 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import com.github.thomasfischl.rayden.raydenDSL.KeywordCall;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordDecl;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordType;
+import com.github.thomasfischl.rayden.raydenDSL.LocatorDecl;
+import com.github.thomasfischl.rayden.raydenDSL.LocatorPartDecl;
 import com.github.thomasfischl.rayden.raydenDSL.Model;
+import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositoryDecl;
+import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositryControlDecl;
 import com.github.thomasfischl.rayden.runtime.RaydenRuntime;
 
 public class RaydenModelUtils {
@@ -32,6 +37,23 @@ public class RaydenModelUtils {
       }
     }
     return keywords;
+  }
+
+  public static List<ObjectRepositryControlDecl> getAllApplications(EObject obj) {
+    Model model = getRoot(obj);
+
+    List<ObjectRepositryControlDecl> controls = new ArrayList<>();
+
+    EList<ObjectRepositoryDecl> ors = model.getObjectrepositories();
+    for (ObjectRepositoryDecl or : ors) {
+      for (ObjectRepositryControlDecl ctrl : or.getControls()) {
+        if ("application".equals(ctrl.getType().getType())) {
+          controls.add(ctrl);
+        }
+      }
+    }
+
+    return controls;
   }
 
   public static Model getRoot(EObject obj) {
@@ -103,6 +125,38 @@ public class RaydenModelUtils {
       }
     }
     return new ArrayList<KeywordDecl>();
+  }
+
+  public static ObjectRepositryControlDecl getControl(LocatorDecl locator) {
+    List<ObjectRepositryControlDecl> applications = getAllApplications(locator);
+    EList<LocatorPartDecl> parts = locator.getParts();
+
+    for (ObjectRepositryControlDecl application : applications) {
+      ObjectRepositryControlDecl control = getControl(application, parts, 0);
+      if (control != null) {
+        return control;
+      }
+    }
+    return null;
+  }
+
+  private static ObjectRepositryControlDecl getControl(ObjectRepositryControlDecl parentControl, EList<LocatorPartDecl> parts, int index) {
+    if (parts.size() <= index) {
+      return parentControl;
+    }
+
+    LocatorPartDecl part = parts.get(index);
+    if (part.getName().trim().equals(parentControl.getName().trim())) {
+      for (ObjectRepositryControlDecl control : parentControl.getControls()) {
+        ObjectRepositryControlDecl result = getControl(control, parts, index + 1);
+        if (result != null) {
+          return result;
+        }
+      }
+      return parentControl;
+    } else {
+      return null;
+    }
   }
 
 }

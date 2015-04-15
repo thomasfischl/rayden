@@ -5,19 +5,19 @@ keyword Open Browser  {
 }
 
 keyword Click Right  {
-	parameter in location as string
+	parameter in loc as string
 
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 
 keyword Click Left  {
-	parameter in location as string
+	parameter in loc as string
  
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 
 keyword Type Text  {
-	parameter in location as string
+	parameter in loc as string
 	parameter in text as string
 
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"

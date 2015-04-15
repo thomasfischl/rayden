@@ -11,10 +11,40 @@ import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 // * one or more (operator +)
 Model:
 	(imports+=ImportDecl)*
+	(objectrepositories+=ObjectRepositoryDecl)*
 	(keywords+=KeywordDecl)*;
+
 
 ImportDecl: 
 	'import' 'library' importLibrary=STRING;
+
+ObjectRepositoryDecl:
+	'objectrepository' name=IDEXT 
+	'{'
+		(desc=Description)?
+		(controls+=ObjectRepositryControlDecl)*
+	'}'
+;
+
+ObjectRepositryControlDecl:
+	type=ObjectRepositryControlType name=IDEXT (parameters=KeywordCallParameter)?
+	'{'
+		(desc=Description)?
+		('location' (absolute='absolute')? location=STRING)?
+		(controls+=ObjectRepositryControlDecl)*
+	'}'
+;
+
+ObjectRepositryControlType:
+	type='application' |
+	type='page'        |
+	type='button'      |
+	type='list'        |
+	type='textfield'   |
+	type='dialog'      |
+	(type='control' ('<' controlType=IDEXT '>')?)
+;
+
 
 KeywordDecl:
 	type=KeywordType
@@ -29,6 +59,7 @@ KeywordList:
 	(children+=KeywordCall)+;
 
 KeywordCall:
+	(locator=LocatorDecl '::')?
 	name=IDEXT
 	(parameters=KeywordCallParameter)?
 	(keywordList=KeywordCallKeywordList)?;
@@ -74,9 +105,17 @@ Fact:
 	number=NUMBER |
 	string=STRING |
 	ident=IDEXT |
-	locator=IDEXT_LOCATOR |
+	locator=LocatorDecl |
 //	symbol=IDEXT_SYMBOL |
 	'(' expr=Expr ')';
+
+LocatorDecl:
+	'@' parts+=LocatorPartDecl ('.' parts+=LocatorPartDecl)*	
+;
+
+LocatorPartDecl:
+	name=IDEXT ('[' expr=Expr ']')?
+;
 
 ParameterDecl:
 	'parameter' ('in' | 'out' | 'inout')? name=IDEXT
@@ -124,6 +163,7 @@ enum ScriptType:
 //terminal WS			: (' '|'\t'|'\r'|'\n')+;
 //
 //terminal ANY_OTHER: .;
+
 terminal fragment ID_CHARS:
 	'a'..'z' | 'A'..'Z' | '0'..'9';
 
@@ -143,13 +183,15 @@ terminal fragment IDEXT_IDENTIFIER:
 
 terminal IDEXT:
 	(IDEXT_SENTENCE |
-	IDEXT_IDENTIFIER) ('.' | '!' | '?')? ('_')?;
+	IDEXT_IDENTIFIER) 
+	//('.' | '!' | '?')? 
+	('_')?;
 
 //terminal IDEXT_SYMBOL:
 //	':' ('a'..'z') ID_CHARS*;
 
-terminal IDEXT_LOCATOR:
-	'@' (ID_CHARS | '->')*;
+//terminal IDEXT_LOCATOR:
+//	'@' (IDEXT | '.')*;
 
 terminal STRING:
 	'"' ('\\' ('b' | 't' | 'n' | 'f' | 'r' | 'u' | '"' | "'" | '\\') | !('\\' | '"'))* '"';

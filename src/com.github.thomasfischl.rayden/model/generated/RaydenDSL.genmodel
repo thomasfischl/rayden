@@ -23,10 +23,29 @@
     </genEnums>
     <genClasses ecoreClass="RaydenDSL.ecore#//Model">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/objectrepositories"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Model/keywords"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//ImportDecl">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ImportDecl/importLibrary"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//ObjectRepositoryDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ObjectRepositoryDecl/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//ObjectRepositoryDecl/desc"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//ObjectRepositoryDecl/controls"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//ObjectRepositryControlDecl">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//ObjectRepositryControlDecl/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ObjectRepositryControlDecl/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//ObjectRepositryControlDecl/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//ObjectRepositryControlDecl/desc"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ObjectRepositryControlDecl/absolute"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ObjectRepositryControlDecl/location"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//ObjectRepositryControlDecl/controls"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//ObjectRepositryControlType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ObjectRepositryControlType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ObjectRepositryControlType/controlType"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//KeywordDecl">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordDecl/type"/>
@@ -40,6 +59,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordList/children"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//KeywordCall">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCall/locator"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//KeywordCall/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCall/parameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//KeywordCall/keywordList"/>
@@ -91,8 +111,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/number"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/string"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/ident"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//Fact/locator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Fact/locator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//Fact/expr"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//LocatorDecl">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//LocatorDecl/parts"/>
+    </genClasses>
+    <genClasses ecoreClass="RaydenDSL.ecore#//LocatorPartDecl">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//LocatorPartDecl/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference RaydenDSL.ecore#//LocatorPartDecl/expr"/>
     </genClasses>
     <genClasses ecoreClass="RaydenDSL.ecore#//ParameterDecl">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute RaydenDSL.ecore#//ParameterDecl/name"/>

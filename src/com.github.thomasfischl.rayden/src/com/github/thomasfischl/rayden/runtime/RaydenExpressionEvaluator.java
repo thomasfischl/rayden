@@ -3,6 +3,8 @@ package com.github.thomasfischl.rayden.runtime;
 import com.github.thomasfischl.rayden.raydenDSL.AndExpr;
 import com.github.thomasfischl.rayden.raydenDSL.Expr;
 import com.github.thomasfischl.rayden.raydenDSL.Fact;
+import com.github.thomasfischl.rayden.raydenDSL.LocatorDecl;
+import com.github.thomasfischl.rayden.raydenDSL.LocatorPartDecl;
 import com.github.thomasfischl.rayden.raydenDSL.NotFact;
 import com.github.thomasfischl.rayden.raydenDSL.OrExpr;
 import com.github.thomasfischl.rayden.raydenDSL.RelExpr;
@@ -12,6 +14,12 @@ import com.github.thomasfischl.rayden.raydenDSL.Term;
 public class RaydenExpressionEvaluator {
 
   private static final String RESULT_TYPE_VARIABLE = "variable";
+  private static final String RESULT_TYPE_STRING = "string";
+  private static final String RESULT_TYPE_BOOLEAN = "boolean";
+  private static final String RESULT_TYPE_NUMBER = "number";
+  private static final String RESULT_TYPE_LOCATION = "location";
+
+  // TODO support enumerators
 
   private final RaydenScriptScope scope;
 
@@ -28,11 +36,36 @@ public class RaydenExpressionEvaluator {
     this.resultType = resultType;
     Object result = eval(expression.getExpr());
 
+    if (resultType == null) {
+      return result;
+    }
+
     if (RESULT_TYPE_VARIABLE.equals(resultType) && result instanceof String) {
       return new RaydenExpressionVariable((String) result);
     }
 
-    return result;
+    if (RESULT_TYPE_VARIABLE.equals(resultType) && result instanceof RaydenExpressionVariable) {
+      return result;
+    }
+
+    if (RESULT_TYPE_STRING.equals(resultType) && result instanceof String) {
+      return result;
+    }
+
+    if (RESULT_TYPE_BOOLEAN.equals(resultType) && result instanceof Boolean) {
+      return result;
+    }
+
+    if (RESULT_TYPE_NUMBER.equals(resultType) && result instanceof Double) {
+      return result;
+    }
+    if (RESULT_TYPE_LOCATION.equals(resultType) && result instanceof RaydenExpressionLocator) {
+      return result;
+    }
+
+    throw new RaydenScriptException("Expression evaluated to wrong type. " + resultType + " != " + result.getClass());
+
+    // return result;
   }
 
   //
@@ -238,7 +271,7 @@ public class RaydenExpressionEvaluator {
   }
 
   //
-  // Fact: bool='false' | bool='true' | number=NUMBER | string=STRING | ident =IDEXT | '(' expr=Expr ')' ;
+  // Fact: bool='false' | bool='true' | number=NUMBER | string=STRING | ident=IDEXT | locator=LocatorDecl | '(' expr=Expr ')';
   //
   private Object eval(Fact expr) {
     if (expr.getBool() != null) {
@@ -257,12 +290,36 @@ public class RaydenExpressionEvaluator {
     } else if (expr.getExpr() != null) {
       return eval(expr.getExpr(), resultType);
     } else if (expr.getLocator() != null) {
-      throw new RaydenScriptException("locator is currently not implemented");
-      // return new RaydenExpressionLocator(expr.getLocator());
+      return new RaydenExpressionLocator(eval(expr.getLocator()));
       // } else if (expr.getSymbol() != null) {
       // return new RaydenExpressionSymbol(expr.getSymbol());
     } else {
       return expr.getNumber();
     }
+  }
+
+  //
+  // LocatorDecl: '@' parts+=LocatorPartDecl ('.' parts+=LocatorPartDecl)* ;
+  // LocatorPartDecl: name=IDEXT ('[' expr=Expr ']')? ;
+  //
+  private String eval(LocatorDecl locator) {
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (LocatorPartDecl part : locator.getParts()) {
+      if (first) {
+        first = false;
+      } else {
+        sb.append(".");
+      }
+
+      sb.append(part.getName());
+
+      if (part.getExpr() != null) {
+        sb.append("[");
+        sb.append(eval(part.getExpr(), RESULT_TYPE_STRING));
+        sb.append("]");
+      }
+    }
+    return sb.toString();
   }
 }

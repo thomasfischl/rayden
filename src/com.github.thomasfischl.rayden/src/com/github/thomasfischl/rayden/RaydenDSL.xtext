@@ -125,6 +125,7 @@ ParameterDecl:
 			type='string'   | 
 			type='boolean'  | 
 			type='variable' |
+			type='location'  |
 			type='enumeration' '(' values+=IDEXT (',' values+=IDEXT)+ ')'			
 		)
 	)?;

@@ -164,7 +164,7 @@ keyword Anmelden an der PetClinc Anwendung{
 	Click Left(@PetClinic.LoginPage.LoginButton)
 }
 \end{JavaCode}
-\caption{Rayden: Beispiel Compound Keyword}
+\caption{Beispiel von einem Compound Keyword}
 \label{prog:compoundKeyword}
 \end{program}
 
@@ -194,7 +194,7 @@ testcase Anlegen eines neuen Besitzers {
 	Abmelden von der Anwendung
 }
 \end{JavaCode}
-\caption{Rayden: Beispiel Inline Keyword}
+\caption{Beispiel von einem Inline Keyword}
 \label{prog:inlineKeyword}
 \end{program}
 
@@ -242,6 +242,49 @@ public class PrintKeyword implements IScriptedKeyword {
 %%------------------------------------------------------------------------------------------------------
 
 \subsection{Metatype: Scripted Compound Keyword}
+
+\begin{program}
+\begin{JavaCode}
+keyword If { 
+	parameter in condition as boolean
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
+}
+\end{JavaCode}
+\caption{Beispiel von einem Scripted Compound Keyword}
+\label{prog:ifKeywordImpl}
+\end{program}
+
+\begin{program}
+\begin{JavaCode}
+public class IfKeyword implements IScriptedCompoundKeyword {
+
+  private IKeywordScope scope;
+
+  @Override
+  public void initializeKeyword(String keyword, IKeywordScope scope, IRaydenReporter reporter) {
+    this.scope = scope;
+  }
+
+  @Override
+  public KeywordResult finalizeKeyword() {
+    return new KeywordResult(true);
+  }
+
+  @Override
+  public boolean executeBefore() {
+    return scope.getVariableAsBoolean("condition");
+  }
+
+  @Override
+  public boolean executeAfter() {
+    return false;
+  }
+}
+\end{JavaCode}
+\caption{Rayden: Java Implementierung des IF Keywords}
+\label{prog:ifKeywordImpl}
+\end{program}
 
 \todo
 

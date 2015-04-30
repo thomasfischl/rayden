@@ -12,7 +12,7 @@ keyword Click Right  {
 
 keyword Click Left  {
 	parameter in loc as string
- 
+  
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
 }
 

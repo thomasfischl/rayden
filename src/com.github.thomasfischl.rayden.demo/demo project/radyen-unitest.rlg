@@ -6,7 +6,7 @@ testsuite Calculator {
 	TestInternalMemory
 	TestAddFunctionWeb
 }
-
+ 
 
 unittest TestAddFunction {
 	''' This tests verifies the add method '''

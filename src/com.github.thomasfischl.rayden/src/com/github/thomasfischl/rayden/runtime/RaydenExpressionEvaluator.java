@@ -1,15 +1,19 @@
 package com.github.thomasfischl.rayden.runtime;
 
+import org.eclipse.emf.common.util.EList;
+
 import com.github.thomasfischl.rayden.raydenDSL.AndExpr;
 import com.github.thomasfischl.rayden.raydenDSL.Expr;
 import com.github.thomasfischl.rayden.raydenDSL.Fact;
 import com.github.thomasfischl.rayden.raydenDSL.LocatorDecl;
 import com.github.thomasfischl.rayden.raydenDSL.LocatorPartDecl;
 import com.github.thomasfischl.rayden.raydenDSL.NotFact;
+import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositryControlDecl;
 import com.github.thomasfischl.rayden.raydenDSL.OrExpr;
 import com.github.thomasfischl.rayden.raydenDSL.RelExpr;
 import com.github.thomasfischl.rayden.raydenDSL.SimpleExpr;
 import com.github.thomasfischl.rayden.raydenDSL.Term;
+import com.github.thomasfischl.rayden.util.RaydenModelUtils;
 
 public class RaydenExpressionEvaluator {
 
@@ -290,12 +294,36 @@ public class RaydenExpressionEvaluator {
     } else if (expr.getExpr() != null) {
       return eval(expr.getExpr(), resultType);
     } else if (expr.getLocator() != null) {
-      return new RaydenExpressionLocator(eval(expr.getLocator()));
+      return evalLocator(expr.getLocator());
       // } else if (expr.getSymbol() != null) {
       // return new RaydenExpressionSymbol(expr.getSymbol());
     } else {
       return expr.getNumber();
     }
+  }
+
+  private RaydenExpressionLocator evalLocator(LocatorDecl locatorDecl) {
+    String locator = eval(locatorDecl);
+
+    ObjectRepositryControlDecl control = RaydenModelUtils.getControl(locatorDecl);
+    if (control != null) {
+      EList<LocatorPartDecl> parts = locatorDecl.getParts();
+      if (control.getName().trim().equals(parts.get(parts.size() - 1).getName().trim())) {
+        return new RaydenExpressionLocator(locator, evalLocator(control));
+      }
+    }
+
+    return new RaydenExpressionLocator(locator, null);
+  }
+
+  private String evalLocator(ObjectRepositryControlDecl control) {
+    String base = "";
+    if (control.getAbsolute() == null) {
+      if (control.eContainer() instanceof ObjectRepositryControlDecl) {
+        base = evalLocator((ObjectRepositryControlDecl) control.eContainer());
+      }
+    }
+    return base + control.getLocation();
   }
 
   //

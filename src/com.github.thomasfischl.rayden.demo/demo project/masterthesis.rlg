@@ -1,0 +1,138 @@
+
+keyword Print {
+	'''Der Parameter 'text' wird in den Test-Report geschrieben.'''
+	
+	parameter text
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+}
+
+keyword Anmelden an der PetClinc Anwendung{
+	'''Es wird sich an der PetClinc Anwendung mit den definierte Daten 
+	   angemeldet. Wenn das Keyword erfoglreich ausgeführt worden ist, 
+	   gefindet man sich auf der Hauptseite der Webanwendung.'''
+	
+	parameter in username as string
+	parameter in password as string
+	
+	Type Text(@PetClinic.LoginPage.Username, username)
+	Type Text(@PetClinic.LoginPage.Password, password)
+	
+	Click Left(@PetClinic.LoginPage.LoginButton)
+}
+
+testcase Anlegen eines neuen Besitzers {
+	'''Der Testfall überprüft den Anwendungsfall um einen 
+	   neuen Besitzer anlegen zu können.'''
+	
+	Anmelden an der PetClinc Anwendung ("max", "secret")
+	
+	Besitzer anlegen {
+		Oeffnen der Besitzerseite		
+		Neuen Besitzer in der Anwendung anlegen("Huber", "Mayr")
+		Daten von Besitzer ueberpruefen
+	}
+	
+	Abmelden von der Anwendung
+}
+
+keyword If Keyword Bespiel {
+	If (1 == 1){
+		Print("Condition is true")
+	}
+	If ("a" == "b"){
+		Print("Condition is false )
+	}
+}
+
+
+
+
+
+
+testsuite Samples {
+	
+	
+	
+	For Test {
+		Test Scripted Compound Keyword
+		Test Scripted Compound Keyword Simple
+	}
+	
+	if {
+		Test Scripted Compound Keyword If
+	}
+}
+ 
+keyword Test Scripted Compound Keyword {
+	For ("i", 0, 2){
+		For1 ("j", 0, 2){
+			Test {
+				Print("Hello - " + i + " - " + j)
+			}
+		}
+	}
+}
+
+keyword Test Scripted Compound Keyword Simple{
+	For ("i", 0, 2){
+		Test {
+			Print("Hello - " + i)
+		}
+	}
+}
+
+keyword Test Scripted Compound Keyword If {
+	If (true){
+		Test {
+			Print("If condition: " + true)
+		}
+	}
+	If (false){
+		Test {
+			Print("If condition: " + false)
+		}
+	}
+	If (1 != 2){
+		Test {
+			Print("If condition: " + true)
+		}
+	}
+	If (1 == 2){
+		Test {
+			Print("If condition: " + false)
+		}
+	}
+}
+
+
+
+keyword Test Scripted Keyword {
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.TestKeyword"
+}
+
+keyword For { 
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+
+keyword For1 { 
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+
+keyword Print {
+	parameter text
+	implemented in java ->"com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+}
+
+keyword If { 
+	parameter in condition as boolean
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
+}

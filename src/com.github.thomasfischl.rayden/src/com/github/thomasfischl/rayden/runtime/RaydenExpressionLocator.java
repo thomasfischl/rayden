@@ -2,18 +2,28 @@ package com.github.thomasfischl.rayden.runtime;
 
 public class RaydenExpressionLocator {
 
-  private final String name;
+  private final String orgLocator;
+  private final String evalLocator;
 
-  public RaydenExpressionLocator(String name) {
-    this.name = name;
+  public RaydenExpressionLocator(String orgLocator, String evalLocator) {
+    this.orgLocator = orgLocator;
+    this.evalLocator = evalLocator;
   }
 
-  public String getName() {
-    return name;
+  public String getOrgLocator() {
+    return orgLocator;
+  }
+
+  public String getEvalLocator() {
+    return evalLocator;
   }
 
   @Override
   public String toString() {
-    return name;
+    if (evalLocator != null) {
+      return orgLocator + "[" + evalLocator + "]";
+    } else {
+      return orgLocator;
+    }
   }
 }

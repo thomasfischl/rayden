@@ -9,25 +9,37 @@ objectrepository PetClinic1 {
 			location "/body/div/div[text='bla']"
 			
 			button Go {
-				location "/"
+				location "/btn[text='GO']"
 			}
 			
 			control<Special Button> Cancel {
-				location "bla"
+				location "/div[text='Cancel']"
 			}
 		
 			textfield Username {
-				location  "tralala"
+				location  "/input[id='username']"
 			}
 			
 			textfield Password {
-				location  "babab"
+				location  "/input[id='password']"
 			}			
-		}
+		} 
 		
 		page Main Page{
 			list Owners (index) {
 				location  "/ul/ur[$index]"
+			}
+			
+			page ProjectView {
+				location "/div[id='content']"
+				
+				control<tree> ProjectTree{
+					location "/table"
+				}
+				
+				dialog NewProjectDialog {
+					location absolute "/body/div[id='dialog1']"
+				}
 			} 		 
 		}
 	}
@@ -35,18 +47,18 @@ objectrepository PetClinic1 {
 
 testsuite PetClinic{
 	
-	TestAddFunctionWeb
+	TestAddFunctionWeb1
 }
 
+keyword TestAddFunctionWeb1 {
+	Print (@PetClinicWeb.Login.Go)
+}
 
 uatest TestAddFunctionWeb {
 	Prepare
 	
 	Click Left("./div/div")
-	
 	@PetClinic.PetClinicWeb.Login.Go :: Click Left
-	
-	
 	Click Left( @PetClinic.PetClinicWeb.Login.Go )
 
 	@PetClinic.PetClinicWeb.Main.Owners[1] :: Click Left
@@ -73,3 +85,10 @@ keyword Type Number on Calc {
 	parameter in num as string
 	Type Text ("./div", num)
 }
+
+keyword Print  {
+	parameter text
+
+	implemented in java -> "com.github.thomasfischl.rayden.test.keywords.PrintKeyword"
+}
+

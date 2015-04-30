@@ -205,6 +205,8 @@ Der Nachteil bei dieser Variante ist, dass man dieses \enword{Keyword} nicht wie
 
 \subsection{Metatype: Scripted Keyword}
 
+Das \enword{Scripted Keyword} ist der erste und der einfachere Metatyp, mit welchem man Code an ein \enword{Keyword} binden kann. Ein \enword{Scripted Keyword} wird wie ein \enword{Compound Keyword} definiert. Im Unterschied dazu besitzt das \enword{Scripted Keyword} keine Sequenz von \enword{Keywords} sondern einen Hinweis auf die Implementierung. Im Beispiel-Code \ref{prog:scriptedKeyword} sieht man eine Variante mit einer Java-Implementierung. Die Anweisung "´implemented in java"' definiert die Implementierungssprache. Nach dem Pfeil folgt ein Bezeichner, welcher die Implementierung referenziert. Im Fall von \enword{Java} wird der vollständige Name der Klasse verwendet.
+
 \begin{program}
 \begin{JavaCode}
 keyword Print {
@@ -217,6 +219,9 @@ keyword Print {
 \caption{Rayden: Beispiel Scripted Keyword}
 \label{prog:scriptedKeyword}
 \end{program}
+
+\SuperPar
+Um die \enword{Java-Klasse} als \enword{Keyword-Implementierung} verwenden zu können, muss die Klasse das \enword{Interface} "`com.github.thomasfischl.rayden.api.keywords. IScriptedKeyword"' implementieren. Das Interface beinhaltet genau eine Methode "`execute"'. Kommt die \enword{Stack-Maschine} zu einem Aufruf eines \enword{Scripted Keywords}, wird eine neue Instanz der \enword{Keyword-Implementierung} über den \enword{Java-Reflection-Mechanismus} angelegt. Von der Instanz wird dann die Methode "`execute"' mit dem Name des aktuellen \enword{Keyword}, dem \enword{Scope} und einer Reporter-Instanz aufgerufen. Auf die Parameter des \enword{Keywords} kann man über den \enword{Scope} zugreifen, wie man im Beispiel-Code \ref{prog:scriptedKeywordImpl} sehen kann. Als Ergebnis liefert die Methode eine "`KeywordResult"'-Objekt zurück. Diese Objekt signalisiert der \enword{Stack-Maschine} ob das \enword{Keyword} erfolgreich ausgeführt worden ist.   
 
 \begin{program}
 \begin{JavaCode}
@@ -232,16 +237,20 @@ public class PrintKeyword implements IScriptedKeyword {
 }
 \end{JavaCode}
 \caption{Rayden: Java Implementierung des Print Keywords}
-\label{prog:scriptedKeyword}
+\label{prog:scriptedKeywordImpl}
 \end{program}
 
+\SuperPar
+Der Parameter "`keyword"' bei der Methode "`execute"' wird benötigt, weil es in Rayden möglich ist, eine Implementierung an mehrere \enword{Keyword-Definitionen} zu binden. Mit diese Parameter kann man den Namen der aktuellen \enword{Keyword-Definitionen} abfragen.
 
-
-\todo
+\SuperPar
+Über die Reporter-Instanz kann man Einträge in den Test-Report hinzufügen. Die Instanz bietet unterschiedliche Granularitätsebenen für Nachrichten an. Es werden spezielle Methoden für Fehler-, Warnung- und Debug-Nachrichten angeboten. Diese Nachrichten können in weiterer Instanz von den jeweiligen Reporter-Implementierungen unterschiedlich behandelt werden. 
 
 %%------------------------------------------------------------------------------------------------------
 
 \subsection{Metatype: Scripted Compound Keyword}
+
+Das \enword{Scripted Compound Keyword} ist die komplizierteste Variante der vier Metatypen. Jedoch ist diese Variante essentiell für die Flexibilität der Sprache. Mit dem Konzept von \enword{Scripted Compound Keyword} ist ein Entwickler oder eine Entwicklerin in der Lage, die Sprache um Kontrollstrukturen zu erweitern. Dafür werden die Eigenschaften von \enword{Compound Keywords} und \enword{Scripted Keywords} kombiniert. 
 
 \begin{program}
 \begin{JavaCode}
@@ -252,8 +261,14 @@ keyword If {
 }
 \end{JavaCode}
 \caption{Beispiel von einem Scripted Compound Keyword}
-\label{prog:ifKeywordImpl}
+\label{prog:ifKeyword}
 \end{program}
+
+\SuperPar
+Das \enword{Scripted Compound Keyword} ist mit einem Code verbunden und hat zusätzlich auch noch eine \enword{Keyword-Liste}. In der Implementierung hat man die Möglichkeit, die Ausführung der \enword{Keyword-Liste} zu steuern. Man kann damit eine bedingte bzw. mehrmalige Ausführung der Liste realisieren. Es ist aber zu beachten, dass man die Liste nur als ganzes steuern kann. Eine teilweise Ausführung der Liste ist nicht möglich.
+
+\SuperPar
+Im Beispiel \ref{prog:ifKeyword} kann man die Definition für ein \enword{IF-Keyword} sehen. Dabei wird wie bei einem \enword{Scripted Keyword} die Programmiersprache und der Bezeichner definiert. Im Fall von einem \enword{Scripted Compound Keyword} muss die Klasse das Interface "`com.github.thomasfischl.rayden.api.keywords. IScriptedCompoundKeyword"' implementieren. Dieses Interface ist deutlich schwieriger zu implementieren wie man im Beispiel-Code \ref{prog:ifKeywordImpl} sehen kann.
 
 \begin{program}
 \begin{JavaCode}
@@ -267,11 +282,6 @@ public class IfKeyword implements IScriptedCompoundKeyword {
   }
 
   @Override
-  public KeywordResult finalizeKeyword() {
-    return new KeywordResult(true);
-  }
-
-  @Override
   public boolean executeBefore() {
     return scope.getVariableAsBoolean("condition");
   }
@@ -280,40 +290,93 @@ public class IfKeyword implements IScriptedCompoundKeyword {
   public boolean executeAfter() {
     return false;
   }
+  
+  @Override
+  public KeywordResult finalizeKeyword() {
+    return new KeywordResult(true);
+  }
 }
 \end{JavaCode}
-\caption{Rayden: Java Implementierung des IF Keywords}
+\caption{Java Implementierung des IF Keywords}
 \label{prog:ifKeywordImpl}
 \end{program}
 
-\todo
+\SuperPar
+Das Interface enthält für jede der vier Phasen eines \enword{Scripted Compound Keyword} eine Methode, in der man die Ausführung steuern kann. \\
+
+\begin{itemize}
+
+\item \textbf{Phase 1: Initialisierung (initializeKeyword):}
+In der Initialisierungsphase wird der aktuelle Zustand von der \enword{Stack-Maschine} an die \enword{Keyword-Implementierung} übergeben. Falls die Informationen für die Ausführung benötigt werden, können diese im Objekt gespeichert werden. Eine Instanz der \enword{Keyword-Implementierung} wird genau für eine Ausführung verwendet. D.h. man kann sich eine globalen Zustand für zukünftige Ausführungen speichern. Falls man diese Funktionalität benötigt, muss man diese Daten in Klassenvariablen speichern.\\
+
+\item \textbf{Phase 2: Beginn der Auswertung (executeBefore):}
+In dieser Phase kann man die Ausführung der \enword{Keyword-Liste} beeinflussen. Diese Methode wird vor jeder Auswertung der \enword{Keyword-Liste} aufgerufen. Wenn diese Methode "`false"' retourniert, wird die List nicht ausgewertet und es wird zur Phase 4 gesprungen.
+
+\item \textbf{Phase 3: Beendigung der Auswertung (executeAfter):}
+In die dritte Phase kommt man nach der Ausführung der \enword{Keyword-Liste}. In dieser Phase hat man die Möglickeit zu entscheiden, ob die Liste ein weiteres Mal ausgeführt werden soll. Wenn man in dieser Phase "`true"' retourniert, kommt man wieder in die zweite Phase. Ansonst wird die vierte Phase ausgeführt.\\
+
+\item \textbf{Phase 4: Beendigung des Keywords (finalizeKeyword):}
+In der letzten Phase können noch Abschlussarbeiten vorgenommen werden bzw. wird ein Status für das \enword{Keyword} berechnet. Mit dem Status kann man steuern, ob die Ausführung erfolgreich war oder nicht. Diese Funktionalität kann für Validierungen verwendet werden.
+
+\end{itemize}
+
+\SuperPar
+Die Verwendung eines \enword{Scripted Compound Keyword} sieht wie ein \enword{Inline Keyword} aus. Der großer Unterschied ist, dass ein \enword{Inline Keyword} keine Parametersignatur im Gegensatz zu einem \enword{Scripted Compound Keyword}. Ein Beispiel für die Verwendung findet man im Code-Ausschnitt \ref{prog:ifKeywordUsage}.
+
+\begin{program}
+\begin{JavaCode}
+keyword If Keyword Bespiel {
+	If (1 == 1){
+		Print("Condition is true")
+	}
+	If ("a" == "b"){
+		Print("Condition is false )
+	}
+}
+\end{JavaCode}
+\caption{Verwendung des IF Keywords}
+\label{prog:ifKeywordUsage}
+\end{program}
 
 %%------------------------------------------------------------------------------------------------------
 \subsection{Typen}
 \label{cha:KeywordTypes}
 
-Die Typen liefern keine zusätzlich Funktionalität für die Sprachen, sondern dienen primär als Strukturierungselement.
+Neben den Metatypen für \enword{Keywords} gibt es in Rayden auch unterschiedliche Typen von \enword{Keywords}. Die Typen liefern keine zusätzlich Funktionalität für die Sprachen, sondern dienen als Strukturierungselement für Testprojekte. Mithilfe der Typen kann man Testfälle unterscheiden und eine klare Zuordnung zu einer Testmethode treffen. Durch die Typen wird es auch mögliche, eine Auswertung über die Verteilung der Testmethoden in einem Testprojekt treffen zu können. 
 
-TestSuite
-TestCase
-Unit Test
-Integration Test
-API Test
-AU Test
-Manual AU Test
+\SuperPar
+Rayden unterstützt die folgenden \enword{Keyword-Typen}:
 
-\todo
+\begin{itemize}
+\item Test-Suite (TestSuite),
+\item Testfall (TestCase),
+\item Komponententest (UnitTest),
+\item Integrationstest (IntegrationTest),
+\item Schnittstellentest (APITest),
+\item Automatisierter Abnahme-Test (AUTest),
+\item Manueller Abnahme-Test (MAUTest).
+\end{itemize}
+
+\SuperPar
+In Rayden ist es aber nicht zwingend notwendig, dass man diese Typen verwenden muss. Man kann statt den Typen einfach das "`keyword"' Schlüsselwort verwenden. Damit verliert man aber die Auswertungsmöglichkeit in einem Testprojekt. 
 
 %%------------------------------------------------------------------------------------------------------
 \subsection{Sichtbarkeit}
 \label{cha:KeywordScope}
 
-Sichtbarkeit von Variablen und Keywords
+In Rayden wird für jeden Aufruf eines \enword{Keywords} ein neuer Gültigkeitsbereich angelegt. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{Rayden-Scope.png}
+\caption{Gültigkeitsbereiche in einem Rayden-Test}
+\label{fig:rayden-scope}
+\end{figure}
+
+Das Resultat davon ist, dass jeder Kind-Gültigkeitsbereich Zugriff auf den Eltern-Gültigkeitsbereich hat. Der Vorteil davon ist, dass nicht alle Variablen übergeben werden müssen, da dies bei einem Test schon viele sein können. Es gibt auch die Möglichkeit, dass man explizit Parameter für ein \enword{Keyword} definiert. Das wird verwendet um sicher zu stellen, dass eine Variable zur Verfügung steht.
 
 \todo
-
- Das Resultat davon ist, dass jeder Kind-Gültigkeitsbereich Zugriff auf den Eltern-Gültigkeitsbereich hat. Der Vorteil davon ist, dass nicht alle Variablen übergeben werden müssen, da dies bei einem Test schon viele sein können. Es gibt auch die Möglichkeit, dass man explizit Parameter für ein \enword{Keyword} definiert. Das wird verwendet um sicher zu stellen, dass eine Variable zur Verfügung steht.
-
+ 
  %%------------------------------------------------------------------------------------------------------
 \subsection{Benennung}
  

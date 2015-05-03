@@ -503,6 +503,9 @@ Der letzte Datentyp ist "`variable"'. Dieser Datentyp wird verwendet, wenn man d
 \SuperPar
 In diesem Beispiel ist der Parameter "`var"' als "`variable"' deklariert. Dadurch wird der Ausdruck "`i"' nicht ausgewertet, sondern als Zeichenkette der \enword{Keyword}-Implementierung übergeben. Somit kann die Implementierung eine neue Variable mit dem Namen "`i"' anlegen. Würde man den Parameter "`var"' mit einem anderen Datentyp versehen, würde die Ausführungseinheit für Ausdrücke versuchen, diese Variable mit einem Wert aus dem Gültigkeitsbereich zu ersetzen. Wird kein Wert für "`i"' gefunden, wird die Ausführung mit einem Fehler abgebrochen.
 
+\SuperPar
+Eine Typumwandlung ist in der Sprache Rayden nicht vorgesehen. Es ist zwar möglich, dass man alle Datentypen zu einem "`string"'-Datentyp umwandeln kann, aber alle anderen Kombinationen sind nicht möglich. In der Implementierung von einem \enword{Keyword} können die Werte beliebig konvertiert werden. Die Laufzeitumgebung stellt den Datentyp nur innerhalb der Gültigkeitsbereiche sicher.
+
 %%------------------------------------------------------------------------------------------------------
 \section{Verarbeiten von \enword{Keywords} und Ausdrücken}
 
@@ -514,6 +517,7 @@ Die Ausdrücke werden in einer eigenen Ausführungseinheit behandelt. Die Ausfü
 %%------------------------------------------------------------------------------------------------------
 \section{\enword{Library} und \enword{Bridge}}
 
+Um mit Rayden auch große Testprojekte verwalten zu können, gibt es das Konzept von Bibliotheken (\enword{Library}). Eine Bibliothek besteht aus einer Menge von \enword{Keywords}. Es können sowohl \enword{Scripted-}, \enword{Scripted-Compound-} also auch \enword{Compound-Keywords} in einer Bibliothek enthalten sein. Wobei man wahrscheinlich eher \enword{Scripted-} und \enword{Scripted-Compound-Keywords} in einer typischen Bibliothek finden wird.  
 
 \begin{program}
 \begin{JavaCode}
@@ -525,43 +529,55 @@ keyword For {
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
 }
 
-keyword Print {
-	parameter text
-	implemented in java ->"com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
-}
-
 keyword If { 
 	parameter in condition as boolean
 
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
 }
+
+keyword Print {
+	parameter text
+	implemented in java ->"com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+}
 \end{JavaCode}
-\caption{Library: "`StdLib.rlg"'}
-\label{prog:or}
+\caption{Bibliothek: "`stdlibrary.rlg"'}
+\label{prog:library}
 \end{program}
+
+\SuperPar
+In einer Bibliothek werden \enword{Keywords} thematisch zusammengefasst. Man kann sich zum Beispiel vorstellen, dass es eine Standard-Bibliothek gibt, wie im Code-Beispiel \ref{prog:library} zu sehen ist. In diesem Beispiel sind \enword{For-, If-} und \enword{Print-Keyword}-Definitionen enthalten. Die Datei "`stdlibrary.rlg"' und das dazugehörige \enword{Java}-Archiv bilden eine Rayden-Bibliothek. 
+
+\SuperPar
+Um eine Bibliothek verwenden zu können, muss man diese über eine "`import library"' Direktive einbinden. Ein Beispiel sieht man dazu im Code-Ausschnitt \ref{prog:libraryUsage}. Nachdem die Bibliothek eingebunden wurde, können alle \enword{Keywords} daraus verwendet werden. Für \enword{Keywords} gibt es nur einen Namensraum. Falls es durch das Einbinden von Bibliotheken zu Namenskonflikten kommen sollte, wird die erste Implementierung, die gefunden wird, verwendet. In der Reihenfolge kommen zuerst die aktuellen \enword{Keywords} aus der Datei und danach die Bibliotheken in der Reihenfolge, in welcher diese definiert wurden.
 
 \begin{program}
 \begin{JavaCode}
-import library "stdlib"
+import library "stdlibrary"
 
 keyword Library Beispiel {
 	If (1 == 1){
 		Print("Condition is true")
 	}
 	For ("i", 0, 2){
-		Print("Hello - " + i + " - " + j)
+		Print("Hello - " + i)
 	}
 }
 \end{JavaCode}
 \caption{Verwendung der "`StdLib"' Bibliothek}
-\label{prog:or}
+\label{prog:libraryUsage}
 \end{program}
 
-\todo
+\SuperPar
+In Rayden wird zwischen einer \enword{Library} und einer \enword{Bridge} unterschieden. In dieser Ausbaustufe des Rayden-Systems ist die Unterscheidung jedoch nur semantisch. 
+
+\SuperPar
+Unter einer \enword{Library} versteht man grundlegende Funktionen wie Schleifen, Verzweigungen und Validierungen. Im Gegensatz dazu besteht eine \enword{Bridge} aus \enword{Keywords}, welche spezifisch für eine Anwendungstechnologie sind. Dazu ist eine \enword{Bridge} auch meistens mit einem Testtreiber gekoppelt, welcher die Basisfunktionen zur Verfügung stellt. Die \enword{Keywords} kapseln die Funktionalität aus dem Testtreiber und stellen diese zur Verfügung. Eine \enword{Bridge} kann zum Beispiel das Steuern eines Browsers unterstützen und verwendet dazu Selenium. 
+
 
 %%------------------------------------------------------------------------------------------------------
 \section{\enword{Object Repository}}
 
+Das \enword{Object Repository} stellt eine Abstraktion zur Test-Anwendung her. Alle Test-Objekte, welche in einem Test verwendet werden, können in einem \enword{Object Repository} verwaltet werden. In den Tests muss nicht jedes Mal der volle Bezeichner für das Test-Objekt verwendet werden, sondern nur eine Referenz darauf. 
 
 \begin{program}
 \begin{JavaCode}
@@ -597,7 +613,28 @@ objectrepository PetClinic {
 \label{prog:or}
 \end{program}
 
-\todo
+\SuperPar
+Die Test-Objekte werden im \enword{Object Repository} in einem Baum verwaltet und können über diesen auch referenziert werden. Das Beispiel \ref{prog:or} zeigt ein \enword{Object Repository} für eine Webanwendung, welche als Bezeichner einen \enword{XPath}-Ausdruck verwendet.  Der Vorteil davon ist, das der Bezeichner "`location"' über die Baumstruktur zusammengebaut wird. Dadurch erspart man sich viel Wartungsaufwand. 
+
+\SuperPar
+Typischerweise werden in einem \enword{Object Repository} nur Test-Objekte von einer Test-Anwendung zusammengefasst. Werden in einem Test mehrere Anwendungen getestet, sollten dafür unterschiedliche \enword{Object Repositories} angelegt werden.
+
+\begin{program}
+\begin{JavaCode}
+page Main Page{
+	list Owners (index) {
+		location  "/ul/ur[$index]"
+	}
+}
+
+\end{JavaCode}
+\caption{\enword{Parametrisiertes Test-Objekt}}
+\label{prog:orParam}
+\end{program}
+
+\SuperPar
+Es ist auch möglich, das man ein Test-Objekt in einem \enword{Object Repository} parametrisiert. Damit können zum Beispiel Listen abgebildet werden, indem der Index als Parameter definiert wird. Ein Beispiel dazu findet man im Code-Ausschnitt \ref{prog:orParam}. Im Bezeichner "`location"' werden keine Ausdrücke unterstützt. Die Parameter werden über eine Substituierung ersetzt und benötigen daher keinen Datentyp.
+
 
 %% UI Control Coverage 
 %% Ableiten von neuen Tests
@@ -605,7 +642,7 @@ objectrepository PetClinic {
 %%------------------------------------------------------------------------------------------------------
 \section{\enword{Java-Script-Engine}}
 
-Rayden liefert eine Implementierung für die \enword{Java-Scripting-API}. Durch diese Implementierung kann man in jedem Java Programm, eine Rayden Test ausführen. Somit lässt sich das Rayden-System in viele unterschiedliche Szenarien einbinden und verwenden. 
+Rayden liefert eine Implementierung für die \enword{Java-Scripting-API}. Durch diese Implementierung kann man in jedem \enword{Java}-Programm einen Rayden-Test ausführen. Somit lässt sich das Rayden-System in viele unterschiedliche Szenarien einbinden. 
 
 \begin{program}
 \begin{JavaCode}
@@ -617,7 +654,7 @@ manager.registerEngineName("RaydenLangScriptEngine", new RaydenScriptEngineFacto
 \end{program}
 
 \SuperPar
-Um einen Rayden-Test in einem Java-Programm einbinden zu können, muss man zuerst die RaydenScriptEngineFactory registrieren. Damit gibt man dem \enword{ScriptEngineManager} eine neue Sprache bekannt. Im Code-Beispiel \ref{prog:registerFactory} sieht man meine Möglichkeit, wie man die Rayden-Sprache über einen Namen registrieren kann. Es gibt auch noch andere Möglichkeiten wie das Registrieren der Dateiendung.
+Um einen Rayden-Test in ein \enword{Java}-Programm einbinden zu können, muss man zuerst die \enword{RaydenScriptEngineFactory} registrieren. Damit gibt man dem \enword{ScriptEngineManager} eine neue Sprache bekannt. Im Code-Beispiel \ref{prog:registerFactory} sieht man eine Möglichkeit, wie man die Rayden-Sprache über einen Namen registrieren kann. Es gibt auch noch andere Möglichkeiten, wie etwa das Registrieren über die Dateiendung.
 
 \begin{program}
 \begin{JavaCode}
@@ -631,6 +668,8 @@ RaydenScriptResult resultObj = (RaydenScriptResult) result;
 \end{program}
 
 \SuperPar
-Über die \enword{ScriptEngineFactory} kann der \enword{ScriptEngineManager} eine neue Instanz einer \enword{ScriptEngine} anlegen. Das Code-Beispiel \ref{prog:runEngine} zeigt, wie man einen Test aus einer Datei einließt und diesesn über die \enword{ScriptEngine} ausführen lassen kann.
+Über die \enword{ScriptEngineFactory} kann der \enword{ScriptEngineManager} eine neue Instanz einer \enword{ScriptEngine} anlegen. Das Code-Beispiel \ref{prog:runEngine} zeigt, wie man einen Test aus einer Datei einliest und diesen über die \enword{ScriptEngine} ausführen lassen kann.
 
+\SuperPar
+In diesem Kapitel wurde der Aufbau und die Verwendung des Rayden-Systems beschrieben. Im nächsten Kapitel wird ein Testprojekt mit dem Rayden-System umgesetzt. Dazu werden alle vorher beschriebenen Testmethoden angewendet.
 

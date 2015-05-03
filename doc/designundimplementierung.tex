@@ -430,18 +430,78 @@ Der dritte Variante ist eine Kombination aus dem In-Parameter und dem Out-Parame
 \end{itemize}
 
 %%------------------------------------------------------------------------------------------------------
-\section{Typsystem}
+\section{Datentypen}
+
+Die Sprache Rayden unterstützt eine Vielzahl an Datentypen wie:
 
 \begin{itemize}
-\item number
-\item string
-\item boolean
-\item variable
-\item location
-\item enumeration
+\item number,
+\item string,
+\item boolean,
+\item variable,
+\item location,
+\item enumeration.
 \end{itemize}
 
-\todo
+\SuperPar
+Darunter befinden sich einige Standard Datentypen wie "`number"', "`string"' und "`boolean"'. 
+
+\begin{program}
+\begin{JavaCode}
+keyword Open Browser { 
+	parameter in browserType as enumeration (IE | FF | CHROME)
+
+	implemented in java -> "selenium.OpenBrowserKeyword"
+}
+\end{JavaCode}
+\caption{Verwendung von einem Enumerations-Parameter}
+\label{prog:enum}
+\end{program}
+
+\SuperPar
+Der Type "`enumeration"' wird intern als "`string"' repräsentiert. Die Laufzeitumgebung sorgt dafür, dass nur die vordefinierten Werte zugewiesen werden dürfen. Diese Überprüfung wird aber nur bei einem Übergang von einem Gültigkeitsbereich in einen anderen Gültigkeitsbereich vorgenommen. Diese Einschränkung ist damit zu erklären, dass eine "`enumeration"' Datentyp genau für ein \enword{Keyword} definiert wird. Ein Beispiel dazu sieht man im Code-Ausschnitt \ref{prog:enum}.  
+
+\SuperPar
+Ein weiterer spezieller Datentyp ist "`location"'. Mit diesem Datentyp kann man ein Objekt in einem \enword{Object-Repository} referenzieren. Dieser Datentyp beginnt immer mit einem "`@"'-Symbol. Nachfolgend kann man einen Pfad im \enword{Object-Repository} beschreiben, wie man im Beispiel \ref{prog:locator} sehen kann. Für Abnahme-Tests ist das Referenzieren von Test-Objekten essentiell. Daher bietet Rayden dafür eine Erleichterung. 
+
+\begin{program}
+\begin{JavaCode}
+@PetClinic.PetClinicWeb.Login.Go :: Click Left
+Click Left( @PetClinic.PetClinicWeb.Login.Go )
+\end{JavaCode}
+\caption{Verwendung vom Datentyp "`location"'}
+\label{prog:locator}
+\end{program}
+
+\SuperPar
+Falls der erste Parameter von einem \enword{Keyword} vom Datentyp "`location"' ist, kann man diesen Parameter vor das \enword{Keyword} schreiben. Somit wird das Lesen eines Tests erleichtert. Ein Verwendung dazu findet man ebenfalls im Beispiel \ref{prog:locator}. Dieses Sprachfeature wird von der Rayden-Laufzeitumgebung wieder in einen klassischen \enword{Keyword}-Aufruf umgebaut.
+
+\begin{program}
+\begin{JavaCode}
+
+keyword For Keyword Beispiel{
+	For (i, 0, 2){
+		Print("Hello - " + i)
+	}
+}
+
+keyword For { 
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+\end{JavaCode}
+\caption{Verwendung vom Datentyp "`variable"'}
+\label{prog:variable}
+\end{program}
+
+\SuperPar
+Der letzte Datentyp ist "`variable"'. Dieser Datentyp wird verwendet, wenn man den Namen einer Variable an ein \enword{Keyword} übergeben wird. Diese Datentyp beeinflusst die Auswertung von Ausdrücken. Wird ein Ausdruck mit dem Datentyp "`variable"' typisiert, werden alle Verwendungen von Variablen in einem Ausdruck nicht ausgewertet. Ein gutes Beispiel dazu ist das \enword{For-Keyword} aus dem Code-Ausschnitt \ref{prog:variable}.
+
+\SuperPar
+In diesem Beispiel ist der Parameter "`var"' als "`variable"' deklariert. Dadurch wird der Ausdruck "`i"' nicht ausgewertet sondern als Zeichenkette der \enword{Keyword}-Implementierung übergeben. Somit kann die Implementierung eine neue Variable mit dem Namen "`i"' anlegen. Würde man den Parameter "`var"' mit einem anderen Datentyp versehen, würde die Ausführungseinheit für Ausdrücke versuchen, diese Variable mit einem Wert aus dem Gültigkeitsbereich zu ersetzten. Wird kein Wert für "`i"' gefunden, würde ein Fehler geworfen.
 
 %%------------------------------------------------------------------------------------------------------
 \section{Verarbeiten von Keywords und Ausdrücke}
@@ -449,25 +509,93 @@ Der dritte Variante ist eine Kombination aus dem In-Parameter und dem Out-Parame
 Im Rayden-System ist der Interpreter und die \enword{Runtime} für die Ausführung eines Tests zuständig. Dabei wird die Ausführung von \enword{Keywords} und Ausdrücken von einander getrennt. Die \enword{Keywords} werden von einer \enword{Stack-Maschine} ausgeführt. 
 
 \SuperPar
-Die Ausdrücke werden in einer eigenen Ausführungseinheit behandelt. Die Ausführungseinheit verwendet keine \enword{Stack-Maschine}, sonder den rekursiven Abstieg für die Auswertung. Dabei kann diese Einheit entweder untypisiert oder typisiert ausgeführt werden. Diese Eigenschaft wird benötigt, um die Funktionalität der Parameter zu ermöglichen. 
-
-\SuperPar
-
-Diese Engine kann typsiert werden und verhält sich da durch bei Variables anders!
-\todo
+Die Ausdrücke werden in einer eigenen Ausführungseinheit behandelt. Die Ausführungseinheit verwendet keine \enword{Stack-Maschine}, sonder den rekursiven Abstieg für die Auswertung. Dabei kann diese Einheit entweder untypisiert oder typisiert ausgeführt werden. Diese Eigenschaft zur Typisierung von Parametern wird benötigt, um die Funktionalität einiger Datentypen zu ermöglichen. Darunter fallen die Datentypen "`variable"' und "`enumeration"'. Für diese beiden Datentypen muss sich die Ausführungseinheit entweder anderes verhalten bzw. zusätzlich Überprüfungen durchführen. 
 
 %%------------------------------------------------------------------------------------------------------
-\section{Library}
+\section{Library und Bridge}
 
-\todo
 
-%%------------------------------------------------------------------------------------------------------
-\section{Bridge}
+\begin{program}
+\begin{JavaCode}
+keyword For { 
+	parameter in var as variable
+	parameter in from as number
+	parameter in to as number
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.ForKeyword"
+}
+
+keyword Print {
+	parameter text
+	implemented in java ->"com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
+}
+
+keyword If { 
+	parameter in condition as boolean
+
+	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
+}
+\end{JavaCode}
+\caption{Library: "`StdLib.rlg"'}
+\label{prog:or}
+\end{program}
+
+\begin{program}
+\begin{JavaCode}
+import library "stdlib"
+
+keyword Library Beispiel {
+	If (1 == 1){
+		Print("Condition is true")
+	}
+	For ("i", 0, 2){
+		Print("Hello - " + i + " - " + j)
+	}
+}
+\end{JavaCode}
+\caption{Verwendung der "`StdLib"' Library}
+\label{prog:or}
+\end{program}
 
 \todo
 
 %%------------------------------------------------------------------------------------------------------
 \section{Object Repository}
+
+
+\begin{program}
+\begin{JavaCode}
+
+objectrepository PetClinic {
+
+	application PetClinicWeb {
+		location absolute "/browser"
+		
+		page Login {
+			location "/body/div/div[text='bla']"
+			
+			button Go {
+				location "/btn[text='GO']"
+			}
+			
+			control<Special Button> Cancel {
+				location "/div[text='Cancel']"
+			}
+		
+			textfield Username {
+				location  "/input[id='username']"
+			}
+			
+			textfield Password {
+				location  "/input[id='password']"
+			}			
+		} 
+	}
+}
+\end{JavaCode}
+\caption{Object-Repository}
+\label{prog:or}
+\end{program}
 
 \todo
 

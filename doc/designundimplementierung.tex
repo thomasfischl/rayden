@@ -306,16 +306,16 @@ Das Interface enthält für jede der vier Phasen eines \enword{Scripted Compound
 
 \begin{itemize}
 
-\item \textbf{Phase 1: Initialisierung (initializeKeyword):}
+\item \textbf{Phase 1: Initialisierung (initializeKeyword):}\\
 In der Initialisierungsphase wird der aktuelle Zustand von der \enword{Stack-Maschine} an die \enword{Keyword-Implementierung} übergeben. Falls die Informationen für die Ausführung benötigt werden, können diese im Objekt gespeichert werden. Eine Instanz der \enword{Keyword-Implementierung} wird genau für eine Ausführung verwendet. D.h. man kann sich eine globalen Zustand für zukünftige Ausführungen speichern. Falls man diese Funktionalität benötigt, muss man diese Daten in Klassenvariablen speichern.\\
 
-\item \textbf{Phase 2: Beginn der Auswertung (executeBefore):}
+\item \textbf{Phase 2: Beginn der Auswertung (executeBefore):}\\
 In dieser Phase kann man die Ausführung der \enword{Keyword-Liste} beeinflussen. Diese Methode wird vor jeder Auswertung der \enword{Keyword-Liste} aufgerufen. Wenn diese Methode "`false"' retourniert, wird die List nicht ausgewertet und es wird zur Phase 4 gesprungen.
 
-\item \textbf{Phase 3: Beendigung der Auswertung (executeAfter):}
+\item \textbf{Phase 3: Beendigung der Auswertung (executeAfter):}\\
 In die dritte Phase kommt man nach der Ausführung der \enword{Keyword-Liste}. In dieser Phase hat man die Möglickeit zu entscheiden, ob die Liste ein weiteres Mal ausgeführt werden soll. Wenn man in dieser Phase "`true"' retourniert, kommt man wieder in die zweite Phase. Ansonst wird die vierte Phase ausgeführt.\\
 
-\item \textbf{Phase 4: Beendigung des Keywords (finalizeKeyword):}
+\item \textbf{Phase 4: Beendigung des Keywords (finalizeKeyword):}\\
 In der letzten Phase können noch Abschlussarbeiten vorgenommen werden bzw. wird ein Status für das \enword{Keyword} berechnet. Mit dem Status kann man steuern, ob die Ausführung erfolgreich war oder nicht. Diese Funktionalität kann für Validierungen verwendet werden.
 
 \end{itemize}
@@ -330,7 +330,7 @@ keyword If Keyword Bespiel {
 		Print("Condition is true")
 	}
 	If ("a" == "b"){
-		Print("Condition is false )
+		Print("Condition is false")
 	}
 }
 \end{JavaCode}
@@ -361,10 +361,10 @@ Rayden unterstützt die folgenden \enword{Keyword-Typen}:
 In Rayden ist es aber nicht zwingend notwendig, dass man diese Typen verwenden muss. Man kann statt den Typen einfach das "`keyword"' Schlüsselwort verwenden. Damit verliert man aber die Auswertungsmöglichkeit in einem Testprojekt. 
 
 %%------------------------------------------------------------------------------------------------------
-\subsection{Sichtbarkeit}
+\subsection{Gültigkeitsbereich}
 \label{cha:KeywordScope}
 
-In Rayden wird für jeden Aufruf eines \enword{Keywords} ein neuer Gültigkeitsbereich angelegt. 
+In Rayden wird für jeden Aufruf von einem \enword{Keyword} ein neuer Gültigkeitsbereich angelegt. In diesem Gültigkeitsbereich befinden sich alle Parameter, welche für das \enword{Keyword} definiert sind. Nachdem Parameter in einem Gültigkeitsbereich definiert worden sind, verhalten sich die gleich wie Variablen. Variablen können von einem \enword{Keyword} in dem Gültigkeitsbereich geladen und wieder gelesen werden. Variablen könne auch in einem Ausdruck verwendet werden. In Rayden müssen Variablen nicht deklariert werden. Sobald das erste Mal eine Variable geschrieben worden ist, ist diese im Gültigkeitsbereich vorhanden.
 
 \begin{figure}[h]
 \centering
@@ -373,37 +373,87 @@ In Rayden wird für jeden Aufruf eines \enword{Keywords} ein neuer Gültigkeitsb
 \label{fig:rayden-scope}
 \end{figure}
 
-Das Resultat davon ist, dass jeder Kind-Gültigkeitsbereich Zugriff auf den Eltern-Gültigkeitsbereich hat. Der Vorteil davon ist, dass nicht alle Variablen übergeben werden müssen, da dies bei einem Test schon viele sein können. Es gibt auch die Möglichkeit, dass man explizit Parameter für ein \enword{Keyword} definiert. Das wird verwendet um sicher zu stellen, dass eine Variable zur Verfügung steht.
+\SuperPar
+In Rayden gibt es aber noch eine Besonderheit im Bezug auf Gültigkeitsbereiche. Bei einem Aufruf von einem \enword{Keyword} wird der Gültigkeitsbereich mit den Parametern angelegt. Das besondere ist aber, dass der alte Gültigkeitsbereich an den neuen Gültigkeitsbereich vererbt wird. Das Resultat davon ist, dass jeder Kind-Gültigkeitsbereich Zugriff auf den Eltern-Gültigkeitsbereich hat.
 
-\todo
- 
- %%------------------------------------------------------------------------------------------------------
-\subsection{Benennung}
- 
-\todo 
+\SuperPar
+Ein Beispiel dazu sieht man in der Abbildung \ref{fig:rayden-scope}. Beim Starten eines Test wird der Gültigkeitsbereich G1 angelegt. Auf diesen Gültigkeitsbereich haben später alle anderen Gültigkeitsbereich zugriff. Daher eignet sich dieser Gültigkeitsbereich gut für Testweite Variablen.
+
+\SuperPar
+In der Abbildung sieht man weiter, dass jeder neue Gültigkeitsbereich eine Beziehung so einem Eltern-Gültigkeitsbereich hat. Der Pfeil von einem Kind- zu einem Eltern-Gültigkeitsbereich mag am Anfang komisch wirklich. Den Pfeil kann man damit erklären, dass es in Rayden möglich ist, einen \enword{Out-} bzw. \enword{InOut-Parameter} zu definierten. Damit können Variablen aus G2 an G1 übertragen werden. Eine detaillierte Beschreibung zu Parameter findet man im Abschnitt \ref{cha:Parameter}.
+
+\SuperPar
+Der Vorteil von vererbten Gültigkeitsbereichen ist, dass nicht alle Variablen übergeben werden müssen, da dies bei einem Test schon viele sein können. Die Parameter bieten die Möglichkeit für eine explizite Definition von Variablen. Das wird verwendet um sicher zu stellen, dass eine Variable definitiv zur Verfügung steht bzw. erleichtert auch die Verwendung eines \enword{Keywords}.
+
+%%------------------------------------------------------------------------------------------------------
+%\subsection{Benennung}
+%\todo 
 
 %%------------------------------------------------------------------------------------------------------
 \subsection{Parameter}
+\label{cha:Parameter}
 
-IN, OUT, INOUT
+\enword{Keywords} unterstützen das definieren von Parameter für eine einfachere Verwendung. Grundsätzlich werden Parameter in Rayden nicht zwingend benötigt, da Rayden das Konzept von vererbten Gültigkeitsbereichen hat. Parameter ermöglichen jedoch eine definierte Schnittstelle für \enword{Keywords}. 
 
-\todo
+\begin{program}
+\begin{JavaCode}
+keyword Parameter Bespiel {
+	
+	parameter in    parm1
+	parameter in    parm2 as string
+	parameter out   param3 as boolean
+	parameter inout param4 as number
+	
+	Test1	
+}
+\end{JavaCode}
+\caption{Verwendung von Parameter}
+\label{prog:parameter}
+\end{program}
 
 
+\SuperPar
+Rayden unterstützt sowohl typisierte als auch untypisierte Parameter. Sind die Parameter typisiert, werden diese vom Rayden-Interpreter überprüft. Sind Parameter nicht definiert, wird die Ausführung mit einem Fehler abgebrochen. 
+
+\SuperPar
+Neben einem Typ, kann man bei einem Parameter auch noch die Richtung definieren. Die Richtung bezieht sich auf die Gültigkeitsbereich. In Rayden werden die Richtung "`In"', "`Out"' und "`InOut"' unterstützt, wie man im Code-Beispiel \ref{prog:parameter} sehen kann. 
+
+\begin{itemize}
+\item \textbf{In-Parameter:}\\
+Der In-Parameter transferiert einen Wert aus dem Eltern-Gültigkeitsbereich in den Kinder-Gültigkeitsbereich. Das ist auch das Standard verwalten, falls keine Richtung bei einem Parameter definiert ist.\\
+
+\item \textbf{Out-Parameter:}\\
+Der Out-Parameter ist das genaue Gegenteil zum In-Parameter. Dabei wird ein Wert aus dem Kinder-Gültigkeitsbereich in den Eltern-Gültigkeitsbereich transferiert. \\
+
+\item \textbf{InOut-Parameter:}\\
+Der dritte Variante ist eine Kombination aus dem In-Parameter und dem Out-Parameter.\\
+\end{itemize}
 
 %%------------------------------------------------------------------------------------------------------
 \section{Typsystem}
+
+\begin{itemize}
+\item number
+\item string
+\item boolean
+\item variable
+\item location
+\item enumeration
+\end{itemize}
 
 \todo
 
 %%------------------------------------------------------------------------------------------------------
 \section{Verarbeiten von Keywords und Ausdrücke}
 
-Keywords werden von einer Stackmaschine ausgeführt!
+Im Rayden-System ist der Interpreter und die \enword{Runtime} für die Ausführung eines Tests zuständig. Dabei wird die Ausführung von \enword{Keywords} und Ausdrücken von einander getrennt. Die \enword{Keywords} werden von einer \enword{Stack-Maschine} ausgeführt. 
 
-Ausdrücke werden nicht von der Stackmaschine ausgewertet sonderen haben eine eigene Ausführungseinheit. 
+\SuperPar
+Die Ausdrücke werden in einer eigenen Ausführungseinheit behandelt. Die Ausführungseinheit verwendet keine \enword{Stack-Maschine}, sonder den rekursiven Abstieg für die Auswertung. Dabei kann diese Einheit entweder untypisiert oder typisiert ausgeführt werden. Diese Eigenschaft wird benötigt, um die Funktionalität der Parameter zu ermöglichen. 
+
+\SuperPar
+
 Diese Engine kann typsiert werden und verhält sich da durch bei Variables anders!
-
 \todo
 
 %%------------------------------------------------------------------------------------------------------
@@ -427,6 +477,32 @@ Diese Engine kann typsiert werden und verhält sich da durch bei Variables ander
 %%------------------------------------------------------------------------------------------------------
 \section{Skript-Engine}
 
-Die Java ScriptEngine Implementierung erkären
+Rayden liefert eine Implementierung für die \enword{Java-Scripting-API}. Durch diese Implementierung kann man in jedem Java Programm, eine Rayden Test ausführen. Somit lässt sich das Rayden-System in viele unterschiedliche Szenarien einbinden und verwenden. 
 
-\todo
+\begin{program}
+\begin{JavaCode}
+ScriptEngineManager manager = new ScriptEngineManager();
+manager.registerEngineName("RaydenLangScriptEngine", new RaydenScriptEngineFactory());
+\end{JavaCode}
+\caption{Code-Beispiel: ScriptEngineFactory für Rayden registrieren}
+\label{prog:registerFactory}
+\end{program}
+
+\SuperPar
+Um einen Rayden-Test in einem Java-Programm einbinden zu können, muss man zuerst die RaydenScriptEngineFactory registrieren. Damit gibt man dem \enword{ScriptEngineManager} eine neue Sprache bekannt. Im Code-Beispiel \ref{prog:registerFactory} sieht man meine Möglichkeit, wie man die Rayden-Sprache über einen Namen registrieren kann. Es gibt auch noch andere Möglichkeiten wie das Registrieren der Dateiendung.
+
+\begin{program}
+\begin{JavaCode}
+ScriptEngineManager manager = new ScriptEngineManager();
+ScriptEngine engine = manager.getEngineByName("RaydenLangScriptEngine");
+Object result =  engine.eval(new FileReader("./test/simple-test.rlg"));
+RaydenScriptResult resultObj = (RaydenScriptResult) result;
+\end{JavaCode}
+\caption{Code-Beispiel: Ausführen eines Rayden-Tests}
+\label{prog:runEngine}
+\end{program}
+
+\SuperPar
+Über die \enword{ScriptEngineFactory} kann der \enword{ScriptEngineManager} eine neue Instanz einer \enword{ScriptEngine} anlegen. Das Code-Beispiel \ref{prog:runEngine} zeigt, wie man einen Test aus einer Datei einließt und diesesn über die \enword{ScriptEngine} ausführen lassen kann.
+
+

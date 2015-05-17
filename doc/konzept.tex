@@ -8,19 +8,17 @@ Diese Kapitel befasst sich mit den Testabläufen in einem Softwareprojekt. Diese
 In einem Softwareentwicklungsprojekt gibt es nicht nur die Test-Phase, in welcher die Testabteilung eine wichtige Rolle spielt. Die Testabteilung ist in den meisten Phasen eines Entwicklungsprojekts involviert. Um die gesamten Testaufgaben in einem großen Projekt zu koordinieren, wir oft ein Testprojekt aufgesetzt. In einem Testprojekt werden alle Aktivitäten rund um die Qualitätssicherung vereint. Diese Aktivitäten beschränken sich aber nicht nur auf die Testabteilung. Es müssen auch Personen aus der Fachabteilung und der Entwicklungsabteilung eingebunden werden. Diese Schnittstellen zwischen den einzelnen Abteilungen bieten eine große Herausforderung für die Testmanagerin oder dem Testmanager.
 
 \SuperPar
-In den nächsten Abschnitten werden die einzelnen Aufgaben in eine Testprojekt beschrieben. Es wird beschrieben, wie Testfälle entwickelt werden und zu welchem Zeitpunkt in einem Softwareprojekt Testaktivitäten ablaufen.
+In den nachfolgenden 6 Abschnitten werden die einzelnen Aufgaben in eine Testprojekt beschrieben. Es wird beschrieben, wie Testfälle entwickelt werden und zu welchem Zeitpunkt in einem Softwareprojekt welche Testaktivitäten ablaufen.
 
 \subsection{Rollen in einem Testprojekt}
 
-
-
-Testmanager, Fachanwender, Entwickler, Tester
-
-TODO !!!
+Das Testprojekt besteht aus einer bunten Mischung an unterschiedlichen Personen. Die Verantwortung in einem Testprojekts trägt die Testmanagerin oder der Testmanager. Diese Person ist für die Koordination des Projekts zuständig und bildet die Schnittstellen zu anderen Abteilungen. Eine Schnittstellen besteht zu der Fachabteilung. Von der Fachabteilung werden die Anwendungsfälle geliefert welche in weiterer Folge in der Testabteilung umgesetzt werden. Für die Umsetzung der Testfälle sind die Testerinnen und die Tester zuständig. Für die Automatisierung von Testfällen besteht eine Schnittstelle zu der Entwicklungsabteilung, falls die Testabteilung über keine eigene Entwicklerinnen oder Entwickler verfügt.
 
 \subsection{Testfall}
 
-TODO !!!
+Während der Konzeptionsphase in einem Entwicklungsprojekts werden Anforderungen von der Fachabteilung aufgenommen. Aus diesen Anforderungen werden Anwendungsfälle abgeleitet. Auf Basis dieser Anwendungsfälle werden in der Testabteilung Testfälle von den Testerinnen und Testern abgeleitet.
+
+\todo
 
 \subsection{Komponenten- und Integrationstests für Testfälle}
 
@@ -66,14 +64,14 @@ Bei \enword{Functional Decomposition} werden die Tests in einzelne Testsequenzen
 \SuperPar
 Mit dieser Testmethode war es nun auch möglich, Bibliotheken mit Testfunktionen für ein Testprojekt anzulegen. 
 
-\subsection{Dritte Generation - \enword{Data-Driven-Testing}}
+\subsection{Dritte Generation - \enword{Data-Driven Testing}}
 
 In der dritten Generation von Testmethoden wurde ein großes Augenmerk auf die Testdaten gelegt. In den vorgehenden Testtechniken lag der Fokus auf der Erstellung und Wartung von Testprojekten. Dabei mussten auch schon Testdaten verwendet werden, aber der Stellenwert war nicht hoch. Die Testdaten stehen dafür nun in dieser Generation im Mittelpunkt. Man erkannte, dass man oft die selbe Testsequenz durchläuft, aber jedes Mal andere Daten verwendet. Diese Testtechnik wird stark für datenzentrierten Anwendungen verwenden. 
 
 \SuperPar
 Bei einem \enword{Data-Driven-Testing} werden im Test keine konkrete Werte verwendend. Statt dessen werden Platzhalter (Variablen) im Test eingebaut. Bei der Ausführung eines Tests werden die Platzhalter mit einem Wert aus einer Datenquelle verbunden. Als Datenquelle können Dateien wie auch Datenbanken dienen. Mit dieser Technik, kann man ein und denselben Test mit unterschiedlichen Daten ausführen. 
 
-\subsection{Vierte Generation - \enword{Keyword-Driven-Testing}}
+\subsection{Vierte Generation - \enword{Keyword-Driven Testing}}
 
 In der vierten Generation von Testmethoden werden die Testdaten noch weiter in den Mittelpunkt gestellt. Bis zu diesem Zeitpunkt wurden die Test entweder mithilfe eines \enword{Record-Replay}-Ansatzes aufgezeichnet oder in einer Programmiersprache entwickelt. Der \enword{Record-Replay}-Ansatz war einfach und auch von nicht technisch versierten Personen zu benutzen. Jedoch haben diese aufgezeichneten Test ein Zuverlässlichkeitsproblem. Der zweite Ansatz bedingt, dass die Personen aus der Testabteilung Programmierkenntnisse benötigen.
 

@@ -5,21 +5,50 @@
 
 Das Wort \enword{Rayden} ist abgeleitet von dem japanischen Wort \enword{Raijin}, welches im japanischen Volksglauben der Name des Donner-Gotts ist. In der westlichen Welt wird der Name aber meist \enword{Raiden} geschrieben, woraus für diese Arbeit der Namen \enword{Rayden} abgeleitet wurde.
 
+%%------------------------------------------------------------------------------------------------------
+
 \section{Motivation}
 
-Warum braucht man ein Test-Framework?
-Wer braucht ein Test-Framework?
+Viele Software-Firmen haben in den letzten Jahren und Jahrzehnten eine große Testabteilung aufgebaut. Der Fokus in diesen Testabteilungen liegt sehr häufig noch auf dem manuellen Testen der grafischen Oberfläche einer Software. Dabei müssen für jede neue Version einer Software viele manuelle Schritte durchlaufen werden. Dieser Vorgang ist sehr zeit- und kostenintensiv. Durch den Vormarsch von neuen Entwicklungsmethoden und einem starken Kostendruck stehen viele dieser Abteilungen vor einem Problem. Auf der einen Seite müssen sie Kosten einsparen, auf der anderen Seite werden die Release-Zyklen immer kürzer, das einen noch größeren Aufwand bedeutet. In diesem Spannungsfeld überlegen viele Firmen, ihre manuellen Tests zu automatisieren um dadurch langfristig Zeit zu sparen. 
 
-TODO !!!
+\SuperPar
+Dieser Transformationsprozess stellt die Organisationen vor eine große Herausforderung. Die Firmen haben tausende Stunden von Expertenwissen in die manuellen Tests investiert. Für die Automatisierung steht jedoch selten derselbe Umfang an Zeit und Geld zur Verfügung. Auch muss der Prozess meistens parallel zu den bestehenden manuellen Tests vollzogen werden, da man kaum eine vollständige Umstellung auf einmal erledigen kann.
+
+\SuperPar
+Um diesen Prozess für die Testabteilung zu erleichtern, benötigt es ein mehrschichtiges Test-\enword{Framework}. Das Test-\enword{Framework} muss in der Lage sein, auf Basis der manuellen Tests zu arbeiten. Auf der anderen Seite darf die Lesbarkeit der manuellen Tests aber nicht verloren gehen, damit diese in Ausnahmefällen noch von einer Testerin oder einem Tester manuell durchgeführt werden kann.
+
+%%------------------------------------------------------------------------------------------------------
 
 \section{Problemstellung}
 
-Wie können alle beteiligten Personen bei der Erstellung und Wartung der Tests zusammenarbeiten?
+Viele Testabteilungen arbeiten heutzutage größtenteils mit manuellen Tests. Diese Tests sind über Jahrzehnte gewachsen und es wurden tausende von Stunden in die Erstellung und Wartung investiert. Die Testabteilungen bestehen in solchen Fällen aus vielen manuellen Testern, welche die Tests für jede neue Version einer Software ausführen. Es kommt nicht selten vor, dass aus Zeitgründen nicht alle Tests für jede Version ausgeführt werden können. Diese Situation hat sich durch den Einsatz von agilen Entwicklungsprozessen und kürzeren Release-Zyklen noch deutlich verschärft. 
 
-TODO !!!
+\SuperPar
+Diese Entwicklung macht es notwendig, dass sich Testabteilungen immer öfter mit dem Thema der Testautomatisierung auseinandersetzen müssen. 
+
+\SuperPar
+Herausforderungen für die Testabteilungen:\\
+
+\begin{enumerate}
+
+\item Für die Automatisierung der Tests steht oft nur ein geringes Budget zur Verfügung.\\
+	
+\item Das Wissen aus den manuellen Test darf nicht verloren gehen.\\
+	
+\item Während des Migrationsprozesses und auch danach muss es möglich sein, dass man automatisierte Tests manuell ausführen kann. Das kann der Fall sein, um fehlgeschlagene Ausführungen nachträglich manuell verifizieren zu können.\\
+
+\item Die bestehenden Automatisierungslösungen sind oft sehr technisch aufgebaut. Jedoch findet man in typischen Testabteilungen nur wenige Entwickler und Techniker, welche mit diesen Lösungen arbeiten können.
+
+\end{enumerate}
+
+\SuperPar
+Um alle Herausforderungen dieser Liste zu adressieren, reicht eine technische Lösung heutzutage nicht mehr aus. Ein Test-\enword{Framework} in diesem Umfeld muss auf vielen unterschiedlichen Ebenen ansetzen und unterstützen. 
+
+%%------------------------------------------------------------------------------------------------------
 
 \section{Zielsetzung}
 
-Implementierung einer Testsprache, welche an KDT angelehnt ist.
+Das Ziel dieser Arbeit ist es, die Fähigkeiten eines \enword{Keyword-Driven-Testing}-Ansatz mit einem \enword{Object-Repository}  zu kombinieren. Im Zuge der Implementierung soll ein neues Test-\enword{Framework} entwickelt werden, welches den Ansatz von \enword{Keyword-Driven-Testing} verwendet. Für das \enword{Framework} soll eine neue Sprache entwickelt werden, welches die Bedürfnisse nach einer einfachen und gut lesbaren Sprache erfühlt. Zusätzlich soll die Sprache eine gute Unterstützung für das \enword{Object-Repository} liefern.
 
-TODO !!!
+\SuperPar
+Im nächsten Kapitel \ref{cha:Problemanalyse} werden die Probleme und Anforderungen von einer Testabteilung detailliert beschrieben.

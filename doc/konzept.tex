@@ -8,7 +8,10 @@ Diese Kapitel befasst sich mit den Testabläufen in einem Softwareprojekt. Diese
 In einem Softwareentwicklungsprojekt gibt es nicht nur die Test-Phase, in welcher die Testabteilung eine wichtige Rolle spielt. Die Testabteilung ist in den meisten Phasen eines Entwicklungsprojekts involviert. Um die gesamten Testaufgaben in einem großen Projekt zu koordinieren, wir oft ein Testprojekt aufgesetzt. In einem Testprojekt werden alle Aktivitäten rund um die Qualitätssicherung vereint. Diese Aktivitäten beschränken sich aber nicht nur auf die Testabteilung. Es müssen auch Personen aus der Fachabteilung und der Entwicklungsabteilung eingebunden werden. Diese Schnittstellen zwischen den einzelnen Abteilungen bieten eine große Herausforderung für die Testmanagerin oder dem Testmanager.
 
 \SuperPar
-In den nachfolgenden 6 Abschnitten werden die einzelnen Aufgaben in eine Testprojekt beschrieben. Es wird beschrieben, wie Testfälle entwickelt werden und zu welchem Zeitpunkt in einem Softwareprojekt welche Testaktivitäten ablaufen.
+Die Komponenten- und Integrationstests werden in diesem Abschnitt nicht behandelt, da diese Testaktivitäten primär in der Entwicklungsabteilung durchgeführt wird. Der Fokus der Testabteilung liegt auf den manuellen und automatisierten Abnahmetests der Anwendung.
+
+\SuperPar
+In den nachfolgenden fünf Unterabschnitten werden die einzelnen Aufgaben in eine Testprojekt beschrieben. Es wird beschrieben, wie Testfälle entwickelt werden und zu welchem Zeitpunkt in einem Softwareprojekt welche Testaktivitäten ablaufen.
 
 \subsection{Rollen in einem Testprojekt}
 
@@ -16,27 +19,22 @@ Das Testprojekt besteht aus einer bunten Mischung an unterschiedlichen Personen.
 
 \subsection{Testfall}
 
-Während der Konzeptionsphase in einem Entwicklungsprojekts werden Anforderungen von der Fachabteilung aufgenommen. Aus diesen Anforderungen werden Anwendungsfälle abgeleitet. Auf Basis dieser Anwendungsfälle werden in der Testabteilung Testfälle von den Testerinnen und Testern abgeleitet.
-
-\todo
-
-\subsection{Komponenten- und Integrationstests für Testfälle}
-
-TODO !!!
+Während der Konzeptionsphase in einem Entwicklungsprojekts werden Anforderungen von der Fachabteilung aufgenommen. Aus diesen Anforderungen werden Anwendungsfälle für das gesamte Projektteam abgeleitet. In der Testabteilung werden aus den Anwendungsfälle Testfälle entwickelt. Die Testfälle werden benötigt, um einen Überblick zu bekommen, welche Bereiche einer Software getestet werden müssen. In einem Testfall wird beschrieben, wie der Anwendungsfall zu testen ist und wie das erwartete Ergebnis aussieht. Da diese Aufgabe wichtig ist und einen hohen Kommunikationsaufwand bedeutet, werden die Testfälle größtenteils von der Testmanagerin oder dem Testmanager durchgeführt. In großen Projekten wird diese Arbeit auch von erfahrenen Testerinnen oder Testern durchgeführt. 
 
 \subsection{Manuelle Abnahmetests für Testfälle}
 
-TODO !!!
+Die Testfälle bestehen aus einer groben Beschreibung des zu testenden Anwendungsfall. Weiters beinhaltet ein Testfall eine Schritt für Schritt Anweisung, wie der Testfall ausgeführt werden soll. Ein Testfall wird in der erste Phase von einer Testerin oder einem Tester durchlaufen. Für die Zuteilung der Testfälle ist die Testmanagerin oder der Testmanager zuständig. 
 
 \subsection{Automatisieren von manuellen Abnahmetests}
 
-TODO !!!
+In regelmäßigen Abständen sieht sich die Testmanagerin oder der Testmanager die Ausführungshäufigkeit von manuellen Tests an. Werden manuelle Tests sehr oft durchgeführt, wird dieser Test automatisiert. Bei der Automatisierung werden die manuellen Schritte mithilfe von einem Test-\enword{Framework} automatisiert. Durch die Automatisierung spart die Testabteilung Zeit und kann somit schneller Ergebnisse über die Qualität der Anwendung liefern.
 
 \subsection{Testdokumentation}
 
-TODO !!!
+Der große Vorteil von sauber spezifizierten Testfällen ist, dass man keine zusätzliche Testdokumentation benötigt. Wenn die Testfälle sorgfältig beschrieben sind und auch gewartet werden, dienen diese als Testdokumentation. Wurden Testfälle automatisiert, kann es passieren, dass die Implementierung des Testfall über die Zeit nicht mehr mit der Beschreibung übereinstimmt. Ein wichtiges Ziel bei der Automatisierung ist es daher, dass man die Testdokumentation aktuell hält. Aus diesem Grund gibt Automatisierungsansätze, welche Versuchen, die manuellen Testfälle direkt zu automatisieren. Einige dieser Ansätze werden im nächste Abschnitt \ref{cha:evolution} erklärt. Ein anderer Vorteil bei diesen Ansätzen ist, dass man die automatisieren Tests noch immer manuell ausführen kann. Diese Eigenschaft kann für Verifikationen von Ergebnissen sehr wichtig sein.
 
 \section{Evolution der Testautomatisierung}
+\label{cha:evolution}
 
 Die Automatisierung von Abnahmetests hat sich über die Zeit einen starken Wandel unterzogen. In diesem Bereich hat es eine ähnliche starke Entwicklung wie bei den Softwareentwicklungstechniken gegeben. Im Jahr 2009 haben Jeff Hinz und Martin Gijsen eine Artikel \cite{Hinz09} über die Evolution der Testautomatisierung veröffentlicht. In diesem Artikel teilen die beiden Autoren die Entwicklung der Testautomatisierung in fünf Generationen ein. Jede Generation zeichnet sich durch eine spezielle Technik aus, wie die Test entwickelt werden. 
 

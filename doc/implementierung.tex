@@ -1,13 +1,13 @@
 \chapter{Implementierung von Rayden}
 \label{cha:Implementierung}
 
-Diese Kapitel beschreibt die Implementierung von ausgewählten Komponenten des Rayden-System. Der Abschnitt \ref{cha:KeywordGrammar} zeigt die Grammatik und die \enword{Stack}-Maschine für die Ausführung von \enword{Keywords}. Es wird auf einzelne Implementierungsdetails detailliert eingegangen.  
+Diese Kapitel beschreibt die Implementierung von ausgewählten Komponenten des Rayden-System. Die Abschnitte \ref{cha:KeywordGrammar} und \ref{cha:StackMachine} zeigen die Grammatik und die \enword{Stack}-Maschine für die Ausführung von \enword{Keywords}. Die Abschnitte enthalten Codeauschnitte der Implementierung und Teile der xText-Grammtik.
 
 \SuperPar
-Im zweiten Abschnitt \ref{cha:Eval} wird der Aufbau von Ausdrücken beschrieben. Beendet wird dieser Abschnitt mit einem Auszug aus der \enword{RaydenExpressionEvaluator} Klasse, welche für die Auswertung der Ausdrücke zuständig ist. 
+Der Abschnitt \ref{cha:Eval} befasst sich mit der Umsetzung von Ausdrücken im Rayden-System. Dazu werden in diesem Abschnitt Auszüge der Grammatik und Teile der \enword{RaydenExpressionEvaluator} Klasse erklärt. Die Klasse \enword{RaydenExpressionEvaluator} ist für die Auswertung der Ausdrücke zuständig. 
 
 \SuperPar
-Danach wird in Abschnitt \ref{cha:validateKeyword} die Validierung von Rayden-Tests gezeigt. Dafür wird das Validierungssystem von \enword{xText verwendet}. Abgeschlossen wird diese Kapitel mit dem Abschnitt \ref{cha:implementJSA}, welcher zeigt, wie die Integration des Rayden-Systems in das \enword{Java-Scripting-API} umgesetzt worden ist. 
+Im Abschnitt \ref{cha:validateKeyword} wird die Validierung von Rayden-Tests gezeigt. Dafür wird das Validierungssystem von \enword{xText} verwendet. Abgeschlossen wird diese Kapitel mit dem Abschnitt \ref{cha:implementJSA}, welcher die Integration des Rayden-Systems in das \enword{Java-Scripting-API} zeigt. 
 
 %%------------------------------------------------------------------------------------------------------
 
@@ -118,8 +118,10 @@ Der Codeausschnitt \ref{prog:evaluator} enthählt am Ende die Implementierung de
 
 %%------------------------------------------------------------------------------------------------------
 \clearpage
-\section{Überprüfung der \enword{Keyword}-Referenzen}
+\section{Validierung eines Rayden-Tests}
 \label{cha:validateKeyword}
+
+Um die Entwicklung und Wartung von Rayden-Tests zu unterstützen wurden neben einer syntaktischen Validierung von Tests auch zusätzliche Validierungen hinzugefügt. Für die Umsetzung der Validierungen wurde eine Schnittstelle des \enword{xText-Framworks} verwendet. Nachdem eine Datei erfolgreich durch den \enword{xText-Compiler} geladen werden konnte, können zusätzliche Validierungen vorgenommen werden. Der Vorteil bei diesem Vorgehen ist, dass in dieser Phase bereits das gesamte \enword{ECore}-Modell geladen worden ist. Die Validierungen können somit für Überprüfungen auf das gesamte Modell zugreifen. In dieser Phase ist auch schon sichergestellt, dass es keinen syntaktischen Fehler mehr gibt, da diese Fehler bereits im \enword{Compiler} auftreten.
 
 \begin{program}
 \lstinputlisting{samplecode/Validator.java}
@@ -127,10 +129,28 @@ Der Codeausschnitt \ref{prog:evaluator} enthählt am Ende die Implementierung de
 \label{prog:validator}
 \end{program}
 
+\SuperPar
+Um Validierungen implementieren zu können wird von \enword{xText} ein Klasse generiert, welche mit \enword{JavaValidator} endet. Im Fall von Rayden heißt die Klasse \enword{RaydenDSLJavaValidator}. In dieser Klasse können nun sprachspezfische Validierungen hinzugefügt werden. Jede Methode in dieser Klasse, welche mit einer \enword{@Check} Annotation gekennzeichnet ist, wird als Validierung ausgeführt. 
+
+\SuperPar
+Das Codebeispiel \ref{prog:validator} zeige eine Validierung für die Verwendung von \enword{Keywords}. Diese Validierung wird für alle \enword{KeywordCall} Modellelemente aufgerufen. Ein \enword{KeywordCall} stellt einen Aufruf von einem \enword{Keyword} dar. Die Validierung überprüft, ob für jeden Aufruf von einem \enword{Keyword} auch eine Implementierung vorhanden ist. Das Traversieren des Modell und suchen alle Modellelementen entfällt, da diese Aufgabe vom \enword{xText-Framework} durchgeführt wird.
+
+\SuperPar
+Im ersten Schirtt überprüft die Validierung aus dem Codebeispiel \ref{prog:validator} ob es sich um ein \enword{Inline-Keyword} handelt. Falls das \enword{KeywordCall}-Modellelement ein \enword{Inline-Keyword} repräsentiert, kann die Validierung beendet werden, da ein \enword{Inline-Keyword} direkt in einem \enword{KeywordCall}-Element implementiert ist. Falls es sich nicht um ein \enword{Inline-Keyword} handelt, werden im nächsten Schritt mithilfe der \enword{Lookup}-Tabellen gesucht, ob eine Implementierung für das \enword{Keyword} vorhanden ist. Wurde keine Implementierung gefunden, wird eine Warnung ausgegeben. Das Fehlen einer Implementierung liefert nur eine Warnung. Würde diese Validierung einen Fehler liefern, würde der \enword{Compiler} mit diesem Fehler abbrechen und es können keine Tests ausgeführt werden, obwohl diese nicht von dem Fehler betroffen wären. Diese Warnung soll vielmehr eine Unterstützung für die Testerinnen und Tester sein um fehlende \enword{Keyword}-Implementierungen zu finden.
+
 %%------------------------------------------------------------------------------------------------------
 
-\section{Implementierung der \enword{Java-Scripting-API}}
+\section{Integration von Rayden in das \enword{Java-Scripting-API}}
 \label{cha:implementJSA}
+
+Das Rayden-System besitzt eine Integration in das \enword{Java-Scripting-API}. Das \enword{Java-Scripting-API} ist eine standardisierte Schnittstelle für das Ausführen von Skriptsprachen in \enword{Java}. Über diese Schnittstellen kann direkt in einem \enword{Java}-Programm ein Skript in einer beliebigen Sprache ausführen. Die einzige Einschränkung dabei ist, dass für die Skriptsprache eine \enword{ScriptEngineFactory} registriert worden ist. Das \enword{Java-Scripting-API} ist vergleichbar mit der \enword{Dynamic Language Runtime} \cite{DLR} in \enword{Microsoft .Net}. Mit der \enword{Dynamic Language Runtime} ist es zum Beispiel in \enword{C\#} möglich, ein Python-Skript \cite{Python} auszuführen.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{ScriptEngineFactory.png}
+\caption{ScriptEngineFactory UML-Klassendiagramm}
+\label{fig:scriptEngineFactoryUml}
+\end{figure}
 
 \begin{program}
 \lstinputlisting{samplecode/ScriptEngine.java}
@@ -138,5 +158,42 @@ Der Codeausschnitt \ref{prog:evaluator} enthählt am Ende die Implementierung de
 \label{prog:scriptEngine}
 \end{program}
 
-\todo
+\SuperPar
+Für die Integration einer neuen Skriptsprache in das \enword{Java-Scripting-API} muss man die Schnittstellen \enword{javax.script.ScriptEngineFactory} und \enword{javax.script.ScriptEngine} implementieren. Diese beiden Schnittstellen bilden das Bindeglied zwischen der \enword{Java}- und der Skriptsprachen-Welt. Die \enword{ScriptEngineFactory}-Schnittstelle liefert Metadaten zu einer Skriptsprache wie den Namen oder die Versionsnummer. Einen Überblick über die Schnittstelle gibt die Abbildung \ref{fig:scriptEngineFactoryUml}. Die wichtigste Methode der Schnittstelle ist aber \enword{getScriptEngine()}. Diese Methode liefert ein \enword{Script-Engine}-Objekt.
 
+\SuperPar
+Über ein \enword{Script-Engine}-Objekt können Skripts ausgeführt werden. Für die Ausführung stehen unterschiedliche Ausprägungen der Methode \enword{eval()} zur Verfügung. Der Skriptcode kann entweder als Zeichenkette oder als \enword{Reader} übergeben werden. Mit einem \enword{Reader} kann man ein Skript direkt aus einer Datei einlesen. Der Codeauszug \ref{prog:scriptEngine} zeigt die Hauptimplementierung der \enword{eval()} Methode aus der \enword{RaydenScriptEngine}-Klasse. Zu Beginn der Methode wird die Rayden-\enword{Runtime} instanziiert und initialisiert. Die \enword{Runtime} wird benötigt, um einen Rayden-Test ausführen zu können. Im näcshten Schritt wird überprüft, ob ein spezieller \enword{Reporter} verwendet werden soll. Standardmäßig wird die \enword{RaydenXMLReporter}-Implementierung verwendet, welche die gesamte Ausgaben einer Test-Ausführung in eine XML-Datei protokolliert. 
+
+\SuperPar
+Damit man in einem Rayden-Test eine Bibliothek verwenden kann, ist es für die \enword{Runtime} entscheiden, dass spezifiziert ist, wo die Bibliotheken gefunden werden. Dafür wird ein Arbeitsbereich (\enword{Working Folder}) definiert, in welchem Bibliotheken und andere externe Ressourcen gesucht werden. Der Arbeitsbereich ist standardmäßig das Ausführungsverzeichnis der Java-Anwendung. Der Wert kann aber über einen Kontextparameter verändert werden. Kontextparameter werden verwendet um Parameter an die \enword{Script Engine} übergeben zu können. 
+
+\begin{program}
+\lstinputlisting{samplecode/RuntimeLoadFile.java}
+\caption{Laden von Rayden-Dateien}
+\label{prog:loadFile}
+\end{program}
+
+\SuperPar
+Nachdem alle Einstellungen für die Rayden-\enword{Runtime} vorgenommen worden sind, wird das Skript mit allen Abhängigkeiten geladen. Dazu wird das Skript mit der Methode \enword{loadRaydenFile()} geladen. Die Implementierung der Methode zeigt der Codeauszug \ref{prog:loadFile}. Wie der Codeauszug zeigt, gibt es zwei Methoden für das Laden von Rayden-Dateien. Die erste Methode \enword{loadRaydenFile()} ist für das Laden der primären Rayden-Datei zuständig. Mit der zweiten Methode \enword{loadLibraryFile()} werden Bibliotheken geladen. Der Hauptgrund für die zwei unterschiedlichen Methoden ist der, dass es zwei \enword{Lookup}-Tabellen für \enword{Keywords} vorhanden sind. Es werden alle \enword{Keywords} aus der primären Rayden-Datei in eine spezielle \enword{Lookup}-Tabelle geladen, dass nur \enword{Keywords} aus dieser Datei ausgeführt werden können.
+
+\SuperPar
+Zum Laden der Rayden-Datei wird der generierte xText-\enword{Parser} verwendet. Im nächsten Schritt wird das Ergebnis des \enword{Parser} überprüft, ob ein Syntaxfehler aufgetreten ist. Bei einem Fehler wird die Ausführung sofort beendet. Konnte die Datei ohne Fehler geladen werden, liefert der \enword{Parser} eine Instanz des \enword{ECore}-Modells. Es wird das Modell durchlaufen und alle \enword{Keywords} die gefunden werden in die \enword{Lookup}-Tabelle gespeichert. Im letzten Schritt werden noch alle Bibliotheken geladen. Das Laden einer Bibliothek funktioniert identisch wie das laden der primären Rayden-Datei, nur wird in diesem Fall die \enword{Keywords} in eine andere \enword{Lookup}-Tabelle gespeichert. 
+
+\SuperPar
+Nachdem das Skript und alle externe Ressourcen erfolgreich geladen worden sind, können die Rayden-Tests ausgeführt werden. Dazu stellt die Rayden-\enword{Runtime} die Methode \enword{executeAllTestSuites()} zur Verfügung. Die Methode sucht in der primären \enword{Lookup}-Tabelle nach \enword{Keywords} mit einem Testtypen. Die Rayden-Sprache unterstützt folgende Testtypen:
+
+\begin{itemize}
+\item Test-Suite (\enword{TestSuite}),
+\item Testfall (\enword{TestCase}),
+\item Komponententest (\enword{UnitTest}),
+\item Integrationstest (\enword{IntegrationTest}),
+\item Schnittstellentest (\enword{APITest}),
+\item Automatisierter Abnahme-Test (\enword{AUTest}) und
+\item Manueller Abnahme-Test (\enword{MAUTest}).
+\end{itemize}
+
+\SuperPar
+Alle gefunden Tests werden im nächsten Schritt sequenziell ausgeführt. Als Resultat der Skriptausführung wird das kumuliere Ergebnis der ausgeführten Tests geliefert. Das Ergebnis kann dann entweder in der Java-Anwendung oder nachträglich über die XML-Datei ausgewertet werden.
+
+\SuperPar
+In diesem Kapitel wurden einige essentielle Komponenten des Rayden-Systems gezeigt und wie die Komponenten umgesetzt worden sind. Im nächsten Kapitel \ref{cha:Testen} wird gezeigt, wie man Tests mit dem Rayden-System schreiben kann. Dazu werden unterschiedliche Test-Methoden verwendet um die Stärken von Rayden zu zeigen.

@@ -1,0 +1,20 @@
+﻿https://creately.com/app/?tempID=hh6s70gb&login_type=demo#
+
+<<Interface>>
+ScriptEngineFactory
+--
++ getEngineName() : String
++ getEngineVersion() : String
++ getExtensions() : List<String>
++ getLanguageName() : String
++ getLanguageVersion() : String
++ getMethodCallSyntax(String, String, String...) : String
++ getMimeTypes() : List<String>
++ getNames() : List<String>
++ getOutputStatement(String) : String 
++ getParameter(String) : Object
++ getProgram(String...) : String
++ getScriptEngine() : ScriptEngine
+
+
+

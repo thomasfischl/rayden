@@ -15,6 +15,7 @@ uatest Add new pet owner {
 	@PetClinicWeb.Edit Owner Page.Address :: Type Text (address)	
 	@PetClinicWeb.Edit Owner Page.City :: Type Text (city)	
 	@PetClinicWeb.Edit Owner Page.Telephone :: Type Text (telephone)	
+	@PetClinicWeb.Find Owner Page.Add Owner :: Click
 	
 	Cleanup Browser
 }

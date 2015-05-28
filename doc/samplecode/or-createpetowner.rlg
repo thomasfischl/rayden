@@ -19,17 +19,11 @@ objectrepository PetClinic {
     
     page Edit Owner Page {
       control Title { location "//h2" }
-      
       textfield First Name { location "//*[@id='firstName']" }
-
       textfield Last Name { location "//*[@id='lastName']" }
-
       textfield Address { location "//*[@id='address']" }
-
       textfield City { location "//*[@id='city']" }
-
       textfield Telephone{ location "//*[@id='telephone']" }
-      
       button Add Owner { location "//button[text() = 'Add Owner']" }
     }
     

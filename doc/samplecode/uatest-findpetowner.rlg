@@ -1,10 +1,10 @@
 uatest Find a pet owner and check the details {
-	parameter in petOwner as string
-
 	Prepare Browser
-	@PetClinicWeb.Home :: Click
-	Find a specific Pet Owner(petOwner)
-	Check Owner Details ("Betty Davis", "638 Cardinal Ave.", "Sun Prairie", "6085551749")
+	
+	Find a specific Pet Owner("Davis")
+	Check Owner Details ("Betty Davis", "638 Cardinal Ave.", 
+	                     "Sun Prairie", "6085551749")
+	
 	Cleanup Browser
 }
 

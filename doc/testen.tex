@@ -157,31 +157,49 @@ Wenn mehrere Schnittstellen dieser Art getestet werden, ist es sinnvoll, dass ma
 %%------------------------------------------------------------------------------------------------------
 \section{Abnahmetests}
 \label{cha:TestenUA}
-\todo 
 
-\clearpage
+In diesem Abschnitt wird die letzte Testmethode für die Evaluierung erläutert. Dabei handelt es sich um Abnahmetests, die wohl wichtigste Testmethode für das Rayden-System. Ein Großteil des Rayden-System ist primär für die Unterstützung dieser Testmethode entwickelt worden. Aus diesem Grund enthält dieser Abschnitt auch zwei Umsätzungen von Testmethoden mit Rayden. Als erstes wird der Testfall \enword{Suchen nach einen Tierbesitzer} \ref{cha:TestenUA1} umgesetzt. Bei diesem Testfall wird die Suche der \enword{Petclinic}-Anwendung getestet. Im zweiten Testfall \ref{cha:TestenUA2} wird das Anlegen eines neuen Tierbesitzers gezeigt. 
+
+\SuperPar
+Für das Steuern der Browser wurde für beide Abnahmetests die Selenium-Bibliothek verwendet. Aus diesem Grund wird im dritten Teil \ref{cha:TestenSelenium} dieses Abschnittes die Bindung zwischen dem Rayden-System und der Selenium-Bibliothek gezeigt. 
+
 %%------------------------------------------------------------------------------------------------------
 
 \subsection{Abnametest \enword{Suchen nach einen Tierbesitzer}}
+\label{cha:TestenUA1}
+
+Bei dem  Abnahmetest im Codeausschnitt \ref{prog:uatest-find} wird die Suchfunktion der \enword{Petclinic}-Anwendung getestet. Dafür wird der Testfall als erstes in zwei \enword{Compound-Keywords} \enword{Find a specific Pet Owner} und \enword{Check Owner Details} aufgeteilt. Neben den beiden \enword{Keywords} werden noch zwei weiter \enword{Keywords} \enword{Prepare Browser} und \enword{Cleanup Browser}  benötigt, welche für das Starten und Stop des Browsers zuständig sind. 
 
 \begin{program}
 \lstinputlisting{samplecode/uatest-findpetowner.rlg}
-\caption{Codeauszug: \enword{Suchen nach einen Tierbesitzer}}
+\caption{Abnametests: \enword{Suchen nach einen Tierbesitzer}}
 \label{prog:uatest-find}
 \end{program}
+
 
 \begin{program}
 \lstinputlisting{samplecode/or-findpetowner.rlg}
 \caption{Codeauszug aus dem \enword{Object-Repository} für den Testfall \enword{Suchen nach einen Tierbesitzer}}
-\label{prog:uatest-find}
+\label{prog:or-find}
 \end{program}
 
-\todo
+\SuperPar
+Das \enword{Keyword} \enword{Find a specific Pet Owner} führt die Suche nach einem Tierbesitzer mit dem Name \enword{Davis} aus. Dafür navigiert das \enword{Keyword} auf die Seite für Tierbesitzer und startet die Suche nach allen Besitzern. Danach werden auf der Ergenbisseite der Suche alle Besitzer aufgelistet, welche in der Anwendung vorhanden sind. Danach wird mithilfe der integrierten Suche nach dem Namen \enword{Davis} gesucht und die Detailseite des Tierbestitzers geöffnet. Wurde die Detailseite erfolgreich geöffnet ist das \enword{Keyword} am Ende. Die Validierung der Daten werden von dem nächsten \enword{Keyword} \enword{Check Owner Details} durchgeführt.
 
-\clearpage
+\SuperPar
+Dem \enword{Keyword} \enword{Check Owner Details} werden die zu überpüfenden Daten als Parameter übergeben. Das \enword{Keyword} überprüft jedes Datum mit dem \enword{Scripted-Keyword} \enword{Verify Text}. Dem \enword{Scripted-Keyword} werden zwei Parameter übergeben. Der erste Parameter ist ein \enword{Locator}, welcher ein Element auf der Webseite definiert. Von diesem Element wird der Text abgefragt und mit dem zweiten Parameter verglichen. Der zweite Parameter ist eine Zeichenkette mit dem erwarteten Wert. Sind die Wert nicht gleich, wird der Test mit einem Fehler abgebrochen. 
+
+\SuperPar
+Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Objekt-Repository} verwendet. Einen Auszug mit den wichtigisten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzerinnen und Tierbesitzer.
+
+\todo OR - Bild mit Ergebnis Webseite hinzufügen
+
 %%------------------------------------------------------------------------------------------------------
 
 \subsection{Abnametest \enword{Anlegen eines neuen Tierbesitzer}}
+\label{cha:TestenUA2}
+
+Der zweite Abnahmetest testet den Anwendungsfall \enword{Anlegen eines neuen Tierbesitzer}. Diese Abnahmetest wird direkt im Abnahmetest-\enword{Keyword} ausspezifiziert. Als erstes wird wiederum die Testumgebung mit dem \enword{Keyword} {Preapre Browser} vorbereit. Im nächsten Schritt navigiert der Test auf die Tierbesitzerseite und klick auf die \enword{Add Owner} Schlatfläche. 
 
 \begin{program}
 \lstinputlisting{samplecode/uatest-createpetowner.rlg}
@@ -189,10 +207,13 @@ Wenn mehrere Schnittstellen dieser Art getestet werden, ist es sinnvoll, dass ma
 \label{prog:uatest-create}
 \end{program}
 
+\SuperPar
+Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. 
+
 \begin{program}
 \lstinputlisting{samplecode/or-createpetowner.rlg}
 \caption{Codeauszug aus dem \enword{Object-Repository} für den Testfall \enword{Anlegen eines neuen Tierbesitzer}}
-\label{prog:uatest-find}
+\label{prog:or-create}
 \end{program}
 
 \todo
@@ -201,6 +222,7 @@ Wenn mehrere Schnittstellen dieser Art getestet werden, ist es sinnvoll, dass ma
 %%------------------------------------------------------------------------------------------------------
 
 \subsection{Selenium \enword{Keywords}}
+\label{cha:TestenSelenium}
 
 \begin{program}
 \lstinputlisting{samplecode/selenium.rlg}

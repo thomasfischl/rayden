@@ -1,6 +1,6 @@
 package com.github.thomasfischl.rayden.api;
 
-public interface IRaydenExtReporter extends IRaydenReporter {
+public interface RaydenExtReporter extends RaydenReporter {
 
   void reportKeywordBegin(String name);
 

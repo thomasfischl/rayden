@@ -2,7 +2,7 @@ package com.github.thomasfischl.rayden.api.keywords;
 
 import java.util.Set;
 
-public interface IKeywordScope {
+public interface KeywordScope {
 
   Object getVariable(String name);
 

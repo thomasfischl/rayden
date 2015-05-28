@@ -1,6 +1,6 @@
 package com.github.thomasfischl.rayden.api;
 
-public interface IRaydenReporter {
+public interface RaydenReporter {
 
   void log(String msg);
 

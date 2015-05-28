@@ -1,14 +1,14 @@
 package com.github.thomasfischl.rayden.runtime.keywords.impl;
 
-import com.github.thomasfischl.rayden.api.IRaydenReporter;
-import com.github.thomasfischl.rayden.api.keywords.IKeywordScope;
-import com.github.thomasfischl.rayden.api.keywords.IScriptedKeyword;
+import com.github.thomasfischl.rayden.api.RaydenReporter;
+import com.github.thomasfischl.rayden.api.keywords.KeywordScope;
+import com.github.thomasfischl.rayden.api.keywords.ScriptedKeyword;
 import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
 
-public class TestKeyword implements IScriptedKeyword {
+public class TestKeyword implements ScriptedKeyword {
 
   @Override
-  public KeywordResult execute(String keyword, IKeywordScope scope, IRaydenReporter reporter) {
+  public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
     for (String name : scope.getVariableNames()) {
       reporter.log("Property: " + name + " -> " + scope.getVariable(name));
     }

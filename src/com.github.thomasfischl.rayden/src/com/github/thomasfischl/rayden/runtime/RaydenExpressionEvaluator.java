@@ -2,11 +2,14 @@ package com.github.thomasfischl.rayden.runtime;
 
 import org.eclipse.emf.common.util.EList;
 
+import com.github.thomasfischl.rayden.api.RaydenExpressionLocator;
+import com.github.thomasfischl.rayden.api.RaydenExpressionVariable;
 import com.github.thomasfischl.rayden.raydenDSL.AndExpr;
 import com.github.thomasfischl.rayden.raydenDSL.Expr;
 import com.github.thomasfischl.rayden.raydenDSL.Fact;
 import com.github.thomasfischl.rayden.raydenDSL.LocatorDecl;
 import com.github.thomasfischl.rayden.raydenDSL.LocatorPartDecl;
+import com.github.thomasfischl.rayden.raydenDSL.Model;
 import com.github.thomasfischl.rayden.raydenDSL.NotFact;
 import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositryControlDecl;
 import com.github.thomasfischl.rayden.raydenDSL.OrExpr;
@@ -28,9 +31,12 @@ public class RaydenExpressionEvaluator {
   private final RaydenScriptScope scope;
 
   private String resultType;
+  
+  private Model model;
 
-  public RaydenExpressionEvaluator(RaydenScriptScope scope) {
+  public RaydenExpressionEvaluator(RaydenScriptScope scope, Model model) {
     this.scope = scope;
+    this.model = model;
   }
 
   //
@@ -295,8 +301,6 @@ public class RaydenExpressionEvaluator {
       return eval(expr.getExpr(), resultType);
     } else if (expr.getLocator() != null) {
       return evalLocator(expr.getLocator());
-      // } else if (expr.getSymbol() != null) {
-      // return new RaydenExpressionSymbol(expr.getSymbol());
     } else {
       return expr.getNumber();
     }
@@ -305,7 +309,7 @@ public class RaydenExpressionEvaluator {
   private RaydenExpressionLocator evalLocator(LocatorDecl locatorDecl) {
     String locator = eval(locatorDecl);
 
-    ObjectRepositryControlDecl control = RaydenModelUtils.getControl(locatorDecl);
+    ObjectRepositryControlDecl control = RaydenModelUtils.getControl(locatorDecl, model);
     if (control != null) {
       EList<LocatorPartDecl> parts = locatorDecl.getParts();
       if (control.getName().trim().equals(parts.get(parts.size() - 1).getName().trim())) {
@@ -323,7 +327,12 @@ public class RaydenExpressionEvaluator {
         base = evalLocator((ObjectRepositryControlDecl) control.eContainer());
       }
     }
-    return base + control.getLocation();
+    
+    if(control.getLocation()!=null){
+      return base + control.getLocation();
+    }
+    
+    return base;
   }
 
   //

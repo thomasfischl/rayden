@@ -1,17 +1,17 @@
 package com.github.thomasfischl.rayden.runtime.keywords.impl;
 
-import com.github.thomasfischl.rayden.api.IRaydenReporter;
-import com.github.thomasfischl.rayden.api.keywords.IKeywordScope;
-import com.github.thomasfischl.rayden.api.keywords.IScriptedCompoundKeyword;
+import com.github.thomasfischl.rayden.api.RaydenExpressionVariable;
+import com.github.thomasfischl.rayden.api.RaydenReporter;
+import com.github.thomasfischl.rayden.api.keywords.KeywordScope;
+import com.github.thomasfischl.rayden.api.keywords.ScriptedCompoundKeyword;
 import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
-import com.github.thomasfischl.rayden.runtime.RaydenExpressionVariable;
 
-public class ForKeyword implements IScriptedCompoundKeyword {
+public class ForKeyword implements ScriptedCompoundKeyword {
 
   private String variable;
   private int from;
   private int to;
-  private IKeywordScope scope;
+  private KeywordScope scope;
 
   @Override
   public void handleError(Throwable e) {
@@ -19,7 +19,7 @@ public class ForKeyword implements IScriptedCompoundKeyword {
   }
 
   @Override
-  public void initializeKeyword(String keyword, IKeywordScope scope, IRaydenReporter reporter) {
+  public void initializeKeyword(String keyword, KeywordScope scope, RaydenReporter reporter) {
     this.scope = scope;
 
     variable = scope.getVariable("var", RaydenExpressionVariable.class).getName();

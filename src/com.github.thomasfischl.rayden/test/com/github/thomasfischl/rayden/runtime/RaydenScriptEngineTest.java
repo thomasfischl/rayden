@@ -2,14 +2,26 @@ package com.github.thomasfischl.rayden.runtime;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.script.SimpleScriptContext;
 
 import org.junit.Test;
 
 public class RaydenScriptEngineTest {
+
+  @Test
+  public void testFactory() throws IOException, ScriptException {
+    ScriptEngineManager manager = new ScriptEngineManager();
+    manager.registerEngineName("RaydenLangScriptEngine", new RaydenScriptEngineFactory());
+
+    ScriptEngine engine = manager.getEngineByName("RaydenLangScriptEngine");
+    Object result =  engine.eval(new FileReader("./test/simple-test.rlg"));
+    RaydenScriptResult resultObj = (RaydenScriptResult) result;
+  }
 
   @Test
   public void simpleStringTest() throws ScriptException {

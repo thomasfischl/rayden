@@ -5,12 +5,12 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.Stack;
 
-import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
+import com.github.thomasfischl.rayden.api.RaydenExtReporter;
 import com.github.thomasfischl.rayden.reporting.model.Report;
 import com.github.thomasfischl.rayden.reporting.model.ReportKeyword;
 import com.github.thomasfischl.rayden.reporting.model.ReportMessage.ReportMessageType;
 
-public class RaydenXMLReporter implements IRaydenExtReporter {
+public class RaydenXMLReporter implements RaydenExtReporter {
 
   private Report report;
 

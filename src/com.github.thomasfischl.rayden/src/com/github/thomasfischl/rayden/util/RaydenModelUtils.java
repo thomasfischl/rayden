@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,8 +23,13 @@ import com.github.thomasfischl.rayden.raydenDSL.Model;
 import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositoryDecl;
 import com.github.thomasfischl.rayden.raydenDSL.ObjectRepositryControlDecl;
 import com.github.thomasfischl.rayden.runtime.RaydenRuntime;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
 public class RaydenModelUtils {
+
+  private static LoadingCache<Model, Collection<KeywordDecl>> cache;
 
   public static List<KeywordDecl> getAllKeywords(EObject obj) {
     return getAllKeywords(getRoot(obj));
@@ -39,9 +46,7 @@ public class RaydenModelUtils {
     return keywords;
   }
 
-  public static List<ObjectRepositryControlDecl> getAllApplications(EObject obj) {
-    Model model = getRoot(obj);
-
+  public static List<ObjectRepositryControlDecl> getAllApplications(Model model) {
     List<ObjectRepositryControlDecl> controls = new ArrayList<>();
 
     EList<ObjectRepositoryDecl> ors = model.getObjectrepositories();
@@ -104,31 +109,46 @@ public class RaydenModelUtils {
   }
 
   public static Collection<KeywordDecl> loadImportedKeywords(Model model) {
-    if (model.eResource() != null) {
-      try {
-        RaydenRuntime runtime = RaydenRuntime.createRuntime();
-        File workingFolder = new File(".");
+    if (cache == null) {
+      CacheLoader<Model, Collection<KeywordDecl>> loader = new CacheLoader<Model, Collection<KeywordDecl>>() {
+        @Override
+        public Collection<KeywordDecl> load(Model model) throws Exception {
+          try {
+            RaydenRuntime runtime = RaydenRuntime.createRuntime();
+            File workingFolder = new File(".");
 
-        // define special workspace for eclipse
-        IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(model.eResource().getURI().toPlatformString(true));
-        if (resource != null && resource.getProject() != null) {
-          IProject project = resource.getProject();
-          workingFolder = new File(project.getLocationURI());
+            // define special workspace for eclipse
+            IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(model.eResource().getURI().toPlatformString(true));
+            if (resource != null && resource.getProject() != null) {
+              IProject project = resource.getProject();
+              workingFolder = new File(project.getLocationURI());
+            }
+
+            System.out.println("Set working folder: " + workingFolder);
+            runtime.setWorkingFolder(workingFolder);
+            runtime.loadRaydenFile(new FileReader(new File(workingFolder, resource.getName())));
+            return runtime.getDefinedImportedKeywords().values();
+          } catch (Exception e) {
+            throw new IllegalStateException(e);
+          }
         }
 
-        System.out.println("Set working folder: " + workingFolder);
-        runtime.setWorkingFolder(workingFolder);
-        runtime.loadRaydenFile(new FileReader(new File(workingFolder, resource.getName())));
-        return runtime.getDefinedImportedKeywords().values();
-      } catch (Exception e) {
-        throw new IllegalStateException(e);
+      };
+      cache = CacheBuilder.newBuilder().expireAfterWrite(10, TimeUnit.SECONDS).maximumSize(10000).build(loader);
+    }
+
+    if (model.eResource() != null) {
+      try {
+        return cache.get(model);
+      } catch (ExecutionException e) {
+        throw new RuntimeException(e);
       }
     }
     return new ArrayList<KeywordDecl>();
   }
 
-  public static ObjectRepositryControlDecl getControl(LocatorDecl locator) {
-    List<ObjectRepositryControlDecl> applications = getAllApplications(locator);
+  public static ObjectRepositryControlDecl getControl(LocatorDecl locator, Model root) {
+    List<ObjectRepositryControlDecl> applications = getAllApplications(root);
     EList<LocatorPartDecl> parts = locator.getParts();
 
     for (ObjectRepositryControlDecl application : applications) {

@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.github.thomasfischl.rayden.api.keywords.IKeywordScope;
-import com.github.thomasfischl.rayden.api.keywords.IScriptedCompoundKeyword;
+import com.github.thomasfischl.rayden.api.keywords.KeywordScope;
+import com.github.thomasfischl.rayden.api.keywords.ScriptedCompoundKeyword;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordCall;
 import com.github.thomasfischl.rayden.raydenDSL.KeywordDecl;
 
-class RaydenScriptScope implements IKeywordScope {
+class RaydenScriptScope implements KeywordScope {
   private int curpos = 0;
   private final KeywordDecl keyword;
   private final KeywordCall keywordCall;
   private final List<KeywordCall> list;
   private final RaydenScriptScope parent;
   private final Map<String, Object> variables = new HashMap<>();
-  private IScriptedCompoundKeyword scriptedCompoundKeyword;
+  private ScriptedCompoundKeyword scriptedCompoundKeyword;
 
   public RaydenScriptScope(RaydenScriptScope parent, KeywordCall keywordCall, KeywordDecl keyword) {
     super();
@@ -65,11 +65,11 @@ class RaydenScriptScope implements IKeywordScope {
     return keywordCall;
   }
 
-  public void setScriptedCompoundKeyword(IScriptedCompoundKeyword scriptedCompoundKeyword) {
+  public void setScriptedCompoundKeyword(ScriptedCompoundKeyword scriptedCompoundKeyword) {
     this.scriptedCompoundKeyword = scriptedCompoundKeyword;
   }
 
-  public IScriptedCompoundKeyword getScriptedCompoundKeyword() {
+  public ScriptedCompoundKeyword getScriptedCompoundKeyword() {
     return scriptedCompoundKeyword;
   }
 
@@ -145,4 +145,7 @@ class RaydenScriptScope implements IKeywordScope {
     return variables.keySet();
   }
 
+  public RaydenScriptScope getParent() {
+    return parent;
+  }
 }

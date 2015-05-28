@@ -1,14 +1,14 @@
 package com.github.thomasfischl.rayden.runtime.keywords.impl;
 
-import com.github.thomasfischl.rayden.api.IRaydenReporter;
-import com.github.thomasfischl.rayden.api.keywords.IKeywordScope;
-import com.github.thomasfischl.rayden.api.keywords.IScriptedKeyword;
+import com.github.thomasfischl.rayden.api.RaydenReporter;
+import com.github.thomasfischl.rayden.api.keywords.KeywordScope;
+import com.github.thomasfischl.rayden.api.keywords.ScriptedKeyword;
 import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
 
-public class UnimplementedKeyword implements IScriptedKeyword {
+public class UnimplementedKeyword implements ScriptedKeyword {
 
   @Override
-  public KeywordResult execute(String keyword, IKeywordScope scope, IRaydenReporter reporter) {
+  public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
     reporter.log("Unimplemented Keyword");
     return new KeywordResult(false);
   }

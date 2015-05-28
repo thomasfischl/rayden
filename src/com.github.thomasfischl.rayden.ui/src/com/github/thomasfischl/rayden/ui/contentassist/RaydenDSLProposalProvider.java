@@ -45,7 +45,7 @@ public class RaydenDSLProposalProvider extends com.github.thomasfischl.rayden.ui
     if (model instanceof LocatorDecl) {
       LocatorDecl locator = (LocatorDecl) model;
 
-      ObjectRepositryControlDecl control = RaydenModelUtils.getControl(locator);
+      ObjectRepositryControlDecl control = RaydenModelUtils.getControl(locator, RaydenModelUtils.getRoot(locator));
       if (control != null) {
         System.out.println(control);
 
@@ -53,7 +53,7 @@ public class RaydenDSLProposalProvider extends com.github.thomasfischl.rayden.ui
           generateProposals(context, acceptor, ctrl, "");
         }
       } else {
-        List<ObjectRepositryControlDecl> applications = RaydenModelUtils.getAllApplications(model);
+        List<ObjectRepositryControlDecl> applications = RaydenModelUtils.getAllApplications(RaydenModelUtils.getRoot(locator));
         for (ObjectRepositryControlDecl applicatoin : applications) {
           generateProposals(context, acceptor, applicatoin, "");
         }

@@ -1,8 +1,8 @@
 package com.github.thomasfischl.rayden.runtime;
 
-import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
+import com.github.thomasfischl.rayden.api.RaydenExtReporter;
 
-public class RaydenReporter implements IRaydenExtReporter {
+public class RaydenReporter implements RaydenExtReporter {
 
   private int indentation;
 

@@ -1,13 +1,13 @@
 package com.github.thomasfischl.rayden.runtime.keywords.impl;
 
-import com.github.thomasfischl.rayden.api.IRaydenReporter;
-import com.github.thomasfischl.rayden.api.keywords.IKeywordScope;
-import com.github.thomasfischl.rayden.api.keywords.IScriptedCompoundKeyword;
+import com.github.thomasfischl.rayden.api.RaydenReporter;
+import com.github.thomasfischl.rayden.api.keywords.KeywordScope;
+import com.github.thomasfischl.rayden.api.keywords.ScriptedCompoundKeyword;
 import com.github.thomasfischl.rayden.api.keywords.KeywordResult;
 
-public class IfKeyword implements IScriptedCompoundKeyword {
+public class IfKeyword implements ScriptedCompoundKeyword {
 
-  private IKeywordScope scope;
+  private KeywordScope scope;
 
   @Override
   public void handleError(Throwable e) {
@@ -15,7 +15,7 @@ public class IfKeyword implements IScriptedCompoundKeyword {
   }
 
   @Override
-  public void initializeKeyword(String keyword, IKeywordScope scope, IRaydenReporter reporter) {
+  public void initializeKeyword(String keyword, KeywordScope scope, RaydenReporter reporter) {
     this.scope = scope;
   }
 

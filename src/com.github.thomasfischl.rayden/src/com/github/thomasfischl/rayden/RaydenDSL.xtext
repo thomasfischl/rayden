@@ -118,7 +118,7 @@ LocatorPartDecl:
 ;
 
 ParameterDecl:
-	'parameter' ('in' | 'out' | 'inout')? name=IDEXT
+	'parameter' (dir='in' | dir='out' | dir='inout')? name=IDEXT
 	('as'
 		(
 			type='number'   | 
@@ -126,7 +126,7 @@ ParameterDecl:
 			type='boolean'  | 
 			type='variable' |
 			type='location'  |
-			type='enumeration' '(' values+=IDEXT (',' values+=IDEXT)+ ')'			
+			type='enumeration' '(' values+=IDEXT ('|' values+=IDEXT)+ ')'			
 		)
 	)?;
 

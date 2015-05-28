@@ -10,7 +10,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 
-import com.github.thomasfischl.rayden.api.IRaydenExtReporter;
+import com.github.thomasfischl.rayden.api.RaydenExtReporter;
 
 public class RaydenScriptEngine extends AbstractScriptEngine {
 
@@ -20,13 +20,13 @@ public class RaydenScriptEngine extends AbstractScriptEngine {
 
   private ScriptEngineFactory factory;
 
-  private IRaydenExtReporter reporter;
+  private RaydenExtReporter reporter;
 
   public RaydenScriptEngine(ScriptEngineFactory factory) {
     this.factory = factory;
   }
 
-  public void setReporter(IRaydenExtReporter reporter) {
+  public void setReporter(RaydenExtReporter reporter) {
     this.reporter = reporter;
   }
 

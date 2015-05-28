@@ -1,0 +1,37 @@
+objectrepository PetClinic {
+
+	application PetClinicWeb {
+		location absolute "//body"
+		
+		button Find Owners {
+			location "//ul[contains(@class, 'nav')]/li[2]/a"
+		}
+		
+		...
+		
+		page Find Owners Result Page{
+			control Title { location "//h2" }
+			
+			textfield Search {
+				location "//div[@id='owners_filter']/label/input"
+			}
+			
+			list Result {
+				location absolute "//*[@id='owners']"
+				control Item { location "/tbody/tr[1]//a" }
+			}
+		}
+		
+		page Owner Detail Page {
+			location "/div/table[1]"
+			
+			control Title { location absolute "//body/div/h2[1]" }
+			control Name { location "/tbody/tr[1]/td" }
+			control Address { location "/tbody/tr[2]/td" }
+			control City { location "/tbody/tr[3]/td" }
+			control Telephone { location "/tbody/tr[4]/td" }
+		}
+		
+		...
+	}
+}

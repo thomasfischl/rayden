@@ -1,0 +1,36 @@
+keyword Open Browser  {
+	parameter in browserType as string
+	parameter in url as string
+
+	implemented in java -> "petclinic.selenium.OpenBrowserKeyword"
+}
+
+keyword Click {
+	parameter in locator as location
+  
+	implemented in java -> "petclinic.selenium.ClickKeyword"
+}
+
+keyword Type Text  {
+	parameter in locator as location
+	parameter in text as string
+
+	implemented in java -> "petclinic.selenium.TypeTextKeyword"
+}
+
+keyword Close Browser  {
+	implemented in java -> "petclinic.selenium.CloseBrowserKeyword"
+}
+
+keyword Verify Text  {
+	parameter in locator as location
+	parameter in text as string
+
+	implemented in java -> "petclinic.selenium.VerifyTextKeyword"
+}
+
+keyword Count {
+	parameter in locator as location
+	parameter out itemCount as number
+	implemented in java -> "petclinic.selenium.CountKeyword"
+}

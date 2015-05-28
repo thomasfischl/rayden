@@ -3,29 +3,272 @@
 
 Es wird gezeigt, wie man ein Testprojekt mithilfe von Rayden umsetzten kann. Dabei wird eine einfache Webanwendung getestet. Zum Beispiel ein Rechner oder kleine Task Anwendung. Dafür werden alle Ebenen von funktionalen Tests durchgeführt.
 
+%%------------------------------------------------------------------------------------------------------
 
-\section{Projektbeschreibung}
+\section{Beispielanwendung}
 
-Spring Pet Clinic!
-https://github.com/spring-projects/spring-petclinic/
+Für das Evaluieren des Rayden-Systems wird eine Anwendung zum Test benötigt. Bei der Anwendung sollte es sich um eine Webanwendung handeln, um die Unterstützung von Selenium zeigen zu können. Für die Evaluierung hat man sich für die \enword{PetClinic}-Webanwendung entschieden, welche eine Beispielanwendung des Spring-Projekts ist. Die Anwendung mit allen Ressourcen ist öffentlich auf Github unter der Adresse \enword{https://github.com/spring-projects/spring-petclinic/} zugänglich.
 
-TODO !!!
+\begin{figure}
+\centering
+\includegraphics[width=0.9\textwidth]{petclinic.png}
+\caption{Startseite der Webanwendung PetClinic}
+\label{fig:petClinicPage}
+\end{figure}
 
+\SuperPar
+Bei der \enword{PetClinic}-Anwendung handelt es sich um eine Verwaltungssoftware für eine Tierklinik. Mit der Anwendung können Besuche bei einem Tierarzt protokolliert werden. Dazu gehört die Erfassung der Tierbesitzer mit ihren Haustieren. Zu jedem Haustier werden alle Arztbesuche gespeichert, damit der Krankheitsverlauf dokumentiert ist. Neben den Besitzer und ihren Tieren werden Tierärztinnen und Tierärzte verwaltet. 
+
+\SuperPar
+Da der Funktionsumfang der Anwendung überschaubar ist, eignet sich diese ausgezeichnet als Beispielanwendung für die Evaluierung des Rayden-System. In den nächsten Abschnitten werden Test mit unterschiedlichen Testmethoden für die \enword{PetClinic}-Anwendung gezeigt.
+
+\SuperPar
+In den folgenden Abschnitte \ref{cha:TestenUnit}, \ref{cha:TestenApi} und \ref{cha:TestenUA} werden Tests für die \enword{Petclinic}-Anwendung vorgestellt. Diese Tests wurden mit drei unterschiedlichen Testmethoden umgesetzt um zu zeigen, wie man die Testmethoden mit dem Rayden-System vereinen kann.
+
+%%------------------------------------------------------------------------------------------------------
 \section{Komponententests}
+\label{cha:TestenUnit}
 
-TODO !!!
+Dieser Abschnitt zeigt die Umsetzung eines Komponententests mit dem Rayden-System. Für einen Komponententest wir in Rayden zuerst ein \enword{Keyword} angelegt. Der Codeauszug \ref{prog:unitTest} zeigt die Definition des \enword{Keywords}. Ein Komponententest wird normalerweise als \enword{Scripted-Keyword} umgesetzt und mit dem \enword{Keyword}-Typ \enword{unittest} gekennzeichnet. In diesem Beispiel wird die Komponente \enword{PetTypeFormatter} getestet. Die Komponente ist in der Webanwendung dafür verantwortlich, aus einer Zeichenkette das dazugehörige Domänenobjekt zu liefern und umgekehrt. 
 
-\section{Integrationstests}
+\begin{program}
+\begin{JavaCode}
+unittest Test PetTypeFormatter {
+	''' This unittest verifies the functionality of the 
+	    formatter class PetTypeFormatter '''
+	implemented in java -> "petclinic.TestPetTypeFormatterKeyword"
+}
+\end{JavaCode}
+\caption{Komponententest \enword{Test PetTypeFormatter}}
+\label{prog:unitTest}
+\end{program}
 
-TODO !!!
+\SuperPar
+Der Codeausschnitt \ref{prog:unitTestImpl} zeigt die Implementierung des \enword{Scripted-Keywords}. Die Implementierung des Komponententests ist grundlegend gleich mit einem normalen \enword{JUnit}-Test. Die großen Unterschiede sind, dass die Methode nicht mit \enword{@Test} annotiert werden und dass es nur eine Testmethode pro Klasse geben kann. 
 
-\section{Schnittstellentests}
+\begin{program}
+\begin{JavaCode}
+public class TestPetTypeFormatterKeyword implements ScriptedKeyword {
 
-TODO !!!
+  @Override
+  public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
+    ClinicService service = new MockClinicService();
+    PetTypeFormatter formatter = new PetTypeFormatter(service);
 
+    try {
+     Assert.assertEquals("dog", formatter.parse("dog", null).getName());
+     Assert.assertEquals("cat", formatter.parse("cat", null).getName());
+     Assert.assertEquals("fish",formatter.parse("fish",null).getName());
+    } catch (ParseException e) {
+      throw new AssertionError(e);
+    }
+    
+    try {
+      formatter.parse("hamster", null);
+      Assert.fail("No ParseExeption was thrown!");
+    } catch (ParseException e) {
+    }
+
+    try {
+      formatter.parse(null, null);
+      Assert.fail("No ParseExeption was thrown!");
+    } catch (ParseException e) {
+    }
+
+    return new KeywordResult(true);
+  }
+}
+\end{JavaCode}
+\caption{Implementierung des \enword{Test PetTypeFormatter} \enword{Keywords}}
+\label{prog:unitTestImpl}
+\end{program}
+
+\SuperPar
+Eine nützliche Erweiterung des Rayden-Systems in der Zukunft wäre eine bessere Integration mit \enword{Unittest-Frameworks} wie \enword{JUnit} oder \enword{TestNG}.
+
+%%------------------------------------------------------------------------------------------------------
+\section{Schnittstellentest}
+\label{cha:TestenApi}
+
+Bei einem Schnittstellentest werden öffentliche Schnittstellen wie ein \enword{Restful}-Schnittstelle \cite{Rest} getestet. Im Schnittstellentest \ref{prog:integrationTest} wird die \enword{Restful}-Schnittstelle für Tierärzte getestet. Schnittstellentests können entweder als \enword{Compound-Keywords} oder als \enword{Scripted-Keywords} definiert werden. Es hängt ganz davon ab, ob die Implementierung des \enword{Scripted-Keywords} in einem anderen Test wieder verwendet werden kann. 
+
+\begin{program}
+\begin{JavaCode}
+apitest Test Veterinarians Restful Service {
+	'''This keyword checks the restfull service for veterinarian.'''
+	
+	Verify Json("http://localhost:9966/petclinic/vets.json", 
+	            "./demodata/vets.json")
+}
+
+keyword Verify Json {
+  '''The keyword download the content from the given url. A second 
+	   content is loaded from the file. The both contents are parsed
+		 into a JSON object tree. If the two trees were equals, the 
+		 keyword finish successfully'''
+		
+	parameter url
+	parameter file
+
+	implemented in java -> "petclinic.VerifyJsonKeyword"
+}
+\end{JavaCode}
+\caption{Integrationstest \enword{Test Veterinarians Restful Service}}
+\label{prog:integrationTest}
+\end{program}
+
+\SuperPar 
+Bei diesen Beispiel liefert die Schnittstelle das Ergebnis als einen JSON-Text. Um zu Überprüfen ob die Schnittstelle korrekt funktioniert, wird dieser Text mit einem Text aus einer Demodaten-Datei verglichen. Damit der Test erfolgreich durchläuft, müssen die beiden Texte semantisch Gleich sein. Semantisch Gleich heißt bei einem JSON-Text, dass die enthaltenen Daten gleich sein müssen, aber nicht in welcher Reihenfolge diese serialisiert worden sind.
+
+\begin{program}
+\begin{JavaCode}
+public class VerifyJsonKeyword implements ScriptedKeyword {
+  @Override
+  public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
+    String url = scope.getVariableAsString("url");
+    String file = scope.getVariableAsString("file");
+
+    try {
+      CloseableHttpClient client = HttpClientBuilder.create().build();
+      CloseableHttpResponse response = client.execute(new HttpGet(url));
+      if (response.getStatusLine().getStatusCode() != 200) {
+        return new KeywordResult(false);
+      }
+      String json = IOUtils.toString(response.getEntity().getContent());
+
+      JsonParser parser = new JsonParser();
+      JsonElement o1 = parser.parse(json);
+      JsonElement o2 = parser.parse(IOUtils.toString(new FileInputStream(file)));
+
+      return new KeywordResult(o1.equals(o2));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}
+\end{JavaCode}
+\caption{Implementierung des \enword{Verify Json Keywords}}
+\label{prog:integrationTestImpl}
+\end{program}
+
+\SuperPar
+Wenn mehrere Schnittstellen dieser Art getestet werden, ist es sinnvoll, dass man die Funktionalität zum Abfragen und Vergleichen der Daten in ein separates \enword{Keyword} kapselt. Dadurch können andere Tests dieses \enword{Keyword} wiederverwenden. Die Implementierung des \enword{Verify Json Keywords} zeigt das Codebeispiel \ref{prog:integrationTestImpl}. Das Codestück zeigt, dass zuerst über einen \enword{HttpClient} der JSON-Text von einem Server abgefragt wird. Danach wird der JSON-Text mit einem \enword{Parser} in einem Objektbaum transformiert. Dafür wird eine \enword{Parser}-Implementierung aus der \enword{Google-Guava}-Bibliothek verwendet. Der selbe Prozess wird auch mit der Demodaten-Datei durchlaufen. Am Ende gibt es zwei Objektbäume für die JSON-Texte. Für den semantischen Vergleich der beiden Bäume kann die Methode \enword{equals()} der Klasse \enword{JsonElement} verwendet werden. Diese Klasse stammt wiederum aus der \enword{Google-Guava}-Bibliothek.
+
+%%------------------------------------------------------------------------------------------------------
 \section{Abnahmetests}
+\label{cha:TestenUA}
+\todo 
 
-TODO !!!
+\clearpage
+%%------------------------------------------------------------------------------------------------------
+
+\subsection{Abnametest \enword{Suchen nach einen Tierbesitzer}}
+
+\begin{program}
+\lstinputlisting{samplecode/uatest-findpetowner.rlg}
+\caption{Codeauszug: \enword{Suchen nach einen Tierbesitzer}}
+\label{prog:uatest-find}
+\end{program}
+
+\begin{program}
+\lstinputlisting{samplecode/or-findpetowner.rlg}
+\caption{Codeauszug aus dem \enword{Object-Repository} für den Testfall \enword{Suchen nach einen Tierbesitzer}}
+\label{prog:uatest-find}
+\end{program}
+
+\todo
+
+\clearpage
+%%------------------------------------------------------------------------------------------------------
+
+\subsection{Abnametest \enword{Anlegen eines neuen Tierbesitzer}}
+
+\begin{program}
+\lstinputlisting{samplecode/uatest-createpetowner.rlg}
+\caption{Codeauszug: \enword{Anlegen eines neuen Tierbesitzer}}
+\label{prog:uatest-create}
+\end{program}
+
+\begin{program}
+\lstinputlisting{samplecode/or-createpetowner.rlg}
+\caption{Codeauszug aus dem \enword{Object-Repository} für den Testfall \enword{Anlegen eines neuen Tierbesitzer}}
+\label{prog:uatest-find}
+\end{program}
+
+\todo
+
+\clearpage
+%%------------------------------------------------------------------------------------------------------
+
+\subsection{Selenium \enword{Keywords}}
+
+\begin{program}
+\lstinputlisting{samplecode/selenium.rlg}
+\caption{Codeauszug aus der Selenium \enword{Keyword}-Bibliothek}
+\label{prog:selenium}
+\end{program}
+
+
+\begin{program}
+\begin{JavaCode}
+public class OpenBrowserKeyword implements ScriptedKeyword {
+
+	@Override
+	public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
+		String browserType = scope.getVariableAsString("browserType");
+		String url = scope.getVariableAsString("url");
+		WebDriver driver = Selenium.getInstance().initializeDriver(browserType);
+		driver.navigate().to(url);
+		return new KeywordResult(true);
+	}
+}
+\end{JavaCode}
+\caption{Implementierung des \enword{Open Browser Keywords}}
+\label{prog:openBrowserKeyword}
+\end{program}
+
+
+\begin{program}
+\begin{JavaCode}
+public class ClickKeyword implements ScriptedKeyword {
+
+  @Override
+  public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
+    RaydenExpressionLocator locator = (RaydenExpressionLocator) scope.getVariable("locator");
+    reporter.log("Click on '" + locator + "'");
+    Selenium.getInstance().findElement(locator.getEvalLocator()).click();
+    return new KeywordResult(true);
+  }
+}
+\end{JavaCode}
+\caption{Implementierung des \enword{Click Keywords}}
+\label{prog:clickKeyword}
+\end{program}
+
+
+
+\begin{program}
+\begin{JavaCode}
+public class VerifyTextKeyword implements ScriptedKeyword {
+
+  @Override
+  public KeywordResult execute(String keyword, KeywordScope scope, RaydenReporter reporter) {
+    RaydenExpressionLocator locator = (RaydenExpressionLocator) scope.getVariable("locator");
+    String text = scope.getVariableAsString("text");
+    WebElement element = Selenium.getInstance().findElement(locator.getEvalLocator());
+    String elementText = element.getText();
+    reporter.log("Verify Text: '" + text + "'='" + elementText + "'");
+    return new KeywordResult(text.equals(elementText));
+  }
+}
+\end{JavaCode}
+\caption{Implementierung des \enword{Verify Text Keywords}}
+\label{prog:verifyTextKeyword}
+\end{program}
+
+\todo
+
+\clearpage
 
 \section{Testdokumentation}
 

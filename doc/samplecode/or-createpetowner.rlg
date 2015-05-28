@@ -1,0 +1,38 @@
+objectrepository PetClinic {
+
+  application PetClinicWeb {
+    location absolute "//body"
+    
+    ...
+    
+    page Find Owners Page{
+      control Title { location "//h2" }
+      
+      textfield Search Lastname { location "//*[@id='lastName']" }
+      
+      button Find {
+        location "//*[@id='search-owner-form']/fieldset/div[2]/button"
+      }
+      
+      button Add Owner {  location "//a[text() = 'Add Owner']" }
+    } 
+    
+    page Edit Owner Page {
+      control Title { location "//h2" }
+      
+      textfield First Name { location "//*[@id='firstName']" }
+
+      textfield Last Name { location "//*[@id='lastName']" }
+
+      textfield Address { location "//*[@id='address']" }
+
+      textfield City { location "//*[@id='city']" }
+
+      textfield Telephone{ location "//*[@id='telephone']" }
+      
+      button Add Owner { location "//button[text() = 'Add Owner']" }
+    }
+    
+    ...
+  }
+}

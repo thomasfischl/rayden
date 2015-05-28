@@ -1,0 +1,38 @@
+uatest Find a pet owner and check the details {
+	parameter in petOwner as string
+
+	Prepare Browser
+	@PetClinicWeb.Home :: Click
+	Find a specific Pet Owner(petOwner)
+	Check Owner Details ("Betty Davis", "638 Cardinal Ave.", "Sun Prairie", "6085551749")
+	Cleanup Browser
+}
+
+keyword Find a specific Pet Owner {
+	parameter in petOwner as string
+	
+	@PetClinicWeb.Find Owners :: Click
+	@PetClinicWeb.Find Owners Page.Title :: Verify Text("Find Owners")
+	@PetClinicWeb.Find Owners Page.Find :: Click
+	@PetClinicWeb.Find Owners Result Page.Title :: Verify Text("Owners")
+	@PetClinicWeb.Find Owners Result Page.Result:: Count
+	Verify(itemCount, 10)
+	@PetClinicWeb.Find Owners Result Page.Search:: Type Text (petOwner)
+	@PetClinicWeb.Find Owners Result Page.Result :: Count
+	Verify(itemCount, 2)
+	@PetClinicWeb.Find Owners Result Page.Result.Item :: Click
+}
+
+keyword Check Owner Details  {
+
+	parameter name as string
+	parameter address as string
+	parameter city as string
+	parameter telephone as string
+
+	@PetClinicWeb.Owner Detail Page.Title :: Verify Text("Owner Information")
+	@PetClinicWeb.Owner Detail Page.Name :: Verify Text(name)
+	@PetClinicWeb.Owner Detail Page.Address :: Verify Text(address)
+	@PetClinicWeb.Owner Detail Page.City :: Verify Text(city)
+	@PetClinicWeb.Owner Detail Page.Telephone :: Verify Text(telephone)
+}

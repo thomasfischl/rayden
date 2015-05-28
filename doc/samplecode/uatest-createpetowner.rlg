@@ -1,0 +1,20 @@
+uatest Add new pet owner {
+	parameter firstname
+	parameter lastname
+	parameter address
+	parameter city
+	parameter telephone
+
+	Prepare Browser
+	
+	@PetClinicWeb.Find Owners :: Click
+	@PetClinicWeb.Find Owners Page.Add Owner :: Click
+	@PetClinicWeb.Edit Owner Page.Title :: Verify Text ("New Owner")
+	@PetClinicWeb.Edit Owner Page.First Name :: Type Text (firstname)	
+	@PetClinicWeb.Edit Owner Page.Last Name :: Type Text (lastname)	
+	@PetClinicWeb.Edit Owner Page.Address :: Type Text (address)	
+	@PetClinicWeb.Edit Owner Page.City :: Type Text (city)	
+	@PetClinicWeb.Edit Owner Page.Telephone :: Type Text (telephone)	
+	
+	Cleanup Browser
+}

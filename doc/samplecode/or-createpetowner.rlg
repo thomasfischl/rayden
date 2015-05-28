@@ -5,18 +5,6 @@ objectrepository PetClinic {
     
     ...
     
-    page Find Owners Page{
-      control Title { location "//h2" }
-      
-      textfield Search Lastname { location "//*[@id='lastName']" }
-      
-      button Find {
-        location "//*[@id='search-owner-form']/fieldset/div[2]/button"
-      }
-      
-      button Add Owner {  location "//a[text() = 'Add Owner']" }
-    } 
-    
     page Edit Owner Page {
       control Title { location "//h2" }
       textfield First Name { location "//*[@id='firstName']" }

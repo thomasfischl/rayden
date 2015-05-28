@@ -158,7 +158,7 @@ Wenn mehrere Schnittstellen dieser Art getestet werden, ist es sinnvoll, dass ma
 \section{Abnahmetests}
 \label{cha:TestenUA}
 
-In diesem Abschnitt wird die letzte Testmethode für die Evaluierung erläutert. Dabei handelt es sich um Abnahmetests, die wohl wichtigste Testmethode für das Rayden-System. Ein Großteil des Rayden-System ist primär für die Unterstützung dieser Testmethode entwickelt worden. Aus diesem Grund enthält dieser Abschnitt auch zwei Umsätzungen von Testmethoden mit Rayden. Als erstes wird der Testfall \enword{Suchen nach einen Tierbesitzer} \ref{cha:TestenUA1} umgesetzt. Bei diesem Testfall wird die Suche der \enword{Petclinic}-Anwendung getestet. Im zweiten Testfall \ref{cha:TestenUA2} wird das Anlegen eines neuen Tierbesitzers gezeigt. 
+In diesem Abschnitt wird die letzte Testmethode für die Evaluierung erläutert. Dabei handelt es sich um Abnahmetests, die wohl wichtigste Testmethode für das Rayden-System. Ein Großteil des Rayden-System ist primär für die Unterstützung dieser Testmethode entwickelt worden. Aus diesem Grund enthält dieser Abschnitt auch zwei Umsetzungen von Testmethoden mit Rayden. Als erstes wird der Testfall \enword{Suchen nach einen Tierbesitzer} \ref{cha:TestenUA1} umgesetzt. Bei diesem Testfall wird die Suche der \enword{Petclinic}-Anwendung getestet. Im zweiten Testfall \ref{cha:TestenUA2} wird das Anlegen eines neuen Tierbesitzers gezeigt. 
 
 \SuperPar
 Für das Steuern der Browser wurde für beide Abnahmetests die Selenium-Bibliothek verwendet. Aus diesem Grund wird im dritten Teil \ref{cha:TestenSelenium} dieses Abschnittes die Bindung zwischen dem Rayden-System und der Selenium-Bibliothek gezeigt. 
@@ -168,7 +168,7 @@ Für das Steuern der Browser wurde für beide Abnahmetests die Selenium-Biblioth
 \subsection{Abnametest \enword{Suchen nach einen Tierbesitzer}}
 \label{cha:TestenUA1}
 
-Bei dem  Abnahmetest im Codeausschnitt \ref{prog:uatest-find} wird die Suchfunktion der \enword{Petclinic}-Anwendung getestet. Dafür wird der Testfall als erstes in zwei \enword{Compound-Keywords} \enword{Find a specific Pet Owner} und \enword{Check Owner Details} aufgeteilt. Neben den beiden \enword{Keywords} werden noch zwei weiter \enword{Keywords} \enword{Prepare Browser} und \enword{Cleanup Browser}  benötigt, welche für das Starten und Stop des Browsers zuständig sind. 
+Bei dem  Abnahmetest im Codeausschnitt \ref{prog:uatest-find} wird die Suchfunktion der \enword{Petclinic}-Anwendung getestet. Dafür wird der Testfall als erstes in zwei \enword{Compound-Keywords} \enword{Find a specific Pet Owner} und \enword{Check Owner Details} aufgeteilt. Neben den beiden \enword{Keywords} werden noch zwei weiter \enword{Keywords} \enword{Prepare Browser} und \enword{Cleanup Browser}  benötigt, welche für das Starten und Stoppen des Browsers zuständig sind. 
 
 \begin{program}
 \lstinputlisting{samplecode/uatest-findpetowner.rlg}
@@ -184,13 +184,13 @@ Bei dem  Abnahmetest im Codeausschnitt \ref{prog:uatest-find} wird die Suchfunkt
 \end{program}
 
 \SuperPar
-Das \enword{Keyword} \enword{Find a specific Pet Owner} führt die Suche nach einem Tierbesitzer mit dem Name \enword{Davis} aus. Dafür navigiert das \enword{Keyword} auf die Seite für Tierbesitzer und startet die Suche nach allen Besitzern. Danach werden auf der Ergenbisseite der Suche alle Besitzer aufgelistet, welche in der Anwendung vorhanden sind. Danach wird mithilfe der integrierten Suche nach dem Namen \enword{Davis} gesucht und die Detailseite des Tierbestitzers geöffnet. Wurde die Detailseite erfolgreich geöffnet ist das \enword{Keyword} am Ende. Die Validierung der Daten werden von dem nächsten \enword{Keyword} \enword{Check Owner Details} durchgeführt.
+Das \enword{Keyword} \enword{Find a specific Pet Owner} führt die Suche nach einem Tierbesitzer mit dem Name \enword{Davis} aus. Dafür navigiert das \enword{Keyword} auf die Seite für Tierbesitzer und startet die Suche nach allen Besitzern. Danach werden auf der Ergebnisseite der Suche alle Besitzer aufgelistet, welche in der Anwendung vorhanden sind. Danach wird mithilfe der integrierten Suche nach dem Namen \enword{Davis} gesucht und die Detailseite des Tierbesitzers geöffnet. Wurde die Detailseite erfolgreich geöffnet ist das \enword{Keyword} am Ende. Die Validierung der Daten werden von dem nächsten \enword{Keyword} \enword{Check Owner Details} durchgeführt.
 
 \SuperPar
-Dem \enword{Keyword} \enword{Check Owner Details} werden die zu überpüfenden Daten als Parameter übergeben. Das \enword{Keyword} überprüft jedes Datum mit dem \enword{Scripted-Keyword} \enword{Verify Text}. Dem \enword{Scripted-Keyword} werden zwei Parameter übergeben. Der erste Parameter ist ein \enword{Locator}, welcher ein Element auf der Webseite definiert. Von diesem Element wird der Text abgefragt und mit dem zweiten Parameter verglichen. Der zweite Parameter ist eine Zeichenkette mit dem erwarteten Wert. Sind die Wert nicht gleich, wird der Test mit einem Fehler abgebrochen. 
+Dem \enword{Keyword} \enword{Check Owner Details} werden die zu überprüfenden Daten als Parameter übergeben. Das \enword{Keyword} überprüft jedes Datum mit dem \enword{Scripted-Keyword} \enword{Verify Text}. Dem \enword{Scripted-Keyword} werden zwei Parameter übergeben. Der erste Parameter ist ein \enword{Locator}, welcher ein Element auf der Webseite definiert. Von diesem Element wird der Text abgefragt und mit dem zweiten Parameter verglichen. Der zweite Parameter ist eine Zeichenkette mit dem erwarteten Wert. Sind die Wert nicht gleich, wird der Test mit einem Fehler abgebrochen. 
 
 \SuperPar
-Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Objekt-Repository} verwendet. Einen Auszug mit den wichtigisten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzerinnen und Tierbesitzer.
+Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Objekt-Repository} verwendet. Einen Auszug mit den wichtigsten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzerinnen und Tierbesitzer.
 
 \todo OR - Bild mit Ergebnis Webseite hinzufügen
 
@@ -199,16 +199,12 @@ Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen
 \subsection{Abnametest \enword{Anlegen eines neuen Tierbesitzer}}
 \label{cha:TestenUA2}
 
-Der zweite Abnahmetest testet den Anwendungsfall \enword{Anlegen eines neuen Tierbesitzer}. Diese Abnahmetest wird direkt im Abnahmetest-\enword{Keyword} ausspezifiziert. Als erstes wird wiederum die Testumgebung mit dem \enword{Keyword} {Preapre Browser} vorbereit. Im nächsten Schritt navigiert der Test auf die Tierbesitzerseite und klick auf die \enword{Add Owner} Schlatfläche. 
 
-\begin{program}
-\lstinputlisting{samplecode/uatest-createpetowner.rlg}
-\caption{Codeauszug: \enword{Anlegen eines neuen Tierbesitzer}}
-\label{prog:uatest-create}
-\end{program}
+Der zweite Abnahmetest testet den Anwendungsfall \enword{Anlegen eines neuen Tierbesitzer}. Diese Abnahmetest wird direkt im Abnahmetest-\enword{Keyword} aus spezifiziert. Als erstes wird wiederum die Testumgebung mit dem \enword{Keyword} {Preapre Browser} vorbereitet. Im nächsten Schritt navigiert der Test auf die Tierbesitzerseite und klick auf die \enword{Add Owner} Schlatfläche. 
+
 
 \SuperPar
-Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. 
+Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der \enword{Selenium}-Bibliothek einen Text in ein Textfeld im Browser. Der Codeauszug \ref{prog:or-create} zeigt das dazugehörige \enword{Object-Repository}. Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu zeigen, wie man mithilfe des \enword{Object-Repository} einen leserlichen Test schreiben kann. In diesem Test wurden statt \enword{XPath}-Ausdrücken ausschließlich \enword{Locators} verwendet. 
 
 \begin{program}
 \lstinputlisting{samplecode/or-createpetowner.rlg}
@@ -216,13 +212,13 @@ Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesi
 \label{prog:or-create}
 \end{program}
 
-\todo
-
 \clearpage
 %%------------------------------------------------------------------------------------------------------
 
-\subsection{Selenium \enword{Keywords}}
+\subsection{\enword{Keywords} aus der \enword{Selenium}-Bibliothek}
 \label{cha:TestenSelenium}
+
+In diesem Abschnitt werden die \enword{Selenium Keywords} beschrieben. Diese \enword{Keywords} befinden sich alle in der Datei \enword{selenium.rlg}. Das Codestück \ref{prog:selenium} zeigt einen Ausschnitt aus dieser Datei. Das Codestück zeigt drei \enword{Scripted-Keywords}, welche die Integration mit \enword{Selenium} gut zeigen.
 
 \begin{program}
 \lstinputlisting{samplecode/selenium.rlg}

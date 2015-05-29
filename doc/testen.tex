@@ -204,7 +204,10 @@ Der zweite Abnahmetest testet den Anwendungsfall \enword{Anlegen eines neuen Tie
 
 
 \SuperPar
-Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der \enword{Selenium}-Bibliothek einen Text in ein Textfeld im Browser. Der Codeauszug \ref{prog:or-create} zeigt das dazugehörige \enword{Object-Repository}. Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu zeigen, wie man mithilfe des \enword{Object-Repository} einen leserlichen Test schreiben kann. In diesem Test wurden statt \enword{XPath}-Ausdrücken ausschließlich \enword{Locators} verwendet. 
+Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer im Formular eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der \enword{Selenium}-Bibliothek einen Text in ein Textfeld auf der Webseite. Der Codeauszug \ref{prog:or-create} zeigt die dazugehörige Objekt im \enword{Object-Repository}.  Der Auszug zeigt die Seite \enword{Edit Owner Page}, welche das Formular für das Anlegen und Änderen einer Besitzerin oder eines Besitzers zeigt.
+
+\SuperPar
+Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu zeigen, wie man mithilfe des \enword{Object-Repository} einen leserlichen Test schreiben kann. Der Test setzt auschließlich auf \enword{Locators}  und verzeicht auf die direkte Verwendung von \enword{XPath}-Ausdrücken. 
 
 \begin{program}
 \lstinputlisting{samplecode/or-createpetowner.rlg}
@@ -218,7 +221,7 @@ Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesi
 \subsection{\enword{Keywords} aus der \enword{Selenium}-Bibliothek}
 \label{cha:TestenSelenium}
 
-In diesem Abschnitt werden die \enword{Selenium Keywords} beschrieben. Diese \enword{Keywords} befinden sich alle in der Datei \enword{selenium.rlg}. Das Codestück \ref{prog:selenium} zeigt einen Ausschnitt aus dieser Datei. Das Codestück zeigt drei \enword{Scripted-Keywords}, welche die Integration mit \enword{Selenium} gut zeigen.
+In diesem Abschnitt werden ausgewählte \enword{Selenium Keywords} aus den Abhnametests beschrieben. Diese \enword{Keywords} wurden alle in der Datei \enword{selenium.rlg} angelegt. Die Datei \enword{selenium.rlg} stellt somit die \enword{Bridge} zwischen Rayden und \enword{Selenium} dar. Das Codestück \ref{prog:selenium} zeigt drei \enword{Scripted-Keywords}, welche einen guten Überblick in die Integration von \enword{Selenium} in das Rayden-System zeigen. 
 
 \begin{program}
 \lstinputlisting{samplecode/selenium.rlg}
@@ -226,6 +229,8 @@ In diesem Abschnitt werden die \enword{Selenium Keywords} beschrieben. Diese \en
 \label{prog:selenium}
 \end{program}
 
+\SuperPar
+Als erstes wird das \enword{Open Browser Keyword} \ref{prog:openBrowserKeyword} beschrieben. Dieses \enword{Scripted-Keyword} ist essentiel für die Verwendung von Selenium, da dieses \enword{Keyword} die Testumgebung vorbereit. Als Parameter werden der Browsertyp und eine \enword{URL} übergeben. Der Browsertyp definiert den Browser, welcher gestartet werden soll. Das kann zum Beispiel der \enword{Internet Explorer}, \enword{Firefox} oder \enword{Google Chrome} sein. Mit dem Browsertyp Parameter wird eine \enword{Webdriver}-Objekt angelegt. Dieses Objekt dient als Schnittstelle zwischen dem Test und Browser-Instanz. Jedes neue \enword{Webdriver}-Objekt startet einen Browser. Der zweite Parameter \enword{URL} definiert die Startseite. Über die Methode \enword{navigate()} der Klasse \enword{Webdriver} kann man auf eine neue Seite im Browser navigieren. 
 
 \begin{program}
 \begin{JavaCode}
@@ -245,6 +250,11 @@ public class OpenBrowserKeyword implements ScriptedKeyword {
 \label{prog:openBrowserKeyword}
 \end{program}
 
+\SuperPar
+Bei dem nächsten \enword{Keyword} handelt es sich um das \enword{Click Keyword}, welches im Codestück \ref{prog:clickKeyword} gezeicht wird. Mit diesem \enword{Keyword} kann man einen Klick auf der Webseite auslösen. Um die richtige Position für den Klick herausfinden zu können, wird dem \enword{Keyword} ein \enword{Locator} übergeben. Dieser \enword{Locator} beschreibt ein Element auf der Webseite. Die Auswertung dieses \enword{Locators} wird von der Methode \enword{findElement()} übernommen. Die Methode greift auf das aktuelle \enword{WebDriver}-Objekt zu um das Element zu finden. Diese Aktion könnte man auch direkt über das \enword{WebDriver}-Objekt ausführen, jedoch enthält die Methode \enword{findElement()} aus der \enword{Selenium} Klasse einen zusätzlichen Wiederholungsfunktion im Fehlerfall. Die Funktionaltiät ist für einen stabilen Abnahmetest wichtig, da dieses Synchronisierungsprobleme mit der Webanwendung reduziert. 
+
+\SuperPar
+Man spricht von einem Synchronisierungsfehler bei einer Webseite, wenn eine Aktion ausgeführt wird, obwohl die Anwendung noch nicht fertig geladen ist. Dieser Fehler tritt sehr häufig bei stark dynamischen Webseiten auf. Die einfachste und auch primitivste Lösung für das Problem ist die mehrmalige Auswertung des \enword{XPath}-Asudruckes, falls dieser kein Element findet. Genau dieser Ansatz ist in der \enword{findElement()} Methode der \enword{Selenium} Klasse implementiert.
 
 \begin{program}
 \begin{JavaCode}

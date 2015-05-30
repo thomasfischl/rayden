@@ -62,7 +62,7 @@ Rayden führt eine klare Trennung bei \enword{Low-Level Keywords} ein. Diese \en
 Auch bei den \enword{High-Level Keywords} bietet Rayden eine größere Vielfalt. Grob werden diese in Test-Suiten und Testfälle unterteilt. Die Test-Suite dient als Gruppierungselement für Testfälle, um diese gemeinsam ausführen zu können. Bei der Definition von Testfällen können diese mit unterschiedlichen Testtypen angelegt werden. Eine nähere Beschreibung findet sich im Abschnitt \ref{cha:KeywordTypes}.
 
 \SuperPar
-Zum Abschluss ist noch auf das \enword{Object-Repository} hinzuweisen. Diese Komponente verwaltet Test-Objekte. Test-Objekte können für die Beschreibung von Benutzeroberflächen-Komponenten wie Schaltflächen oder Eingabefelder verwendet werden. Dafür wird für jedes Test-Objekt ein Bezeichner definiert, mit welchem man die Komponente in der Benutzeroberfläche finden kann. Das ist im Fall einer Web-Anwendung ein \enword{XPath}- oder ein \enword{CSS}-Ausdruck. Das \enword{Object-Repository} sorgt somit für eine klare Trennung zwischen Test- und Benutzeroberflächen-Beschreibung. Diese Trennung erhöht die Wiederverwendbarkeit von \enword{Keywords} und reduziert den Wartungsaufwand bei Änderungen an der Benutzerschnittstelle.
+Zum Abschluss ist noch auf das \enword{Object Repository} hinzuweisen. Diese Komponente verwaltet Test-Objekte. Test-Objekte können für die Beschreibung von Benutzeroberflächen-Komponenten wie Schaltflächen oder Eingabefelder verwendet werden. Dafür wird für jedes Test-Objekt ein Bezeichner definiert, mit welchem man die Komponente in der Benutzeroberfläche finden kann. Das ist im Fall einer Web-Anwendung ein \enword{XPath}- oder ein \enword{CSS}-Ausdruck. Das \enword{Object Repository} sorgt somit für eine klare Trennung zwischen Test- und Benutzeroberflächen-Beschreibung. Diese Trennung erhöht die Wiederverwendbarkeit von \enword{Keywords} und reduziert den Wartungsaufwand bei Änderungen an der Benutzerschnittstelle.
 
 \subsection{Technische Architektur}
 \label{cha:TechArch}
@@ -104,7 +104,7 @@ Die \enword{Bridge}-Schnittstelle ist für die Anbindung von Test-Treibern veran
 
 \item \textbf{Object-Repository}
 
-Das \enword{Object-Repository} verwaltet Test-Objekte, welche von \enword{Keywords} verwendet werden können. Die Test-Objekte werden in einer Baumstruktur verwaltet. Die wichtigste Eigenschaft eines Test-Objekts ist der Bezeichner (\enword{Locator}). Mit dem Bezeichner kann die Benutzerschnittstellen-Komponente identifiziert werden. Das Konzept ist an der Idee von \enword{Page-Object-Pattern} \cite{PageObject} angelehnt. \\
+Das \enword{Object Repository} verwaltet Test-Objekte, welche von \enword{Keywords} verwendet werden können. Die Test-Objekte werden in einer Baumstruktur verwaltet. Die wichtigste Eigenschaft eines Test-Objekts ist der Bezeichner (\enword{Locator}). Mit dem Bezeichner kann die Benutzerschnittstellen-Komponente identifiziert werden. Das Konzept ist an der Idee von \enword{Page-Object-Pattern} \cite{PageObject} angelehnt. \\
 
 \end{itemize}
 
@@ -149,7 +149,7 @@ Der Metatyp definiert die Funktionsweise eines \enword{Keywords}. Rayden untersc
 
 %%------------------------------------------------------------------------------------------------------
 
-\subsection{Metatype: \enword{Compound Keyword}}
+\subsection{Metatyp: \enword{Compound Keyword}}
 
 Das \enword{Compound Keyword} ist die einfachste Variante eines \enword{Keywords}. Bei einem \enword{Compound Keyword} wird eine Sequenz von \enword{Keywords} zu einem neuen \enword{Keyword} zusammengefasst. Der Beispiel-Code \ref{prog:compoundKeyword} zeigt die Verwendung eines \enword{Compound Keywords}. In dem Beispiel kann man gut sehen, dass dieser Metatyp hauptsächlich für die Strukturierung von Tests verwendet wird. Ein mögliches Vorgehen kann dabei sein, dass man einen Testfall immer weiter und weiter in \enword{Keywords} zerlegt, bis man am Ende die Aufgabe auf einzelne Aktionen heruntergebrochen hat. Für diese Aktionen werden dann \enword{Scripted Keywords} verwendet wie im Code-Beispiel die beiden \enword{Keywords} \enword{Type Text} und \enword{Click Left}.
 
@@ -178,9 +178,9 @@ Ein klares Ziel bei der Erstellung von \enword{Compound Keywords} ist die Wieder
 
 %%------------------------------------------------------------------------------------------------------
 
-\subsection{Metatype: \enword{Inline Keyword}}
+\subsection{Metatyp: \enword{Inline Keyword}}
 
-Der Metatype \enword{Inline Keyword} ist eine Kurzform des \enword{Compound Keywords}. Dabei kann man in einem \enword{Compound Keyword} ein neues \enword{Keyword} erstellen. Daher kommt auch der Name \enword{Inline Keyword}, weil es innerhalb eines anderen \enword{Keywords} erstellt wird. Im Beispiel \ref{prog:inlineKeyword} wird im \enword{Keyword} \enword{Anmelden an der PetClinic Anwendung} das \enword{Inline Keyword} \enword{Besitzer anlegen} definiert. Es werden alle Schritte zum Anlegen eines neuen Besitzers zusammengefasst. Der Anwendungsfall dieses Metatyps ist wiederum die Strukturierung, aber in diesem Fall innerhalb eines \enword{Keywords}. 
+Der Metatyp \enword{Inline Keyword} ist eine Kurzform des \enword{Compound Keywords}. Dabei kann man in einem \enword{Compound Keyword} ein neues \enword{Keyword} erstellen. Daher kommt auch der Name \enword{Inline Keyword}, weil es innerhalb eines anderen \enword{Keywords} erstellt wird. Im Beispiel \ref{prog:inlineKeyword} wird im \enword{Keyword} \enword{Anmelden an der PetClinic Anwendung} das \enword{Inline Keyword} \enword{Besitzer anlegen} definiert. Es werden alle Schritte zum Anlegen eines neuen Besitzers zusammengefasst. Der Anwendungsfall dieses Metatyps ist wiederum die Strukturierung, aber in diesem Fall innerhalb eines \enword{Keywords}. 
 
 \begin{program}
 \begin{JavaCode}
@@ -208,7 +208,7 @@ Der Nachteil bei dieser Variante ist, dass man dieses \enword{Keyword} nicht wie
 
 %%------------------------------------------------------------------------------------------------------
 
-\subsection{Metatype: \enword{Scripted Keyword}}
+\subsection{Metatyp: \enword{Scripted Keyword}}
 
 Das \enword{Scripted Keyword} ist der einfachere Metatyp, mit welchem man Code an ein \enword{Keyword} binden kann. Ein \enword{Scripted Keyword} wird wie ein \enword{Compound Keyword} definiert. Im Unterschied dazu besitzt das \enword{Scripted Keyword} keine Sequenz von \enword{Keywords}, sondern einen Hinweis auf die Implementierung. Im Beispiel-Code \ref{prog:scriptedKeyword} sieht man eine Variante mit einer \enword{Java}-Implementierung. Die Anweisung \enword{implemented in java} definiert die Implementierungssprache. Nach dem Pfeil folgt ein Bezeichner, welcher die Implementierung referenziert. Im Fall von \enword{Java} wird der vollständige Name der Klasse verwendet.
 
@@ -252,7 +252,7 @@ Der Parameter \enword{keyword} bei der Methode \enword{execute} wird benötigt, 
 
 %%------------------------------------------------------------------------------------------------------
 
-\subsection{Metatype: \enword{Scripted Compound Keyword}}
+\subsection{Metatyp: \enword{Scripted Compound Keyword}}
 
 Das \enword{Scripted Compound Keyword} ist die komplizierteste Variante der vier Metatypen, jedoch ist diese Variante essentiell für die Flexibilität der Sprache. Mit dem Konzept von \enword{Scripted Compound Keywords} ist eine Entwicklerin oder ein Entwickler in der Lage, die Sprache um Kontrollstrukturen zu erweitern. Dafür werden die Eigenschaften von \enword{Compound Keywords} und \enword{Scripted Keywords} kombiniert. 
 
@@ -465,7 +465,7 @@ keyword Open Browser {
 Der Typ \enword{enumeration} wird intern als \enword{string} repräsentiert. Die Laufzeitumgebung sorgt dafür, dass nur die vordefinierten Werte zugewiesen werden dürfen. Diese Überprüfung wird aber nur bei einem Übergang von einem Gültigkeitsbereich in einen anderen Gültigkeitsbereich vorgenommen. Diese Einschränkung ist damit zu erklären, dass ein \enword{enumeration}-Datentyp genau für ein \enword{Keyword} definiert wird. Ein Beispiel dazu sieht man im Code-Ausschnitt \ref{prog:enum}.  
 
 \SuperPar
-Ein weiterer spezieller Datentyp ist \enword{location}. Mit diesem Datentyp kann man ein Objekt in einem \enword{Object-Repository} referenzieren. Ein Wert dieses Datentyps beginnt immer mit einem @-Symbol. Nachfolgend kann man einen Pfad im \enword{Object-Repository} beschreiben, wie man im Beispiel \ref{prog:locator} sehen kann. Für Abnahme-Tests ist das Referenzieren von Test-Objekten essentiell. Daher bietet Rayden dafür eine Erleichterung. 
+Ein weiterer spezieller Datentyp ist \enword{location}. Mit diesem Datentyp kann man ein Objekt in einem \enword{Object Repository} referenzieren. Ein Wert dieses Datentyps beginnt immer mit einem @-Symbol. Nachfolgend kann man einen Pfad im \enword{Object Repository} beschreiben, wie man im Beispiel \ref{prog:locator} sehen kann. Für Abnahme-Tests ist das Referenzieren von Test-Objekten essentiell. Daher bietet Rayden dafür eine Erleichterung. 
 
 \begin{program}
 \begin{JavaCode}
@@ -509,7 +509,7 @@ In diesem Beispiel ist der Parameter \enword{var} als \enword{variable} deklarie
 Eine Typumwandlung ist in der Sprache Rayden nicht vorgesehen. Es ist zwar möglich, dass man alle Datentypen zu einem \enword{string}-Datentyp umwandeln kann, aber alle anderen Kombinationen sind nicht möglich. In der Implementierung von einem \enword{Keyword} können die Werte beliebig konvertiert werden. Die Laufzeitumgebung stellt den Datentyp nur innerhalb der Gültigkeitsbereiche sicher.
 
 %%------------------------------------------------------------------------------------------------------
-\section{Verarbeiten von \enword{Keywords} und Ausdrücken}
+\section{Verarbeitung von \enword{Keywords} und Ausdrücken}
 
 Im Rayden-System ist der Interpreter und die \enword{Runtime} für die Ausführung eines Tests zuständig. Dabei wird die Ausführung von \enword{Keywords} und Ausdrücken von einander getrennt. Die \enword{Keywords} werden von einer \enword{Stack}-Maschine ausgeführt. 
 
@@ -611,7 +611,7 @@ objectrepository PetClinic {
 	}
 }
 \end{JavaCode}
-\caption{\enword{Object-Repository}}
+\caption{\enword{Object Repository}}
 \label{prog:or}
 \end{program}
 

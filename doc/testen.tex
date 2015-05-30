@@ -45,7 +45,7 @@ unittest Test PetTypeFormatter {
 \end{program}
 
 \SuperPar
-Der Codeausschnitt \ref{prog:unitTestImpl} zeigt die Implementierung des \enword{Scripted-Keywords}. Die Implementierung des Komponententests ist grundlegend gleich mit einem normalen \enword{JUnit}-Test. Die großen Unterschiede sind, dass die Methode nicht mit \enword{@Test} annotiert werden und dass es nur eine Testmethode pro Klasse geben kann. 
+Der Codeausschnitt \ref{prog:unitTestImpl} zeigt die Implementierung des \enword{Scripted-Keywords}. Die Implementierung des Komponententests ist grundlegend gleich mit einem normalen JUnit-Test. Die großen Unterschiede sind, dass die Methode nicht mit \enword{@Test} annotiert werden und dass es nur eine Testmethode pro Klasse geben kann. 
 
 \begin{program}
 \begin{JavaCode}
@@ -85,7 +85,7 @@ public class TestPetTypeFormatterKeyword implements ScriptedKeyword {
 \end{program}
 
 \SuperPar
-Eine nützliche Erweiterung des Rayden-Systems in der Zukunft wäre eine bessere Integration mit \enword{Unittest-Frameworks} wie \enword{JUnit} oder \enword{TestNG}.
+Eine nützliche Erweiterung des Rayden-Systems in der Zukunft wäre eine bessere Integration mit \enword{Unittest-Frameworks} wie JUnit oder TestNG.
 
 %%------------------------------------------------------------------------------------------------------
 \section{Schnittstellentest}
@@ -180,7 +180,7 @@ Bei dem  Abnahmetest im Codeausschnitt \ref{prog:uatest-find} wird die Suchfunkt
 
 \begin{program}
 \lstinputlisting{samplecode/or-findpetowner.rlg}
-\caption{Codeauszug aus dem \enword{Object-Repository} für den Testfall \enword{Suchen nach einen Tierbesitzer}}
+\caption{Codeauszug aus dem \enword{Object Repository} für den Testfall \enword{Suchen nach einen Tierbesitzer}}
 \label{prog:or-find}
 \end{program}
 
@@ -210,14 +210,14 @@ Der zweite Abnahmetest testet den Anwendungsfall \enword{Anlegen eines neuen Tie
 
 
 \SuperPar
-Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer im Formular eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der Selenium-Bibliothek einen Text in ein Textfeld auf der Webseite. Der Codeauszug \ref{prog:or-create} zeigt die dazugehörige Objekt im \enword{Object-Repository}.  Der Auszug zeigt die Seite \enword{Edit Owner Page}, welche das Formular für das Anlegen und Änderen einer Besitzerin oder eines Besitzers zeigt.
+Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer im Formular eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der Selenium-Bibliothek einen Text in ein Textfeld auf der Webseite. Der Codeauszug \ref{prog:or-create} zeigt die dazugehörige Objekt im \enword{Object Repository}.  Der Auszug zeigt die Seite \enword{Edit Owner Page}, welche das Formular für das Anlegen und Änderen einer Besitzerin oder eines Besitzers zeigt.
 
 \SuperPar
-Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu zeigen, wie man mithilfe des \enword{Object-Repository} einen leserlichen Test schreiben kann. Der Test setzt auschließlich auf \enword{Locators}  und verzeicht auf die direkte Verwendung von \enword{XPath}-Ausdrücken. 
+Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu zeigen, wie man mithilfe des \enword{Object Repository} einen leserlichen Test schreiben kann. Der Test setzt auschließlich auf \enword{Locators}  und verzeicht auf die direkte Verwendung von \enword{XPath}-Ausdrücken. 
 
 \begin{program}
 \lstinputlisting{samplecode/or-createpetowner.rlg}
-\caption{Codeauszug aus dem \enword{Object-Repository} für den Testfall \enword{Anlegen eines neuen Tierbesitzer}}
+\caption{Codeauszug aus dem \enword{Object Repository} für den Testfall \enword{Anlegen eines neuen Tierbesitzer}}
 \label{prog:or-create}
 \end{program}
 
@@ -307,4 +307,4 @@ Bei dem \enword{Keyword} \enword{Verify Text} handelt es sich um eine Verifikati
 Vielleicht löschen?
 
 \SuperPar
-Diese Kapitel hat gezeigt, wie man ein Testprojekt mit Rayden umsetzten kann. Es wurden dafür drei unterschiedliche Testmethode gezeigt und wie diese mit Rayden umgesetzt werden können. Die Tests haben auch gezeigt, welche Vorteil die Verwendung des \enword{Object-Repository} hat. Das nächste Kapitel beinhaltet eine Zusammenfassung dieser Masterarbeit und gibt einen Ausblick auf mögliche Erweiterungen des Rayden-Systems. 
+Diese Kapitel hat gezeigt, wie man ein Testprojekt mit Rayden umsetzten kann. Es wurden dafür drei unterschiedliche Testmethode gezeigt und wie diese mit Rayden umgesetzt werden können. Die Tests haben auch gezeigt, welche Vorteil die Verwendung des \enword{Object Repository} hat. Das nächste Kapitel beinhaltet eine Zusammenfassung dieser Masterarbeit und gibt einen Ausblick auf mögliche Erweiterungen des Rayden-Systems. 

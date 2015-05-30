@@ -7,7 +7,7 @@ Diese Kapitel beschreibt die Implementierung von ausgewählten Komponenten des R
 Der Abschnitt \ref{cha:Eval} befasst sich mit der Umsetzung von Ausdrücken im Rayden-System. Dazu werden in diesem Abschnitt Auszüge der Grammatik und Teile der \enword{RaydenExpressionEvaluator} Klasse erklärt. Die Klasse \enword{RaydenExpressionEvaluator} ist für die Auswertung der Ausdrücke zuständig. 
 
 \SuperPar
-Im Abschnitt \ref{cha:validateKeyword} wird die Validierung von Rayden-Tests gezeigt. Dafür wird das Validierungssystem von \enword{xText} verwendet. Abgeschlossen wird diese Kapitel mit dem Abschnitt \ref{cha:implementJSA}, welcher die Integration des Rayden-Systems in das \enword{Java-Scripting-API} zeigt. 
+Im Abschnitt \ref{cha:validateKeyword} wird die Validierung von Rayden-Tests gezeigt. Dafür wird das Validierungssystem von xText verwendet. Abgeschlossen wird diese Kapitel mit dem Abschnitt \ref{cha:implementJSA}, welcher die Integration des Rayden-Systems in das \enword{Java-Scripting-API} zeigt. 
 
 %%------------------------------------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ Im vorigen Abschnitt \ref{cha:KeywordGrammar} wurde die Grammatik von einem \enw
 \end{figure}
 
 \SuperPar
-Das Compilerwerkzeug \enword{xText} stellt dafür ein \enword{Eclispe-ECore}-Modell zur Verfügung. Der generierten Compiler ist so konzipiert, dass dieser die gesamte Datei einliest und daraus einen abstrakten Syntaxbaum generiert. Der Syntaxbaum steht für die weitere Verarbeitung als \enword{ECore}-Modell zur Verfügung. Einen Auszug aus dem Modell zeigt die Abbildung \ref{fig:AST}. Die Abbildung zeigt die Modell-Repräsentation der Grammatik-Regeln von Abbildung \ref{fig:keywordGrammar}. Dieser Ausschnitt aus dem Modell stellt die Basis für die \enword{Stack}-Maschine dar. 
+Das Compilerwerkzeug xText stellt dafür ein \enword{Eclispe-ECore}-Modell zur Verfügung. Der generierten Compiler ist so konzipiert, dass dieser die gesamte Datei einliest und daraus einen abstrakten Syntaxbaum generiert. Der Syntaxbaum steht für die weitere Verarbeitung als \enword{ECore}-Modell zur Verfügung. Einen Auszug aus dem Modell zeigt die Abbildung \ref{fig:AST}. Die Abbildung zeigt die Modell-Repräsentation der Grammatik-Regeln von Abbildung \ref{fig:keywordGrammar}. Dieser Ausschnitt aus dem Modell stellt die Basis für die \enword{Stack}-Maschine dar. 
 
 \SuperPar
 Die \enword{Stack}-Maschine für das Rayden-System ist in der Klasse \enword{RaydenRuntime} implementiert. Der Codeauszug \ref{prog:runtime} zeigt die essentielle Methode \enword{executeKeyword}, welche für die Ausführung verantwortlich ist. Die Methode wird mit einem \enword{KeywordCall}-Objekt aufgerufen. Diese Objekt bezeichnet das erste \enword{Keyword}, welches von der \enword{Stack}-Maschine aufgerufen wird. Als erstes wird in der Methode übriggebliebene Element von dem \enword{Stack} entfernt. Danach wird über das \enword{Reporter-Interface} alle Objekte notifiziert, dass ein neuer Testfall gestartet worden ist. Im nächsten Schritt wird ein neuer Gültigkeitsbereich (\enword{RaydenScriptScope}) angelegt und mit dem \enword{KeywordCall}-Objekt initialisiert. Der Gültigkeitsbereich wird dann auf den leeren \enword{Stack} geladen. 
@@ -130,7 +130,7 @@ Um die Entwicklung und Wartung von Rayden-Tests zu unterstützen wurden neben ei
 \end{program}
 
 \SuperPar
-Um Validierungen implementieren zu können wird von \enword{xText} ein Klasse generiert, welche mit \enword{JavaValidator} endet. Im Fall von Rayden heißt die Klasse \enword{RaydenDSLJavaValidator}. In dieser Klasse können nun sprachspezfische Validierungen hinzugefügt werden. Jede Methode in dieser Klasse, welche mit einer \enword{@Check} Annotation gekennzeichnet ist, wird als Validierung ausgeführt. 
+Um Validierungen implementieren zu können wird von xText ein Klasse generiert, welche mit \enword{JavaValidator} endet. Im Fall von Rayden heißt die Klasse \enword{RaydenDSLJavaValidator}. In dieser Klasse können nun sprachspezfische Validierungen hinzugefügt werden. Jede Methode in dieser Klasse, welche mit einer \enword{@Check} Annotation gekennzeichnet ist, wird als Validierung ausgeführt. 
 
 \SuperPar
 Das Codebeispiel \ref{prog:validator} zeige eine Validierung für die Verwendung von \enword{Keywords}. Diese Validierung wird für alle \enword{KeywordCall} Modellelemente aufgerufen. Ein \enword{KeywordCall} stellt einen Aufruf von einem \enword{Keyword} dar. Die Validierung überprüft, ob für jeden Aufruf von einem \enword{Keyword} auch eine Implementierung vorhanden ist. Das Traversieren des Modell und suchen alle Modellelementen entfällt, da diese Aufgabe vom \enword{xText-Framework} durchgeführt wird.

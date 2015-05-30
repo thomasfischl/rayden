@@ -1,11 +1,51 @@
 \chapter{Zusammenfassung}
 \label{cha:Zusammenfassung}
 
+Diese Masterarbeit hat zum Ziel, die Erstellung und die Wartung von Tests im Allgemeinen und im speziellen die Abnahmetests zu vereinfachen. Ein weiteres Ziel ist es, die Zusammenarbeit von Fach-, Entwicklungs- und Testabteilungen zu erleichtern. Dafür wurde im Kapitel \ref{cha:StandDerTechnik} die gängigsten Testmethoden und Technologien vorgestellt, welche in der Softwareentwicklung eingesetzt werden. Im nächsten Kapitel \ref{cha:Konzept} wurde der Ablauf von einem Testprojekt skizziert. Dabei wurde darauf eingegangen, welche Personengruppe in einem Testprojekt involviert sind und welche Aufgaben diese übernehmen. 
+
+\SuperPar
+Das Kapitel \ref{cha:Design} hat sich mit dem Design von Rayden beschäftigt. Am Anfang des Kapitels wurden die Ziel von Rayden beschrieben. In den nächsten Abschnitten wurde die Sprache von Rayden detailliert erklärt und die Verwendung eines \enword{Object-Repositories} gezeigt. Die Implementierung ausgewählt der Komponenten wird in Kapitel \ref{cha:Implementierung} gezeigt. Es wurde gezeigt, wie die \enword{Stack}-Maschine implementiert worden ist, welche für die Ausführung von \enword{Keywords} verantwortlich ist. Ein weiterer interessanter Punkt der Implementierung war die Integration des Rayden-System in das \enword{Java-Scripting-API}. 
+
+\SuperPar
+Im Kapitel \ref{cha:Testen} wurde das Rayden-System mithilfe einer Beispielanwendung evaluiert. Es wurden Tests mit unterschiedlichen Testmethoden für die Beispielanwendung geschrieben. Dabei wurde gezeigt, welche Vorteile Rayden bei der Umsetzung von Abnahmetests hat.
+
+\section{Ausblick auf weitere Arbeiten}
+
+Im Zuge der Arbeit an der Masterarbeit wurde einige Bereiche identifiziert, welche zukünftig erweitert werden können.\\
+
+\begin{itemize}
+\item Implementierung eines grafischen Editors für Rayden-Tests:\\
+
+Um die Verwendung des Rayden-Systems zu erleichtern, würde eine visuelle Repräsentation von Tests helfen. Dazu müsste ein grafischer Editor für die Rayden-Sprache entwickelt werden. Das Ziel dieses Editors ist es, neu \enword{Compound-Keywords} anzulegen und bestehende zu warten. Auch eine visuelle Darstellung der Ausführung eines Tests in dem Editor würde die Handhabung erleichtern.\\
+
+\item \enword{Debugger} für Rayden:
+
+Da Rayden eine eigene Ausführungseinheit besitzt, können keine bestehenden \enword{Debugger} verwendet werden, um einen Rayden-Test zu analysieren. Darum wäre die Implementierung eines eigenen \enword{Debuggers} für die Sprache vorteilhaft. Zusätzlich könnte dieser Erweiterungen erlauben, dass man einen Test Schritt für Schritt ausführt. Somit können Fehler schneller aufgespürt und behoben werden.\\
+
+\item Integration weiterer Sprachen:
+
+In der derzeitigen Ausführung von Rayden können \enword{Scripted-Keywords} und \enword{Scripted-Compound-Keywords} nur mit \enword{Java} implementiert werden. Als Erweiterung könnte man zusätzliche Sprachen unterstützen. Spezielle Skriptsprachen wie \enword{JavaScript}, \enword{Python} oder \enword{Ruby} würden sich eignen. Der Vorteil davon wäre, dass man sich die Kompilierungsphase für die \enword{Scripted-Keywords} sparen würden. \\
+
+\item Integration mit Test-Bibliotheken:
+
+Bei der Umsetzung von Komponententests hat sich gezeigt, dass man nicht so einfach bestehenden Komponententests wiederverwenden kann. Daher würde es helfen, wenn man nicht nur Klassen mit dem Interface \enword{ScriptedKeyword} als Implementierung für \enword{Scripted-Keywords} verwenden kann. Die Erweiterung könnte dafür sorgen, dass zum Beispiel bestehenden \enword{JUnit}-Tests als Implementierung verwendet werden können. Es müsste ein Adapter erstellt werden, der die Verbindung zwischen Rayden und einem Test-\enword{Framework} wie \enword{JUnit} herstellt. Diese Erweiterung würde die Akzeptanz von Entwicklerinnen und Entwicklern steigern, da diese weiterhin mit ihren gewohnten Werkzeugen arbeiten können. 
+
+\end{itemize}
+
+\section{Erfahrungen}
+
+Meine größte und wichtigste Erfahrung bei dieser Masterarbeit war die Erkenntnis, dass das Designen einer Sprache ein höchst komplexer Prozess ist. Das Design der Rayden-Sprache war äußerst anspruchsvoll, da die Sprache wenig Ähnlichkeiten zu bestehenden Sprachen hat. Daher gab es für das Sprachdesign etliche Iterationen bis das finale Konzept fertig war.
+
+\SuperPar
+Das \enword{xText-Framework} war das wichtigste Werkzeug bei der Erstellung der Sprache und des gesamten Systems. Ich hatte schon gut Erfahrungen mit dem \enword{xText-Framework} während der Bachelorarbeit gemacht. Aus diesem Grund habe ich dieses Werkzeug auch für die Masterarbeit wiederverwendet. Jedoch habe ich die Erfahrung gemacht, dass ich mit der Komplexität und den Besonderheiten der Rayden-Sprache die Grenzen von \enword{xText-Framework} erreicht habe.
+
+\section{Danksagung}
+
+Zu Beginn möchte ich mich ganz herzlich bei meinem Betreuer Herrn FH-Prof. DI Dr. Heinz Dobler bedanken. Herr Dobler hat mich bereits bei der Bachelorarbeit betreut und ich war froh, dass er mich wieder bei der Masterarbeit betreut hat. Neben se 
+
+
+
+
+
 
 \todo
-
-Diskussion, Erfahrungen, weitere Arbeiten
-TODO !!!
-
-
-Erweiterungen: Vernünftige JUNIT Unterstütztung

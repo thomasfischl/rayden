@@ -1,11 +1,12 @@
 \chapter{Umsetzung eines Testprojektes mit Rayden}
 \label{cha:Testen}
 
-Es wird gezeigt, wie man ein Testprojekt mithilfe von Rayden umsetzten kann. Dabei wird eine einfache Webanwendung getestet. Zum Beispiel ein Rechner oder kleine Task Anwendung. Dafür werden alle Ebenen von funktionalen Tests durchgeführt.
+In diesem Kapitel wird ein Testprojekt mit dem Rayden-System umgesetzt. Dazu wird gezeigt, wie man unterschiedliche Testmethode mit dem Rayden-System verwenden kann. Um sinnvolle Tests schreiben zu können wird eine Beispielanwendung benötigt, welche in Abschnitt \ref{cha:demoapp} beschrieben wird. In den nächsten drei Abschnitten \ref{cha:TestenUnit}, \ref{cha:TestenApi} und \ref{cha:TestenUA} wird die Umsetzung von unterschiedlichen Testmethoden mit den Rayden-System gezeigt. Ein besonders Augenmerk wurde dabei auf die Abnahmetests gelegt.
 
 %%------------------------------------------------------------------------------------------------------
 
 \section{Beispielanwendung}
+\label{cha:demoapp}
 
 Für das Evaluieren des Rayden-Systems wird eine Anwendung zum Test benötigt. Bei der Anwendung sollte es sich um eine Webanwendung handeln, um die Unterstützung von Selenium zeigen zu können. Für die Evaluierung hat man sich für die \enword{PetClinic}-Webanwendung entschieden, welche eine Beispielanwendung des Spring-Projekts ist. Die Anwendung mit allen Ressourcen ist öffentlich auf Github unter der Adresse \enword{https://github.com/spring-projects/spring-petclinic/} zugänglich.
 
@@ -189,10 +190,15 @@ Das \enword{Keyword} \enword{Find a specific Pet Owner} führt die Suche nach ei
 \SuperPar
 Dem \enword{Keyword} \enword{Check Owner Details} werden die zu überprüfenden Daten als Parameter übergeben. Das \enword{Keyword} überprüft jedes Datum mit dem \enword{Scripted-Keyword} \enword{Verify Text}. Dem \enword{Scripted-Keyword} werden zwei Parameter übergeben. Der erste Parameter ist ein \enword{Locator}, welcher ein Element auf der Webseite definiert. Von diesem Element wird der Text abgefragt und mit dem zweiten Parameter verglichen. Der zweite Parameter ist eine Zeichenkette mit dem erwarteten Wert. Sind die Wert nicht gleich, wird der Test mit einem Fehler abgebrochen. 
 
-\SuperPar
-Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Objekt-Repository} verwendet. Einen Auszug mit den wichtigsten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzerinnen und Tierbesitzer.
+\begin{figure}
+\centering
+\includegraphics[width=1\textwidth]{or.png}
+\caption{Darstellung der Verbindung von Objekt aus dem \enword{Objekt-Repository} mit Elementen auf der Webseite}
+\label{fig:orwebsite}
+\end{figure}
 
-\todo OR - Bild mit Ergebnis Webseite hinzufügen
+\SuperPar
+Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Objekt-Repository} verwendet. Einen Auszug mit den wichtigsten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzerinnen und Tierbesitzer. Die Abbildung \ref{fig:orwebsite} zeigt die Abbildung von Webseiten-Element auf Objekt im \enword{Objekt-Repository}. In der Grafik sind jene Element rot hinterlegt, welche ein Eintrag im \enword{Objekt-Repository} besitzen. Neben jeden Element steht auch der vollständige \enword{Locator}, mit welchem man das Objekt aus \enword{Objekt-Repository} abfragen kann.
 
 %%------------------------------------------------------------------------------------------------------
 
@@ -204,7 +210,7 @@ Der zweite Abnahmetest testet den Anwendungsfall \enword{Anlegen eines neuen Tie
 
 
 \SuperPar
-Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer im Formular eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der \enword{Selenium}-Bibliothek einen Text in ein Textfeld auf der Webseite. Der Codeauszug \ref{prog:or-create} zeigt die dazugehörige Objekt im \enword{Object-Repository}.  Der Auszug zeigt die Seite \enword{Edit Owner Page}, welche das Formular für das Anlegen und Änderen einer Besitzerin oder eines Besitzers zeigt.
+Danach werden alle benötigten Daten für eine neue Tierbesitzerin oder Tierbesitzer im Formular eingegeben. Dazu wird das \enword{Keyword} \enword{Type Text} verwendet. Diese \enword{Scripted-Keyword} schreibt mithilfe der Selenium-Bibliothek einen Text in ein Textfeld auf der Webseite. Der Codeauszug \ref{prog:or-create} zeigt die dazugehörige Objekt im \enword{Object-Repository}.  Der Auszug zeigt die Seite \enword{Edit Owner Page}, welche das Formular für das Anlegen und Änderen einer Besitzerin oder eines Besitzers zeigt.
 
 \SuperPar
 Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu zeigen, wie man mithilfe des \enword{Object-Repository} einen leserlichen Test schreiben kann. Der Test setzt auschließlich auf \enword{Locators}  und verzeicht auf die direkte Verwendung von \enword{XPath}-Ausdrücken. 
@@ -215,13 +221,12 @@ Das \enword{Add new pet owner} \enword{Keyword} ist ein gutes Beispiel, um zu ze
 \label{prog:or-create}
 \end{program}
 
-\clearpage
 %%------------------------------------------------------------------------------------------------------
 
-\subsection{\enword{Keywords} aus der \enword{Selenium}-Bibliothek}
+\subsection{\enword{Keywords} aus der Selenium-Bibliothek}
 \label{cha:TestenSelenium}
 
-In diesem Abschnitt werden ausgewählte \enword{Selenium Keywords} aus den Abhnametests beschrieben. Diese \enword{Keywords} wurden alle in der Datei \enword{selenium.rlg} angelegt. Die Datei \enword{selenium.rlg} stellt somit die \enword{Bridge} zwischen Rayden und \enword{Selenium} dar. Das Codestück \ref{prog:selenium} zeigt drei \enword{Scripted-Keywords}, welche einen guten Überblick in die Integration von \enword{Selenium} in das Rayden-System zeigen. 
+In diesem Abschnitt werden ausgewählte Selenium \enword{Keywords} aus den Abhnametests beschrieben. Diese \enword{Keywords} wurden alle in der Datei \enword{selenium.rlg} angelegt. Die Datei \enword{selenium.rlg} stellt somit die \enword{Bridge} zwischen Rayden und Selenium dar. Das Codestück \ref{prog:selenium} zeigt drei \enword{Scripted-Keywords}, welche einen guten Überblick in die Integration von Selenium in das Rayden-System zeigen. 
 
 \begin{program}
 \lstinputlisting{samplecode/selenium.rlg}
@@ -251,10 +256,7 @@ public class OpenBrowserKeyword implements ScriptedKeyword {
 \end{program}
 
 \SuperPar
-Bei dem nächsten \enword{Keyword} handelt es sich um das \enword{Click Keyword}, welches im Codestück \ref{prog:clickKeyword} gezeicht wird. Mit diesem \enword{Keyword} kann man einen Klick auf der Webseite auslösen. Um die richtige Position für den Klick herausfinden zu können, wird dem \enword{Keyword} ein \enword{Locator} übergeben. Dieser \enword{Locator} beschreibt ein Element auf der Webseite. Die Auswertung dieses \enword{Locators} wird von der Methode \enword{findElement()} übernommen. Die Methode greift auf das aktuelle \enword{WebDriver}-Objekt zu um das Element zu finden. Diese Aktion könnte man auch direkt über das \enword{WebDriver}-Objekt ausführen, jedoch enthält die Methode \enword{findElement()} aus der \enword{Selenium} Klasse einen zusätzlichen Wiederholungsfunktion im Fehlerfall. Die Funktionaltiät ist für einen stabilen Abnahmetest wichtig, da dieses Synchronisierungsprobleme mit der Webanwendung reduziert. 
-
-\SuperPar
-Man spricht von einem Synchronisierungsfehler bei einer Webseite, wenn eine Aktion ausgeführt wird, obwohl die Anwendung noch nicht fertig geladen ist. Dieser Fehler tritt sehr häufig bei stark dynamischen Webseiten auf. Die einfachste und auch primitivste Lösung für das Problem ist die mehrmalige Auswertung des \enword{XPath}-Asudruckes, falls dieser kein Element findet. Genau dieser Ansatz ist in der \enword{findElement()} Methode der \enword{Selenium} Klasse implementiert.
+Bei dem nächsten \enword{Keyword} handelt es sich um das \enword{Click Keyword}, welches im Codestück \ref{prog:clickKeyword} gezeigt wird. Mit diesem \enword{Keyword} kann man einen Klick auf der Webseite auslösen. Um die richtige Position für den Klick herausfinden zu können, wird dem \enword{Keyword} ein \enword{Locator} übergeben. Dieser \enword{Locator} beschreibt ein Element auf der Webseite. Die Auswertung dieses \enword{Locators} wird von der Methode \enword{findElement()} übernommen. Die Methode greift auf das aktuelle \enword{WebDriver}-Objekt zu um das Element zu finden. Diese Aktion könnte man auch direkt über das \enword{WebDriver}-Objekt ausführen, jedoch enthält die Methode \enword{findElement()} aus der Selenium Klasse einen zusätzlichen Wiederholungsfunktion im Fehlerfall. Die Funktionalität ist für einen stabilen Abnahmetest wichtig, da dieses Synchronisierungsprobleme mit der Webanwendung reduziert. 
 
 \begin{program}
 \begin{JavaCode}
@@ -273,7 +275,8 @@ public class ClickKeyword implements ScriptedKeyword {
 \label{prog:clickKeyword}
 \end{program}
 
-
+\SuperPar
+Man spricht von einem Synchronisierungsfehler bei einer Webseite, wenn eine Aktion ausgeführt wird, obwohl die Anwendung noch nicht fertig geladen ist. Dieser Fehler tritt sehr häufig bei stark dynamischen Webseiten auf. Die einfachste und auch primitivste Lösung für das Problem ist die mehrmalige Auswertung des \enword{XPath}-Ausdruckes, falls dieser kein Element findet. Genau dieser Ansatz ist in der \enword{findElement()} Methode der Selenium Klasse implementiert.
 
 \begin{program}
 \begin{JavaCode}
@@ -294,10 +297,14 @@ public class VerifyTextKeyword implements ScriptedKeyword {
 \label{prog:verifyTextKeyword}
 \end{program}
 
-\todo
+\SuperPar
+Bei dem \enword{Keyword} \enword{Verify Text} handelt es sich um eine Verifikation. Mit diesem \enword{Keyword} kann ein Text auf einer Webseite mit einer vordefinierten Text verglichen werden. Bei einem Fehlerfall wird das \enword{Keyword} mit einem Fehler beendet und die Ausführung des Tests abgebrochen. Die Implementierung des \enword{Scripted-Keywords} zeigt der Codeausschnitt \ref{prog:verifyTextKeyword}. Das Ergebnis des Vergleichs der beiden Text wird an ein \enword{KeywordResult}-Objekt übergeben. 
 
-\clearpage
 
 \section{Testdokumentation}
 
-TODO !!!
+\todo
+Vielleicht löschen?
+
+\SuperPar
+Diese Kapitel hat gezeigt, wie man ein Testprojekt mit Rayden umsetzten kann. Es wurden dafür drei unterschiedliche Testmethode gezeigt und wie diese mit Rayden umgesetzt werden können. Die Tests haben auch gezeigt, welche Vorteil die Verwendung des \enword{Object-Repository} hat. Das nächste Kapitel beinhaltet eine Zusammenfassung dieser Masterarbeit und gibt einen Ausblick auf mögliche Erweiterungen des Rayden-Systems. 

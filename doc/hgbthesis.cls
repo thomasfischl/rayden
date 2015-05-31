@@ -79,8 +79,8 @@
 
 \newcommand{\makelogo}[0]{%
 \ifthenelse{\equal{\@logofile}{}}%
-	{\vspace*{30mm}}%
-	{\includegraphics[height=30mm]{\@logofile}}%
+	{\vspace*{40mm}}%
+	{\includegraphics[height=40mm]{\@logofile}}%
 }
 
 %% -------------------------------------------------

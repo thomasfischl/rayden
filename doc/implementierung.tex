@@ -180,7 +180,10 @@ Nachdem alle Einstellungen für die Rayden-\enword{Runtime} vorgenommen wurden, 
 Zum Laden der Rayden-Datei wird der generierte xText-\enword{Parser} verwendet. Im nächsten Schritt wird das Ergebnis des \enword{Parsers} auf Syntaxfehler überprüft. Bei einem Fehler wird die Ausführung sofort beendet. Konnte die Datei ohne Fehler geladen werden, liefert der \enword{Parser} eine Instanz des \enword{ECore}-Modells. Das Modell wird durchlaufen und alle \enword{Keywords}, die gefunden werden, in der \enword{Lookup}-Tabelle gespeichert. Im letzten Schritt werden noch alle Bibliotheken geladen. Das Laden einer Bibliothek funktioniert identisch wie das Laden der primären Rayden-Datei, nur werden in diesem Fall die \enword{Keywords} in eine andere \enword{Lookup}-Tabelle gespeichert. 
 
 \SuperPar
-Nachdem das Skript und alle externen Ressourcen erfolgreich geladen wurden, können die Rayden-Tests ausgeführt werden. Dazu stellt die Rayden-\enword{Runtime} die Methode \enword{executeAllTestSuites()} zur Verfügung. Die Methode sucht in der primären \enword{Lookup}-Tabelle nach \enword{Keywords} mit einem Testtypen. Die Rayden-Sprache unterstützt folgende Testtypen:
+Nachdem das Skript und alle externen Ressourcen erfolgreich geladen wurden, können die Rayden-Tests ausgeführt werden. Dazu stellt die Rayden-\enword{Runtime} die Methode \enword{executeAllTestSuites()} zur Verfügung. Die Methode sucht in der primären \enword{Lookup}-Tabelle nach \enword{Keywords} mit einem Testtypen. 
+
+\SuperPar
+Die Rayden-Sprache unterstützt folgende Testtypen:
 
 \begin{itemize}
 \item Test-Suite (\enword{TestSuite}),

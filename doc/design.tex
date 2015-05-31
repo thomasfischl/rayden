@@ -356,8 +356,8 @@ Rayden unterstützt die folgenden \enword{Keyword}-Typen:
 \item Komponententest (\enword{UnitTest}),
 \item Integrationstest (\enword{IntegrationTest}),
 \item Schnittstellentest (\enword{APITest}),
-\item Automatisierter Abnahme-Test (\enword{AUTest}) und
-\item Manueller Abnahme-Test (\enword{MAUTest}).
+\item automatisierter Abnahmetest (\enword{AUTest}) und
+\item manueller Abnahmetest (\enword{MAUTest}).
 \end{itemize}
 
 \SuperPar
@@ -462,7 +462,7 @@ keyword Open Browser {
 \end{program}
 
 \SuperPar
-Der Typ \enword{enumeration} wird intern als \enword{string} repräsentiert. Die Laufzeitumgebung sorgt dafür, dass nur die vordefinierten Werte zugewiesen werden dürfen. Diese Überprüfung wird aber nur bei einem Übergang von einem Gültigkeitsbereich in einen anderen Gültigkeitsbereich vorgenommen. Diese Einschränkung ist damit zu erklären, dass ein \enword{enumeration}-Datentyp genau für ein \enword{Keyword} definiert wird. Ein Beispiel dazu sieht man im Code-Ausschnitt \ref{prog:enum}.  
+Der Typ \enword{enumeration} wird intern als \enword{string} repräsentiert. Die Laufzeitumgebung sorgt dafür, dass nur die vordefinierten Werte zugewiesen werden dürfen. Diese Überprüfung wird aber nur bei einem Übergang von einem Gültigkeitsbereich in einen anderen Gültigkeitsbereich vorgenommen. Diese Einschränkung ist damit zu erklären, dass ein \enword{enumeration}-Datentyp genau für ein \enword{Keyword} definiert wird. Ein Beispiel dazu sieht man im Codeausschnitt \ref{prog:enum}.  
 
 \SuperPar
 Ein weiterer spezieller Datentyp ist \enword{location}. Mit diesem Datentyp kann man ein Objekt in einem \enword{Object Repository} referenzieren. Ein Wert dieses Datentyps beginnt immer mit einem @-Symbol. Nachfolgend kann man einen Pfad im \enword{Object Repository} beschreiben, wie man im Beispiel \ref{prog:locator} sieht. Für Abnahmetests ist das Referenzieren von Testobjekten essentiell. Daher bietet Rayden dafür eine Erleichterung. 

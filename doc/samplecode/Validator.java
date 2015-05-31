@@ -5,7 +5,7 @@ public class RaydenDSLJavaValidator extends AbstractRaydenDSLJavaValidator {
   @Check
   public void checkKeywordCallExists(KeywordCall keyword) {
 
-    // check if this instance is a inline keyword
+    // check if this instance is an inline keyword
     if (RaydenModelUtils.isInlineKeyword(keyword)) {
       return;
     }
@@ -21,7 +21,7 @@ public class RaydenDSLJavaValidator extends AbstractRaydenDSLJavaValidator {
     }
 
     if (!keywordExists) {
-      warning("Keyword does not exists", RaydenDSLPackage.Literals.KEYWORD_CALL__NAME, KEYWORD_NOT_EXISTS);
+      warning("Keyword does not exist", RaydenDSLPackage.Literals.KEYWORD_CALL__NAME, KEYWORD_NOT_EXISTS);
     }
   }
 

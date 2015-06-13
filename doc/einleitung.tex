@@ -1,33 +1,33 @@
 \chapter{Einleitung}
 \label{cha:Einleitung}
 
-\section{Rayden}
+\section{Zur Projektbezeichnung Rayden}
 
-Das Wort \enword{Rayden} ist abgeleitet von dem japanischen Wort \enword{Raijin}, welches im japanischen Volksglauben der Name des Donner-Gotts ist. In der westlichen Welt wird der Name aber meist \enword{Raiden} geschrieben, woraus für diese Arbeit der Namen \enword{Rayden} abgeleitet wurde.
+Der Begriff \enword{Rayden} ist abgeleitet von dem japanischen Wort \enword{Raijin}, welches im japanischen Volksglauben der Name des Donner-Gotts ist. In der westlichen Welt wird der Name aber meist \enword{Raiden} geschrieben, woraus für diese Arbeit die Bezeichnung \enword{Rayden} abgeleitet wurde.
 
 %%------------------------------------------------------------------------------------------------------
 
 \section{Motivation}
 
-Viele Software-Firmen haben in den letzten Jahren und Jahrzehnten eine große Testabteilung aufgebaut. Der Fokus in diesen Testabteilungen liegt sehr häufig noch auf dem manuellen Testen der grafischen Oberfläche einer Software. Dabei müssen für jede neue Version einer Software viele manuelle Schritte durchlaufen werden. Dieser Vorgang ist sehr zeit- und kostenintensiv. Durch den Vormarsch von neuen Entwicklungsmethoden und einem starken Kostendruck stehen viele dieser Abteilungen vor einem Problem. Auf der einen Seite müssen sie Kosten einsparen, auf der anderen Seite werden die Release-Zyklen immer kürzer, was einen noch größeren Aufwand bedeutet. In diesem Spannungsfeld überlegen viele Firmen, ihre manuellen Tests zu automatisieren, um dadurch langfristig Zeit zu sparen. 
+Viele Softwareunternehmen haben in den letzten Jahren große Testabteilungen aufgebaut. Der Fokus in diesen Abteilungen liegt sehr häufig noch auf dem manuellen Testen der Benutzeroberflächen. Dabei müssen für jede neue Version der Software viele manuelle Schritte durchlaufen werden. Dieser Vorgang ist sehr zeit- und kostenintensiv. Durch den Vormarsch neuer Entwicklungsmethoden und wegen des starken Kostendrucks stehen viele dieser Abteilungen vor einem Problem. Auf der einen Seite müssen sie Kosten einsparen, auf der anderen Seite werden die Release-Zyklen immer kürzer, was einen noch größeren Aufwand bedeutet. In diesem Spannungsfeld überlegen viele dieser Unternehmen, ihre manuellen Tests zu automatisieren, um dadurch langfristig Zeit und Geld zu sparen. 
 
 \SuperPar
-Dieser Transformationsprozess stellt die Organisationen vor eine große Herausforderung. Die Firmen haben tausende Stunden von Expertenwissen in die manuellen Tests investiert. Für die Automatisierung steht jedoch selten derselbe Umfang an Zeit und Geld zur Verfügung. Auch muss der Prozess meistens parallel zu den bestehenden manuellen Tests vollzogen werden, da man kaum eine vollständige Umstellung auf einmal erledigen kann.
+Dieser Transformationsprozess stellt die Organisationen vor große Herausforderungen. Sie haben tausende Stunden von Expertenwissen in die manuellen Tests investiert. Für die Automatisierung steht jedoch selten derselbe Umfang an Zeit und Geld zur Verfügung. Auch muss der Prozess meistens parallel zu den bestehenden manuellen Tests vollzogen werden, da man kaum eine vollständige Umstellung auf einmal erledigen kann.
 
 \SuperPar
-Um diesen Prozess für die Testabteilung zu erleichtern, benötigt es ein mehrschichtiges Test-\enword{Framework}. Das Test-\enword{Framework} muss in der Lage sein, bestehende manuellen Tests wiederverwenden zu können. Dabei darf die Lesbarkeit der manuellen Tests aber nicht verloren gehen, da diese in Ausnahmefällen noch von einer Testerin oder einem Tester manuell durchgeführt werden müssen.
+Um diesen Prozess für die Testabteilung zu erleichtern, benötigt es ein mehrschichtiges Test-\enword{Framework}, das in der Lage sein muss, bestehende manuelle Tests wiederverwenden zu können. Dabei darf die Lesbarkeit der manuellen Tests aber nicht verloren gehen, da diese in Ausnahmefällen noch von einer Testerin oder einem Tester manuell durchgeführt werden müssen.
 
 %%------------------------------------------------------------------------------------------------------
 
 \section{Problemstellung}
 
-Viele Testabteilungen arbeiten heutzutage größtenteils mit manuellen Tests. Diese Tests sind über Jahrzehnte gewachsen und es wurden tausende von Stunden in die Erstellung und Wartung investiert. Die Testabteilungen bestehen in solchen Fällen aus vielen manuellen Testerinnen und Testern, welche die Tests für jede neue Version einer Software ausführen. Es kommt nicht selten vor, dass aus Zeitgründen nicht alle Tests für jede Version ausgeführt werden können. Diese Situation hat sich durch den Einsatz von agilen Entwicklungsprozessen und kürzeren Release-Zyklen noch deutlich verschärft. 
+Viele Testabteilungen arbeiten heutzutage noch größtenteils mit manuellen Tests. Diese Tests sind über Jahrzehnte gewachsen und es wurden tausende von Stunden in die Erstellung und Wartung investiert. Diese Testabteilungen bestehen aus vielen Testerinnen und Testern, welche die Tests für jede neue Version einer Software manuell ausführen. Es kommt nicht selten vor, dass aus Zeitgründen nicht alle Tests für jede Version ausgeführt werden können. Diese Situation hat sich durch den Einsatz von agilen Entwicklungsprozessen und kürzeren Release-Zyklen noch deutlich verschärft. 
 
 \SuperPar
-Diese Entwicklung macht es notwendig, dass sich Testabteilungen immer öfter mit dem Thema der Testautomatisierung auseinandersetzen müssen. 
+Diese Entwicklungen machen es notwendig, dass sich Testabteilungen immer öfter mit dem Thema der Testautomatisierung auseinandersetzen müssen. 
 
 \SuperPar
-Herausforderungen für die Testabteilungen:\\
+Das führt zu folgenden Herausforderungen für die Testabteilungen:\\
 
 \begin{enumerate}
 
@@ -35,36 +35,29 @@ Herausforderungen für die Testabteilungen:\\
 	
 \item Das Wissen aus den manuellen Test darf nicht verloren gehen.\\
 	
-\item Während des Migrationsprozesses und auch danach muss es möglich sein, dass man automatisierte Tests manuell ausführen kann. Diese Eigenschaft kann notwendig sein, um fehlgeschlagene Ausführungen nachträglich manuell verifizieren zu können.\\
+\item Während des Migrationsprozesses und auch danach muss es möglich sein, dass man automatisierte Tests manuell ausführen kann. Diese Eigenschaft kann notwendig werden, um fehlgeschlagene automatisierte Testausführungen nachträglich manuell verifizieren zu können.\\
 
 \item Die bestehenden Automatisierungslösungen sind oft sehr technisch aufgebaut. Jedoch findet man in typischen Testabteilungen nur wenige Entwicklerinnen und Entwickler, welche mit diesen Lösungen arbeiten können.
 
 \end{enumerate}
 
 \SuperPar
-Um alle Herausforderungen dieser Liste zu adressieren, reicht eine technische Lösung heutzutage nicht mehr aus. Ein Test-\enword{Framework} in diesem Umfeld muss auf vielen unterschiedlichen Ebenen ansetzen und unterstützen. 
-
-%%------------------------------------------------------------------------------------------------------
-
-\section{Problemanalyse}
-\label{cha:Problemanalyse}
-
-Die Testabteilung wird durch die Umstellung der Softwareentwicklungsprozesse auf agile Entwicklungsmethoden auf eine große Probe gestellt. Durch die Verwendung einer agilen Entwicklungsmethode werden die Release-Zyklen von Anwendungen deutlich reduziert. Das hat zur Folge, dass die Testabteilung einen deutlich höheren Testaufwand bewerkstelligen muss. Dem gegenüber steht die Testabteilung unter einem immer größer werdenden Kostendruck. 
+Um alle Herausforderungen dieser Liste zu adressieren, reicht \enword{eine} technische Lösung heutzutage nicht mehr aus. Ein Test-\enword{Framework} in diesem Umfeld muss auf vielen unterschiedlichen Ebenen ansetzen und Unterstützung bieten. 
 
 \SuperPar
-Aus diesem Grund entscheiden sich viele Testmanagerinnen und Testmanager dafür, ihre manuellen Testabläufe zu automatisieren. Jedoch können die Testabteilungen bei dem Aufbau von automatisierten Tests nicht von Grund auf neu beginnen. In den manuellen Tests stecken jahrelange Entwicklungszeit und Wissen, welches für die automatisierten Tests wieder verwendet werden muss, um bei der Automatisierung erfolgreich zu sein. 
+Aus diesem Grund entscheiden sich viele Testmanagerinnen und Testmanager dafür, ihre manuellen Testabläufe zu automatisieren. Jedoch können die Testabteilungen bei dem Aufbau von automatisierten Tests nicht von Grund auf neu beginnen: In den manuellen Tests stecken jahrelange Entwicklungszeit und Wissen, welches für die automatisierten Tests wiederverwendet werden muss, um bei der Automatisierung erfolgreich zu sein. 
 
 \SuperPar
-Ein anderes Problem von der Testabteilung ist, dass diese über keine bis wenige Entwicklerinnen und Entwickler verfügt. Eine klassische Testabteilung besteht normalerweise aus Personen, welche keine fundierten Programmierkenntnisse besitzen. Aus diesem Grund ist die Testabteilung entweder auf die Mithilfe der Entwicklungsabteilung angewiesen oder muss den Anteil an Entwicklerinnen und Entwicklern aufstocken, was wiederum eine Kostensteigerung verursacht.
+Ein anderes Problem von Testabteilungen liegt darin, dass diese über keine bis wenige Entwicklerinnen und Entwickler verfügen. Eine klassische Testabteilung besteht normalerweise aus Personen, welche keine fundierten Programmierkenntnisse besitzen. Aus diesem Grund sind die Testabteilungen entweder auf die Mithilfe der Entwicklungsabteilungen angewiesen oder müssen den Anteil an Entwicklerinnen und Entwicklern aufstocken, was wiederum eine Kostensteigerung verursacht.
 
 \SuperPar
-Eine mögliche Option für eine Testabteilung wäre eine Testmethode, welche es auch Testerinnen und Testern ohne fundierte Programmierkenntnisse ermöglicht, automatisierte Tests zu erstellen. Zusätzlich muss es mit der Testmethode möglich sein, bestehende manuelle Tests wieder zu verwenden. Schlussendlich müssen die automatisierten Tests noch immer in einem Format vorliegen, das ermöglicht, diese auch manuell von einer Testerin oder einem Tester auszuführen.
+Eine mögliche Option für solche Testabteilungen wäre eine Testmethode, welche es auch Testerinnen und Testern ohne fundierte Programmierkenntnisse ermöglicht, automatisierte Tests zu erstellen. Zusätzlich muss es mit dieser Testmethode möglich sein, bestehende manuelle Tests wieder zu verwenden. Schlussendlich müssen die automatisierten Tests noch immer in einem Format vorliegen, das es ermöglicht, diese auch manuell von einer Testerin oder einem Tester auszuführen.
 
 %%------------------------------------------------------------------------------------------------------
 
 \section{Zielsetzung}
 
-Das Ziel dieser Arbeit ist es, die Fähigkeiten eines \enword{Keyword-Driven-Testing}-Ansatzes mit einem \enword{Object Repository}  zu kombinieren. Im Zuge der Implementierung soll ein neues Test-\enword{Framework} entwickelt werden, welches den Ansatz von \enword{Keyword-Driven Testing} verwendet. Für das \enword{Framework} soll eine neue Sprache entwickelt werden, welche die Bedürfnisse nach einer einfachen und gut lesbaren Sprache erfüllt. Zusätzlich soll die Sprache eine gute Unterstützung für das \enword{Object Repository} liefern.
+Das Ziel dieser Arbeit ist es, die Fähigkeiten eines \enword{Keyword-Driven-Testing}-Ansatzes mit einem \enword{Object Repository}  zu kombinieren. Im Zuge der Implementierung soll ein neues Test-\enword{Framework} entwickelt werden, welches den Ansatz von \enword{Keyword-Driven Testing} verwendet. Für das \enword{Framework} soll eine neue Sprache entwickelt werden, welche die Bedürfnisse nach einer einfachen und gut lesbaren Sprache befriedigt. Zusätzlich soll die Sprache eine gute Unterstützung für das \enword{Object Repository} liefern.
 
 \SuperPar
-Im nächsten Kapitel \ref{cha:Problemanalyse} werden die Probleme einer Testabteilung und deren Anforderungen detailliert beschrieben.
+Im nächsten Kapitel werden die Grundlagen und verwendeten Technologien detailliert beschrieben.

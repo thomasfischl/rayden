@@ -8,12 +8,12 @@ In diesem Kapitel wird ein Testprojekt mit dem Rayden-System umgesetzt. Dazu wir
 \section{Beispielanwendung}
 \label{cha:demoapp}
 
-Für die Evaluierung des Rayden-Systems wird eine Anwendung zum Testen benötigt. Bei der Anwendung sollte es sich um eine Webanwendung handeln, um die Unterstützung von Selenium zeigen zu können. Für die Evaluierung hat man sich für die \enword{PetClinic}-Webanwendung entschieden, welche eine Beispielanwendung des Spring-Projekts ist. Die Abbildung \ref{fig:petClinicPage} zeigt die Startseite der Webanwendung. Die Anwendung mit allen Ressourcen ist öffentlich auf Github unter der Adresse \enword{https://github.com/spring-projects/spring-petclinic/} zugänglich.
+Für die Evaluierung des Rayden-Systems wird eine Anwendung zum Testen benötigt. Bei der Anwendung sollte es sich um eine Web-Anwendung handeln, um die Unterstützung von Selenium zeigen zu können. Für die Evaluierung hat man sich für die \enword{PetClinic}-Web-Anwendung entschieden, welche eine Beispielanwendung des Spring-Projekts ist. Die Abbildung \ref{fig:petClinicPage} zeigt die Startseite der Web-Anwendung. Die Anwendung mit allen Ressourcen ist öffentlich auf Github unter der Adresse \enword{https://github.com/spring-projects/spring-petclinic/} zugänglich.
 
 \begin{figure}
 \centering
 \includegraphics[width=0.9\textwidth]{petclinic.png}
-\caption{Startseite der Webanwendung PetClinic}
+\caption{Startseite der Web-Anwendung PetClinic}
 \label{fig:petClinicPage}
 \end{figure}
 
@@ -27,7 +27,7 @@ Da der Funktionsumfang der Anwendung überschaubar ist, eignet sich diese ausgez
 \section{Komponententest}
 \label{cha:TestenUnit}
 
-Dieser Abschnitt zeigt die Umsetzung eines Komponententests mit dem Rayden-System. Für einen Komponententest wird in Rayden zuerst ein \enword{Keyword} angelegt. Der Codeauszug \ref{prog:unitTest} zeigt die Definition des \enword{Keywords}. Ein Komponententest wird normalerweise als \enword{Scripted Keyword} umgesetzt und mit dem \enword{Keyword}-Typ \enword{unittest} gekennzeichnet. In diesem Beispiel wird die Komponente \enword{PetTypeFormatter} getestet. Die Komponente ist in der Webanwendung dafür verantwortlich, aus einer Zeichenkette das dazugehörige Domänenobjekt zu liefern und umgekehrt. 
+Dieser Abschnitt zeigt die Umsetzung eines Komponententests mit dem Rayden-System. Für einen Komponententest wird in Rayden zuerst ein \enword{Keyword} angelegt. Der Codeauszug \ref{prog:unitTest} zeigt die Definition des \enword{Keywords}. Ein Komponententest wird normalerweise als \enword{Scripted Keyword} umgesetzt und mit dem \enword{Keyword}-Typ \enword{unittest} gekennzeichnet. In diesem Beispiel wird die Komponente \enword{PetTypeFormatter} getestet. Die Komponente ist in der Web-Anwendung dafür verantwortlich, aus einer Zeichenkette das dazugehörige Domänenobjekt zu liefern und umgekehrt. 
 
 \begin{program}
 \begin{JavaCode}
@@ -195,7 +195,7 @@ Dem \enword{Keyword} \enword{Check Owner Details} werden die zu überprüfenden 
 \end{figure}
 
 \SuperPar
-Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Object Repository} verwendet. Einen Auszug mit den wichtigsten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzer. Die Abbildung \ref{fig:orwebsite} zeigt die Verbindung von Webseiten-Elementen auf Objekte im \enword{Object Repository}. In der Grafik sind jene Elemente rot hinterlegt, welche einen Eintrag im \enword{Object Repository} besitzen. Neben jedem Element steht auch der vollständige \enword{Locator}, mit welchem man das Objekt aus \enword{Object Repository} abfragen kann.
+Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen, wird ein \enword{Object Repository} verwendet. Einen Auszug mit den wichtigsten Objekten für diesen Abnahmetest zeigt das Codebeispiel \ref{prog:or-find}. Das Codebeispiel enthält die Objekte für die Suchergebnisseite und die Detailseite für Tierbesitzer. Die Abbildung \ref{fig:orwebsite} zeigt die Verbindung von Web-Seiten-Elementen auf Objekte im \enword{Object Repository}. In der Grafik sind jene Elemente rot hinterlegt, welche einen Eintrag im \enword{Object Repository} besitzen. Neben jedem Element steht auch der vollständige \enword{Locator}, mit welchem man das Objekt aus \enword{Object Repository} abfragen kann.
 
 %%------------------------------------------------------------------------------------------------------
 
@@ -253,7 +253,7 @@ public class OpenBrowserKeyword implements ScriptedKeyword {
 \end{program}
 
 \SuperPar
-Bei dem nächsten \enword{Keyword} handelt es sich um das \enword{Click Keyword}, welches im Codestück \ref{prog:clickKeyword} gezeigt wird. Mit diesem \enword{Keyword} kann man einen Klick auf der Webseite auslösen. Um die richtige Position für den Klick herausfinden zu können, wird dem \enword{Keyword} ein \enword{Locator} übergeben. Dieser \enword{Locator} beschreibt ein Element auf der Webseite. Die Auswertung dieses \enword{Locators} wird von der Methode \enword{findElement()} übernommen. Die Methode greift auf das aktuelle \enword{WebDriver}-Objekt zu, um das Element zu finden. Diese Aktion könnte man auch direkt über das \enword{WebDriver}-Objekt ausführen, jedoch enthält die Methode \enword{findElement()} aus der Selenium-Klasse eine zusätzliche Wiederholungsfunktion im Fall eines Fehlers. Die Funktionalität ist für einen stabilen Abnahmetest wichtig, da diese Synchronisierungsprobleme mit der Webanwendung reduziert. 
+Bei dem nächsten \enword{Keyword} handelt es sich um das \enword{Click Keyword}, welches im Codestück \ref{prog:clickKeyword} gezeigt wird. Mit diesem \enword{Keyword} kann man einen Klick auf der Webseite auslösen. Um die richtige Position für den Klick herausfinden zu können, wird dem \enword{Keyword} ein \enword{Locator} übergeben. Dieser \enword{Locator} beschreibt ein Element auf der Webseite. Die Auswertung dieses \enword{Locators} wird von der Methode \enword{findElement()} übernommen. Die Methode greift auf das aktuelle \enword{WebDriver}-Objekt zu, um das Element zu finden. Diese Aktion könnte man auch direkt über das \enword{WebDriver}-Objekt ausführen, jedoch enthält die Methode \enword{findElement()} aus der Selenium-Klasse eine zusätzliche Wiederholungsfunktion im Fall eines Fehlers. Die Funktionalität ist für einen stabilen Abnahmetest wichtig, da diese Synchronisierungsprobleme mit der Web-Anwendung reduziert. 
 
 \begin{program}
 \begin{JavaCode}
@@ -273,7 +273,7 @@ public class ClickKeyword implements ScriptedKeyword {
 \end{program}
 
 \SuperPar
-Man spricht von einem Synchronisierungsfehler bei einer Webseite, wenn eine Aktion ausgeführt wird, obwohl die Anwendung noch nicht fertig geladen wurde. Dieser Fehler tritt sehr häufig bei stark dynamischen Webseiten auf. Die einfachste und auch primitivste Lösung für das Problem ist die mehrmalige Auswertung des \enword{XPath}-Ausdruckes, falls dieser kein Element findet. Genau dieser Ansatz ist in der \enword{findElement()}-Methode der Selenium-Klasse implementiert.
+Man spricht von einem Synchronisierungsfehler bei einer Webseite, wenn eine Aktion ausgeführt wird, obwohl die Anwendung noch nicht fertig geladen wurde. Dieser Fehler tritt sehr häufig bei stark dynamischen Web-Seiten auf. Die einfachste und auch primitivste Lösung für das Problem ist die mehrmalige Auswertung des \enword{XPath}-Ausdruckes, falls dieser kein Element findet. Genau dieser Ansatz ist in der \enword{findElement()}-Methode der Selenium-Klasse implementiert.
 
 \begin{program}
 \begin{JavaCode}

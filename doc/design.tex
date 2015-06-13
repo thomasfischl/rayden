@@ -13,7 +13,7 @@ Das primäre Designziel von Rayden ist Offenheit. Rayden soll im gesamten Testpr
 Die domänenspezifische Sprache von Rayden ist speziell für Personen im Testbereich ausgelegt. Das wichtigste Ziel der Sprache ist Einfachheit. Die Sprache soll Personen ohne Programmierkenntnisse in die Lage versetzen, Tests in dieser Sprache lesen und bearbeiten zu können. Die Sprache Rayden ist daher stark an der natürlichen Sprache angelehnt, um den Einstieg zu erleichtern. Ein anderes Ziel bei dem Sprachdesign ist die Flexibilität der Sprache. Der Testprozess setzt sich aus einer Vielzahl an unterschiedlichen Aufgaben zusammen. Um möglichst alle Aufgaben mit dieser Sprache abdecken zu können, wird eine hohe Flexibilität benötigt. 
 
 \SuperPar
-Abgesehen von einer geeigneten Sprache gibt es noch weitere wichtige Ziele für das Rayden-System. Rayden muss plattformunabhängig sein, um viele Anwendungsszenarien abdecken zu können. Aus diesem Grund wird die Programmiersprache \enword{Java} für die Entwicklung des Rayden-Systems gewählt. Der Interpreter für Rayden läuft ebenfalls auf der virtuellen \enword{Java}-Maschine (JVM).
+Abgesehen von einer geeigneten Sprache gibt es noch weitere wichtige Ziele für das Rayden-System. Rayden muss plattformunabhängig sein, um viele Anwendungsszenarien abdecken zu können. Aus diesem Grund wird die Programmiersprache \enword{Java} für die Entwicklung des Rayden-Systems gewählt. Der Interpretierer für Rayden läuft ebenfalls auf der virtuellen \enword{Java}-Maschine (JVM).
 
 \SuperPar
 Die Einbindung von externen Testtreiber-Bibliotheken wird durch eine offene Schnittstelle ermöglicht. Dadurch können Rayden-Tests für die unterschiedlichsten Anwendungsszenarien entwickelt werden. Rayden kann somit für das jeweilige Projekt und die beteiligten Personen angepasst werden. 
@@ -86,17 +86,17 @@ Nachfolgend werden die einzelnen Komponenten der Rayden-Architektur beschrieben,
 
 \item \textbf{Runtime}
 
-Die \enword{Runtime} ist der Einstiegspunkt für die Ausführung von Rayden-Tests. Dazu enthält diese Komponente die Implementierung für die \enword{Java Scripting API}. Wird ein Test ausgeführt, werden zuerst alle Projektressourcen in die \enword{Runtime} geladen. Das Projektverzeichnis kann man über einen Kontextparameter setzen. Falls dieser nicht gesetzt ist, wird das aktuelle Verzeichnis verwendet. Für das Laden der Ressourcen wird die Compiler-Komponente verwendet. Die \enword{Runtime} baut bei diesem Lesevorgang eine \enword{Lookup}-Tabelle für alle \enword{Keywords} auf. Diese Tabelle wird für einen schnellen Zugriff im Interpreter benötigt. Der Rayden-Test wird mithilfe des Interpreters ausgeführt. Das Ergebnis des Tests wird als Resultat über die \enword{Java Scripting API} zurückgegeben.\\
+Die \enword{Runtime} ist der Einstiegspunkt für die Ausführung von Rayden-Tests. Dazu enthält diese Komponente die Implementierung für die \enword{Java Scripting API}. Wird ein Test ausgeführt, werden zuerst alle Projektressourcen in die \enword{Runtime} geladen. Das Projektverzeichnis kann man über einen Kontextparameter setzen. Falls dieser nicht gesetzt ist, wird das aktuelle Verzeichnis verwendet. Für das Laden der Ressourcen wird die Compiler-Komponente verwendet. Die \enword{Runtime} baut bei diesem Lesevorgang eine \enword{Lookup}-Tabelle für alle \enword{Keywords} auf. Diese Tabelle wird für einen schnellen Zugriff im Interpretierer benötigt. Der Rayden-Test wird mithilfe des Interpretierers ausgeführt. Das Ergebnis des Tests wird als Resultat über die \enword{Java Scripting API} zurückgegeben.\\
 
 \item \textbf{Compiler}
 
-Der Compiler für die Rayden-Sprache wird mit dem Compiler-Werkzeug xText \cite{xtext} realisiert. Von dem generierten Compiler wird für die Ausführungseinheit nur der lexikalische und syntaktische Analysator verwendet. Der Eclipse-Editor wird für das Rayden-System nicht benötigt. Das Resultat der Compiler-Komponente ist ein EMF-Modell des Tests. Die \enword{Runtime}-Komponente verwaltet die Modelle und stellt diese dem Interpreter bei Bedarf zur Verfügung.\\
+Der Compiler für die Rayden-Sprache wird mit dem Compiler-Werkzeug xText \cite{xtext} realisiert. Von dem generierten Compiler wird für die Ausführungseinheit nur der lexikalische und syntaktische Analysator verwendet. Der Eclipse-Editor wird für das Rayden-System nicht benötigt. Das Resultat der Compiler-Komponente ist ein EMF-Modell des Tests. Die \enword{Runtime}-Komponente verwaltet die Modelle und stellt diese dem Interpretierer bei Bedarf zur Verfügung.\\
 
-\item \textbf{Interpreter}
+\item \textbf{Interpretierer}
 
-Der Interpreter ist die wichtigste Komponente im Rayden-System. Der Interpreter ist dafür verantwortlich, dass die Rayden-Tests ausgeführt werden können. Zum Starten des Interpreters wird der Aufruf eines Test-\enword{Keywords} übergeben. Dieses \enword{Keyword} wird auf den leeren \enword{Stack} geladen. Der Test wird mithilfe einer \enword{Stack}-Maschine \cite{StackMachine} abgearbeitet. Bei jedem Aufruf eines \enword{Keywords} wird die \enword{Keyword}-Implementierung auf den \enword{Stack} geladen. Zusätzlich wird für jeden neuen \enword{Keyword}-Aufruf ein neuer Gültigkeitsbereich (\enword{Scope}) angelegt. \\
+Der Interpretierer ist die wichtigste Komponente im Rayden-System. Der Interpretierer ist dafür verantwortlich, dass die Rayden-Tests ausgeführt werden können. Zum Starten des Interpretierers wird der Aufruf eines Test-\enword{Keywords} übergeben. Dieses \enword{Keyword} wird auf den leeren \enword{Stack} geladen. Der Test wird mithilfe einer \enword{Stack}-Maschine \cite{StackMachine} abgearbeitet. Bei jedem Aufruf eines \enword{Keywords} wird die \enword{Keyword}-Implementierung auf den \enword{Stack} geladen. Zusätzlich wird für jeden neuen \enword{Keyword}-Aufruf ein neuer Gültigkeitsbereich (\enword{Scope}) angelegt. \\
 \\
-Der Gültigkeitsbereich ist für die Verwaltung der Parameter und Variablen zuständig. Eine Besonderheit in Rayden ist, dass Gültigkeitsbereiche Zugriff auf andere Gültigkeitsbereiche haben. Eine detaillierte Beschreibung dazu findet sich im Abschnitt \ref{cha:KeywordScope}. Die Auswertung von Ausdrücken wird in einem separaten Teil des Interpreters vorgenommen. Für die Auswertung werden der aktuelle Gültigkeitsbereich und der Ausschnitt aus dem Modell an die Evaluierungskomponente übergeben. Das Ergebnis des Ausdrucks wird wieder auf den \enword{Stack} gelegt. Ruft die \enword{Stack}-Maschine ein \enword{Scripted-Keyword} (Beschreibung in Abschnitt \ref{cha:Keyword}) auf, wird entweder der dazugehörige Code ausgeführt oder es wird der Aufruf an die \enword{Bridge}-Schnittstelle weitergeleitet.\\
+Der Gültigkeitsbereich ist für die Verwaltung der Parameter und Variablen zuständig. Eine Besonderheit in Rayden ist, dass Gültigkeitsbereiche Zugriff auf andere Gültigkeitsbereiche haben. Eine detaillierte Beschreibung dazu findet sich im Abschnitt \ref{cha:KeywordScope}. Die Auswertung von Ausdrücken wird in einem separaten Teil des Interpretierers vorgenommen. Für die Auswertung werden der aktuelle Gültigkeitsbereich und der Ausschnitt aus dem Modell an die Evaluierungskomponente übergeben. Das Ergebnis des Ausdrucks wird wieder auf den \enword{Stack} gelegt. Ruft die \enword{Stack}-Maschine ein \enword{Scripted-Keyword} (Beschreibung in Abschnitt \ref{cha:Keyword}) auf, wird entweder der dazugehörige Code ausgeführt oder es wird der Aufruf an die \enword{Bridge}-Schnittstelle weitergeleitet.\\
 
 \item \textbf{Bridge-Schnittstelle}
 
@@ -158,7 +158,7 @@ Das \enword{Compound Keyword} ist die einfachste Variante eines \enword{Keywords
 keyword Anmelden an der PetClinic Anwendung {
 	'''Man meldet sich bei der Anwendung PetClinic mit den definierten 
 	   Daten an. Wenn das Keyword erfolgreich ausgeführt wurde, 
-	   befindet man sich auf der Hauptseite der Webanwendung.'''
+	   befindet man sich auf der Hauptseite der Web-Anwendung.'''
 	
 	parameter in username as string
 	parameter in password as string
@@ -364,7 +364,7 @@ Rayden unterstützt die folgenden \enword{Keyword}-Typen:
 In Rayden ist es aber nicht zwingend notwendig, diese Typen zu verwenden. Man kann statt den Typen einfach das Schlüsselwort \enword{keyword} verwenden. Damit verliert man aber die Auswertungsmöglichkeit in einem Testprojekt. 
 
 %%------------------------------------------------------------------------------------------------------
-\subsection{Gültigkeitsbereich}
+\subsection{Gültigkeitsbereiche}
 \label{cha:KeywordScope}
 
 In Rayden wird für jeden Aufruf eines \enword{Keywords} ein neuer Gültigkeitsbereich angelegt. In diesem Gültigkeitsbereich befinden sich alle Parameter, welche für das \enword{Keyword} definiert sind. Nachdem Parameter in einem Gültigkeitsbereich definiert wurden, verhalten sich diese gleich wie Variablen. Variablen können von einem \enword{Keyword} in einem Gültigkeitsbereich mit einem Wert belegt werden. Der Wert einer Variablen kann entweder in einem Ausdruck oder in einem \enword{Keyword} verwendet werden. In Rayden müssen Variablen nicht deklariert werden. Sobald das erste Mal eine Variable mit einem Wert belegt wurde, ist diese im Gültigkeitsbereich vorhanden.
@@ -416,7 +416,7 @@ keyword Parameter Beispiel {
 
 
 \SuperPar
-Rayden unterstützt sowohl typisierte als auch untypisierte Parameter. Sind die Parameter typisiert, werden diese vom Rayden-Interpreter überprüft. Sind keine Werte für einen Parameter vorhanden, wird die Ausführung mit einem Fehler abgebrochen. 
+Rayden unterstützt sowohl typisierte als auch untypisierte Parameter. Sind die Parameter typisiert, werden diese vom Rayden-Interpretierer überprüft. Sind keine Werte für einen Parameter vorhanden, wird die Ausführung mit einem Fehler abgebrochen. 
 
 \SuperPar
 Neben einem Typ kann man bei einem Parameter auch noch die Richtung definieren. Die Richtung bezieht sich auf die Gültigkeitsbereiche. In Rayden werden die Richtungen \enword{In}, \enword{Out} und \enword{InOut} unterstützt, wie das Code-Beispiel \ref{prog:parameter} zeigt. \\
@@ -511,7 +511,7 @@ Eine Typumwandlung ist in der Sprache Rayden nicht vorgesehen. Es besteht zwar d
 %%------------------------------------------------------------------------------------------------------
 \section{Verarbeitung von \enword{Keywords} und Ausdrücken}
 
-Im Rayden-System sind Interpreter und \enword{Runtime} für die Ausführung eines Tests zuständig. Dabei wird die Ausführung von \enword{Keywords} und Ausdrücken voneinander getrennt. Die \enword{Keywords} werden von einer \enword{Stack}-Maschine ausgeführt. 
+Im Rayden-System sind Interpretierer und \enword{Runtime} für die Ausführung eines Tests zuständig. Dabei wird die Ausführung von \enword{Keywords} und Ausdrücken voneinander getrennt. Die \enword{Keywords} werden von einer \enword{Stack}-Maschine ausgeführt. 
 
 \SuperPar
 Die Ausdrücke werden in einer eigenen Ausführungseinheit behandelt. Die Ausführungseinheit verwendet keine \enword{Stack}-Maschine, sondern den rekursiven Abstieg für die Auswertung. Dabei kann diese Einheit entweder untypisiert oder typisiert ausgeführt werden. Diese Eigenschaft zur Typisierung von Parametern wird benötigt, um die Funktionalität einiger Datentypen zu ermöglichen. Darunter fallen die Datentypen \enword{variable} und \enword{enumeration}. Für diese beiden Datentypen muss sich die Ausführungseinheit entweder anders verhalten oder zusätzliche Überprüfungen durchführen. 
@@ -616,7 +616,7 @@ objectrepository PetClinic {
 \end{program}
 
 \SuperPar
-Die Testobjekte werden im \enword{Object Repository} in einem Baum verwaltet und können über diesen auch referenziert werden. Das Beispiel \ref{prog:or} zeigt ein \enword{Object Repository} für eine Webanwendung, welche als Bezeichner einen \enword{XPath}-Ausdruck verwendet.  Der Vorteil davon ist, dass der Bezeichner \enword{location} über die Baumstruktur zusammengebaut wird. Dadurch erspart man sich viel Wartungsaufwand. 
+Die Testobjekte werden im \enword{Object Repository} in einem Baum verwaltet und können über diesen auch referenziert werden. Das Beispiel \ref{prog:or} zeigt ein \enword{Object Repository} für eine Web-Anwendung, welche als Bezeichner einen \enword{XPath}-Ausdruck verwendet.  Der Vorteil davon ist, dass der Bezeichner \enword{location} über die Baumstruktur zusammengebaut wird. Dadurch erspart man sich viel Wartungsaufwand. 
 
 \SuperPar
 Typischerweise werden in einem \enword{Object Repository} nur Testobjekte von einer Test-Anwendung zusammengefasst. Werden in einem Test mehrere Anwendungen getestet, sollten dafür unterschiedliche \enword{Object Repositories} angelegt werden.

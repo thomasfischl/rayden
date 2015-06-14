@@ -9,7 +9,7 @@ objectrepository PetClinic {
 		
 		...
 		
-		page Find Owners Result Page{
+		page Find Owners Result Page {
 			control Title { location "//h2" }
 			
 			textfield Search {

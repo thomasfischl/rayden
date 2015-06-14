@@ -54,13 +54,13 @@ Die Regel \enword{KeywordCall} definiert den Aufruf eines \enword{Keywords} in e
 
 %%------------------------------------------------------------------------------------------------------
 
-\section{Ausführung von \enword{Keywords} mit einer \enword{Stack}-Maschine}
+\section{Ausführung von \enword{Keywords} mit dem Interpretierer}
 \label{cha:StackMachine}
 
-Im vorigen Abschnitt \ref{cha:KeywordGrammar} wurde die Grammatik eines \enword{Keywords} der Sprache Rayden erklärt. Dieser Abschnitt beschäftigt sich mit der Ausführung von \enword{Keywords}. Damit die \enword{Stack}-Maschine arbeiten kann, benötigt diese den Zugriff auf den abstrakten Syntaxbaum. 
+Im vorigen Abschnitt \ref{cha:KeywordGrammar} wurde die Grammatik eines \enword{Keywords} der Sprache Rayden erklärt. Dieser Abschnitt beschäftigt sich mit der Ausführung von \enword{Keywords}. Damit der Interpretierer arbeiten kann, benötigt diese den Zugriff auf den abstrakten Syntaxbaum. 
 
 \SuperPar
-Das Compilerbauwerkzeug xText stellt für den abstrakten Syntaxbaum ein \enword{Eclipse-ECore}-Modell zur Verfügung. Der generierte Compiler ist so konzipiert, dass dieser die gesamte Quelltextdatei einliest und daraus einen abstrakten Syntaxbaum erzeugt. Dieser abstrakte Syntaxbaum steht für die weitere Verarbeitung als \enword{ECore}-Modell zur Verfügung. Einen Auszug aus dem Modell zeigt die Abbildung \ref{fig:AST}. Diese Abbildung zeigt die Modell-Repräsentation der Grammatik-Regeln von Abbildung \ref{fig:keywordGrammar}. Dieser Ausschnitt aus dem Modell stellt die Basis für die \enword{Stack}-Maschine dar. 
+Das Compilerbauwerkzeug xText stellt für den abstrakten Syntaxbaum ein \enword{Eclipse-ECore}-Modell zur Verfügung. Der generierte Compiler ist so konzipiert, dass dieser die gesamte Quelltextdatei einliest und daraus einen abstrakten Syntaxbaum erzeugt. Dieser abstrakte Syntaxbaum steht für die weitere Verarbeitung als \enword{ECore}-Modell zur Verfügung. Einen Auszug aus dem Modell zeigt die Abbildung \ref{fig:AST}. Diese Abbildung zeigt die Modell-Repräsentation der Grammatik-Regeln von Abbildung \ref{fig:keywordGrammar}. Dieser Ausschnitt aus dem Modell stellt die Basis für den Interpretierer dar. 
 
 \begin{figure}[h]
 \centering
@@ -70,10 +70,10 @@ Das Compilerbauwerkzeug xText stellt für den abstrakten Syntaxbaum ein \enword{
 \end{figure}
 
 \SuperPar
-Die \enword{Stack}-Maschine für das Rayden-System ist in der Klasse \enword{RaydenRuntime} implementiert. Der Codeauszug \ref{prog:runtime} zeigt die essentielle Methode \enword{executeKeyword}, welche für die Ausführung von \enword{Keywords} verantwortlich ist. Die Methode wird mit einem \enword{KeywordCall}-Objekt aufgerufen. Dieses Objekt bezeichnet das erste \enword{Keyword}, welches von der \enword{Stack}-Maschine ausgeführt wird. Zuerst werden in der Methode übriggebliebene Elemente vom \enword{Stack} entfernt. Danach werden alle \enword{Reporter-}Objekte über den Start eines neuen Testfalles benachrichtigt. Im nächsten Schritt wird ein neuer Gültigkeitsbereich (\enword{RaydenScriptScope}) angelegt und mit dem \enword{KeywordCall}-Objekt initialisiert. Der Gültigkeitsbereich wird dann auf den leeren \enword{Stack} geladen. 
+Der Interpretierer für das Rayden-System ist in der Klasse \enword{RaydenRuntime} implementiert, da der Interpretierer eine Teilkomponente der \enword{Runtime} ist. Der Codeauszug \ref{prog:runtime} zeigt die essentielle Methode \enword{executeKeyword}, welche für die Ausführung von \enword{Keywords} verantwortlich ist. Die Methode wird mit einem \enword{KeywordCall}-Objekt aufgerufen. Dieses Objekt bezeichnet das erste \enword{Keyword}, welches von dem Interpretierer ausgeführt wird. Zuerst werden in der Methode übriggebliebene Elemente vom \enword{Stack} entfernt. Danach werden alle \enword{Reporter-}Objekte über den Start eines neuen Testfalles benachrichtigt. Im nächsten Schritt wird ein neuer Gültigkeitsbereich (\enword{RaydenScriptScope}) angelegt und mit dem \enword{KeywordCall}-Objekt initialisiert. Der Gültigkeitsbereich wird dann auf den leeren \enword{Stack} geladen. 
 
 \SuperPar
-Nach der Initialisierung der \enword{Stack}-Maschine wird die Abarbeitung gestartet. Es werden nun solange die \enword{Keywords} am \enword{Stack} abgearbeitet, bis der \enword{Stack} leer oder ein Fehler bei der Ausführung eines \enword{Keywords} aufgetreten ist. Der Gültigkeitsbereich repräsentiert einen Aufruf eines \enword{Keywords} und die dazugehörigen Parameter und Variablen. Der Gültigkeitsbereich speichert zusätzlich die aktuelle Position in der \enword{Keyword}-Liste, falls es sich um ein \enword{Compound Keyword} oder \enword{Scripted Compound Keyword} handelt. Über die Methode \enword{getNextKeyword} kann die \enword{Stack}-Maschine das nächste \enword{Keyword} aus dem aktuellen Gültigkeitsbereich lesen. Liefert die Methode keinen Wert, ist die Ausführung der \enword{Keywords} für diesen Gültigkeitsbereich zu Ende und wird daher vom \enword{Stack} entfernt.
+Nach der Initialisierung des Interpretierers wird die Abarbeitung gestartet. Es werden nun solange die \enword{Keywords} am \enword{Stack} abgearbeitet, bis der \enword{Stack} leer oder ein Fehler bei der Ausführung eines \enword{Keywords} aufgetreten ist. Der Gültigkeitsbereich repräsentiert einen Aufruf eines \enword{Keywords} und die dazugehörigen Parameter und Variablen. Der Gültigkeitsbereich speichert zusätzlich die aktuelle Position in der \enword{Keyword}-Liste, falls es sich um ein \enword{Compound Keyword} oder \enword{Scripted Compound Keyword} handelt. Über die Methode \enword{getNextKeyword} kann der Interpretierer das nächste \enword{Keyword} aus dem aktuellen Gültigkeitsbereich lesen. Liefert die Methode keinen Wert, ist die Ausführung der \enword{Keywords} für diesen Gültigkeitsbereich zu Ende und wird daher vom \enword{Stack} entfernt.
 
 \begin{program}
 \lstinputlisting{samplecode/Runtime.java}
@@ -85,10 +85,10 @@ Nach der Initialisierung der \enword{Stack}-Maschine wird die Abarbeitung gestar
 Wurde jedoch ein Wert zurückgeliefert, wird mit der Ausführung fortgefahren. Handelt es sich bei dem Wert um ein \enword{KeywordCall}-Objekt, wird die Methode \enword{executeKeywordCall} aufgerufen. Diese Methode löst den Aufruf des \enword{Keywords} über eine \enword{Lookup}-Tabelle auf. Wurde die passende \enword{Keyword}-Implementierung gefunden, wird ein neuer Gültigkeitsbereich angelegt und auf den \enword{Stack} geladen. Wird in der \enword{Lookup}-Tabelle keine passende Implementierung gefunden, wird die Anwendung in einen Fehlerzustand versetzt und die Ausführung abgebrochen. Handelt es sich jedoch um ein \enword{KeywordDecl}-Objekt wird das \enword{Keyword} ausgeführt.  
 
 \SuperPar
-Dabei muss die \enword{Stack}-Maschine überprüfen, ob es sich um ein \enword{Scripted Compound Keyword} handelt. Bei einem \enword{Scripted Compound Keyword} muss eine andere Ausführung gewählt werden, da sowohl eine Code-Implementierung, als auch eine \enword{Keyword}-Liste vorhanden sind. Bei allen anderen \enword{Keyword}-Metatypen wird die Methode \enword{executeKeywordDecl} ausgeführt. Diese Methode führt bei einem \enword{Scripted Keyword} das spezifizierte Codestück aus. Bei einem \enword{Compound Keyword} wird die \enword{Keyword}-Liste in den Gültigkeitsbereich geladen.
+Dabei muss der Interpretierer überprüfen, ob es sich um ein \enword{Scripted Compound Keyword} handelt. Bei einem \enword{Scripted Compound Keyword} muss eine andere Ausführung gewählt werden, da sowohl eine Code-Implementierung, als auch eine \enword{Keyword}-Liste vorhanden sind. Bei allen anderen \enword{Keyword}-Metatypen wird die Methode \enword{executeKeywordDecl} ausgeführt. Diese Methode führt bei einem \enword{Scripted Keyword} das spezifizierte Codestück aus. Bei einem \enword{Compound Keyword} wird die \enword{Keyword}-Liste in den Gültigkeitsbereich geladen.
 
 \SuperPar
-Wurden alle Gültigkeitsbereich am \enword{Stack} erfolgreich abgearbeitet, werden am Ende noch alle \enword{Reporter-Objekte} aufgerufen. Danach wird die Ausführung der \enword{Stack}-Maschine beendet.
+Wurden alle Gültigkeitsbereich am \enword{Stack} erfolgreich abgearbeitet, werden am Ende noch alle \enword{Reporter-Objekte} aufgerufen. Danach wird die Ausführung des Interpretierers beendet.
 
 %%------------------------------------------------------------------------------------------------------
 \clearpage

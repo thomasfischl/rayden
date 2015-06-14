@@ -96,14 +96,14 @@ Die große Herausforderung bei diesem Testansatz ist es, die Balance zwischen ma
 
 \section{Verwendete Technologien}
 
-Rayden basiert auf und verwendet eine Vielzahl von unterschiedlichen Technologien, Werkzeugen und Bibliotheken. Dieser Abschnitt gibt einen Einblick in diese Technologien und erklärt, in welchen Bereichen diese im Rayden-System verwendet werden. Als Basis wird die Programmiersprache \enword{Java} und deren Laufzeitumgebung verwendet. Die Entscheidung für \enword{Java} ist essentiell für das Projekt, um eine große Anzahl an unterschiedlichen Test-Szenarien zu unterstützen. 
+Rayden basiert auf und verwendet eine Vielzahl von unterschiedlichen Technologien, Werkzeugen und Bibliotheken. Dieser Abschnitt gibt einen Einblick in diese Technologien und erklärt, in welchen Bereichen diese im Rayden-System verwendet werden. Als Basis wird die Programmiersprache Java und deren Laufzeitumgebung verwendet. Die Entscheidung für Java ist essentiell für das Projekt, um eine große Anzahl an unterschiedlichen Test-Szenarien zu unterstützen. 
 
 \SuperPar
 Für die Umsetzung der Sprache Rayden wurden viele Bibliotheken und Werkzeuge aus dem Eclipse-Umfeld verwendet. Als Testtreiber-Bibliotheken werden sowohl die offene Selenium- als auch die kommerzielle \enword{Borland Silk Test}-Implementierung verwendet.
 
 \subsection{Eclipse}
 
-Eclipse \cite{Eclipse} ist eine Entwicklungsumgebung für eine Vielzahl an Programmiersprachen. Ursprünglich wurde Eclipse von IBM für die Sprache \enword{Java} entwickelt. Im Laufe der Zeit wurde Eclipse zu einer beliebten Entwicklerplattform und es wurden immer mehr Sprachen über \enword{Plug-ins} unterstützt. Auch für das Rayden-System soll ein solches \enword{Plug-in} entwickelt werden, um eine gute Unterstützung bei der Erstellung von Tests bieten zu können. 
+Eclipse \cite{Eclipse} ist eine Entwicklungsumgebung für eine Vielzahl an Programmiersprachen. Ursprünglich wurde Eclipse von IBM für die Sprache Java entwickelt. Im Laufe der Zeit wurde Eclipse zu einer beliebten Entwicklerplattform und es wurden immer mehr Sprachen über \enword{Plug-ins} unterstützt. Auch für das Rayden-System soll ein solches \enword{Plug-in} entwickelt werden, um eine gute Unterstützung bei der Erstellung von Tests bieten zu können. 
 
 \SuperPar
 Neben der Entwicklungsumgebung ist Eclipse aber auch eine Plattform für die unterschiedlichsten Projekte geworden. Diese Projekte werden von der \enword{Eclipse Foundation} \cite{EclipseFoundation} verwaltet und durch Partnerunternehmen und Freiwillige gepflegt. 
@@ -113,7 +113,7 @@ Einige dieser Projekte werden in den nächsten Abschnitten separat vorgestellt.
 
 \subsection{\enword{Eclipse Modeling Framework}}
 
-Das \enword{Eclipse Modeling Framework} (EMF) \cite{EMF} ist ein Modellierungswerkzeug für \enword{Java}. EMF stellte eine Menge an Werkzeugen zur Erstellung, Verwaltung und Weiterverarbeitung zur Verfügung. Dazu gehört auch die Möglichkeit, aus diesen Modellen Code zu generieren. Eine Kernkomponente von EMF ist das ECore-Metamodell. Ein Metamodell ist die Schablone für ein spezifisches Modell. Aus einem ECore-Modell kann man mithilfe von Code-Generatoren eine \enword{Java}-Bibliothek generieren.
+Das \enword{Eclipse Modeling Framework} (EMF) \cite{EMF} ist ein Modellierungswerkzeug für Java. EMF stellte eine Menge an Werkzeugen zur Erstellung, Verwaltung und Weiterverarbeitung zur Verfügung. Dazu gehört auch die Möglichkeit, aus diesen Modellen Code zu generieren. Eine Kernkomponente von EMF ist das ECore-Metamodell. Ein Metamodell ist die Schablone für ein spezifisches Modell. Aus einem ECore-Modell kann man mithilfe von Code-Generatoren eine Java-Bibliothek generieren.
 
 \SuperPar
 Auf diesem Konzept baut auch das xText-Projekt auf, welches im nächsten Abschnitt vorgestellt wird. 
@@ -131,4 +131,4 @@ In der ersten Version hat Selenium auf eine proprietäre Programmierschnittstell
 
 \subsection{Borland Silk Test}
 
-\enword{Borland Silk Test} \cite{SilkTest} ist eine kommerzielle Testsoftware für native wie auch Web-Anwendungen. \enword{Silk Test} bietet Unterstützung für eine Vielzahl an unterschiedlichen Technologien. Unterstützt werden zum Beispiel die gängigen Browser wie Internet Explorer, Google Chrome und Mozilla Firefox. Neben Web-Technologien werden auch native Windows-, Adobe-Flex-, Windows-Presentation-Foundation- oder \enword{Java}-Anwendungen unterstützt. Seit kurzem werden auch Browser und Anwendungen  auf mobilen Geräten unterstützt. Der Vorteil von \enword{Silk Test} gegenüber von Selenium ist, dass es einen verbesserten \enword{X-Browser Support} gibt. Dabei kann man einen Test, welchen man zum Beispiel mit dem Internet Explorer aufzeichnet, mit einem Mozilla-Firefox- oder dem Google-Chrome-Browser ausführen. Durch diese \enword{X-Browser}-Technologie entfällt die Wartung von Tests für die verschiedenen Browser. 
+\enword{Borland Silk Test} \cite{SilkTest} ist eine kommerzielle Testsoftware für native wie auch Web-Anwendungen. \enword{Silk Test} bietet Unterstützung für eine Vielzahl an unterschiedlichen Technologien. Unterstützt werden zum Beispiel die gängigen Browser wie Internet Explorer, Google Chrome und Mozilla Firefox. Neben Web-Technologien werden auch native Windows-, Adobe-Flex-, Windows-Presentation-Foundation- oder Java-Anwendungen unterstützt. Seit kurzem werden auch Browser und Anwendungen  auf mobilen Geräten unterstützt. Der Vorteil von \enword{Silk Test} gegenüber von Selenium ist, dass es einen verbesserten \enword{X-Browser Support} gibt. Dabei kann man einen Test, welchen man zum Beispiel mit dem Internet Explorer aufzeichnet, mit einem Mozilla-Firefox- oder dem Google-Chrome-Browser ausführen. Durch diese \enword{X-Browser}-Technologie entfällt die Wartung von Tests für die verschiedenen Browser. 

@@ -14,7 +14,7 @@ Im Abschnitt \ref{cha:validateKeyword} wird die Validierung von Rayden-Tests gez
 \section{Umsetzung der \enword{Keyword}-Grammatik}
 \label{cha:KeywordGrammar}
 
-Die Rayden-Sprache wurde mit dem xText-Compilerwerkzeug umgesetzt. Die Abbildung \ref{fig:keywordGrammar} zeigt einen Auszug aus der Grammatik für die Rayden-Sprache. Die Regel \enword{KeywordDecl} beginnt eine Definition eines neuen \enword{Keywords}. Am Beginn der Regel wird der Typ für das \enword{Keyword} definiert. Eine Beschreibung und Auflistung der Typen ist in Abschnitt \ref{cha:KeywordTypes} enthalten. Danach folgt ein Name für das \enword{Keyword}, welcher von einer geöffneten geschwungenen Klammer gefolgt wird.
+Die Rayden-Sprache wurde mit dem xText-Compilerwerkzeug umgesetzt. Die Abbildung \ref{fig:keywordGrammar} zeigt einen Auszug aus der Grammatik für die Rayden-Sprache. Die Regel \enword{KeywordDecl} beginnt eine Definition eines neuen \enword{Keywords}. Am Beginn der Regel wird die Art des \enword{Keywords} definiert. Eine Beschreibung und Auflistung der Arten ist in Abschnitt \ref{cha:KeywordTypes} enthalten. Danach folgt ein Name für das \enword{Keyword}, welcher von einer geöffneten geschwungenen Klammer gefolgt wird.
 
 \begin{figure}
 \centering
@@ -108,7 +108,7 @@ Für die Ausführung von Ausdrücken ist im Rayden-System die Klasse \enword{Ray
 Die Auswertung eines Ausdrucks wird mit der Methode \enword{eval(Expr expression, String resultType)} gestartet. Als Parameter für die Methode werden ein \enword{Expr}-Objekt und eine Zeichenkette übergeben. Das \enword{Expr}-Objekt ist im \enword{ECore}-Modell das Wurzelobjekt für einen Ausdruck. Mit dem zweiten Parameter kann man die Auswertung des Ausdrucks typisieren. Wurde ein Typ definiert, wird am Ende der Auswertung noch überprüft, ob das Ergebnis dem geforderten Typ entspricht. Stimmt der Wert nicht überein, wird ein Fehler geworfen. Es gibt auch noch einen Spezialfall bei der Typisierung. Wird ein Ausdruck mit dem Typ \enword{variable} parametrisiert, werden keine Variablen im Ausdruck ausgewertet. Diese Eigenschaft wird benötigt, um Variablennamen an ein \enword{Keyword} übergeben zu können.
 
 \SuperPar
-Der Codeausschnitt \ref{prog:evaluator} enthält am Ende die Implementierung der \enword{eval}-Methode für das Objekt \enword{Fact}. Diese Methode zeigt, wie die Werte aus dem \enword{ECore}-Modell nach \enword{Java} konvertiert werden. Die Methode zeigt auch, wie Variablen mithilfe des Gültigkeitsbereichs ausgewertet werden können.
+Der Codeausschnitt \ref{prog:evaluator} enthält am Ende die Implementierung der \enword{eval}-Methode für das Objekt \enword{Fact}. Diese Methode zeigt, wie die Werte aus dem \enword{ECore}-Modell nach Java konvertiert werden. Die Methode zeigt auch, wie Variablen mithilfe des Gültigkeitsbereichs ausgewertet werden können.
 
 \begin{program}
 \lstinputlisting{samplecode/RaydenExpressionEvaluator.java}
@@ -143,7 +143,7 @@ Im ersten Schritt überprüft die Validierung aus dem Codebeispiel \ref{prog:val
 \section{Integration von Rayden in die \enword{Java-Scripting-API}}
 \label{cha:implementJSA}
 
-Das Rayden-System besitzt eine Integration in die \enword{Java-Scripting-API}. Die \enword{Java-Scripting-API} ist eine standardisierte Schnittstelle für das Ausführen von Skriptsprachen in \enword{Java}. Über diese Schnittstelle kann man direkt in einem \enword{Java}-Programm ein Skript in einer beliebigen Sprache ausführen. Die einzige Einschränkung dabei ist, dass für die Skriptsprache eine \enword{ScriptEngineFactory} registriert werden muss. Die \enword{Java-Scripting-API} ist vergleichbar mit der \enword{Dynamic Language Runtime} \cite{DLR} in \enword{Microsoft .Net}. Mit der \enword{Dynamic Language Runtime} ist es zum Beispiel in \enword{C\#} möglich, ein Python-Skript \cite{Python} auszuführen.
+Das Rayden-System besitzt eine Integration in die \enword{Java-Scripting-API}. Die \enword{Java-Scripting-API} ist eine standardisierte Schnittstelle für das Ausführen von Skriptsprachen in Java. Über diese Schnittstelle kann man direkt in einem Java-Programm ein Skript in einer beliebigen Sprache ausführen. Die einzige Einschränkung dabei ist, dass für die Skriptsprache eine \enword{ScriptEngineFactory} registriert werden muss. Die \enword{Java-Scripting-API} ist vergleichbar mit der \enword{Dynamic Language Runtime} \cite{DLR} in \enword{Microsoft .Net}. Mit der \enword{Dynamic Language Runtime} ist es zum Beispiel in \enword{C\#} möglich, ein Python-Skript \cite{Python} auszuführen.
 
 \begin{figure}
 \centering
@@ -159,13 +159,13 @@ Das Rayden-System besitzt eine Integration in die \enword{Java-Scripting-API}. D
 \end{program}
 
 \SuperPar
-Für die Integration einer neuen Skriptsprache in die \enword{Java-Scripting-API}, muss man die Schnittstellen \enword{javax.script.ScriptEngineFactory} und \enword{javax.script.ScriptEngine} implementieren. Diese beiden Schnittstellen bilden das Bindeglied zwischen der \enword{Java}- und der Skriptsprachen-Welt. Die \enword{ScriptEngineFactory}-Schnittstelle liefert Metadaten zu einer Skriptsprache, wie den Namen oder die Versionsnummer. Einen Überblick über die Schnittstelle gibt die Abbildung \ref{fig:scriptEngineFactoryUml}. Die wichtigste Methode der Schnittstelle ist aber \enword{getScriptEngine()}. Diese Methode liefert ein \enword{Script-Engine}-Objekt.
+Für die Integration einer neuen Skriptsprache in die \enword{Java-Scripting-API}, muss man die Schnittstellen \enword{javax.script.ScriptEngineFactory} und \enword{javax.script.ScriptEngine} implementieren. Diese beiden Schnittstellen bilden das Bindeglied zwischen der Java- und der Skriptsprachen-Welt. Die \enword{ScriptEngineFactory}-Schnittstelle liefert Metadaten zu einer Skriptsprache, wie den Namen oder die Versionsnummer. Einen Überblick über die Schnittstelle gibt die Abbildung \ref{fig:scriptEngineFactoryUml}. Die wichtigste Methode der Schnittstelle ist aber \enword{getScriptEngine()}. Diese Methode liefert ein \enword{Script-Engine}-Objekt.
 
 \SuperPar
 Über ein \enword{Script-Engine}-Objekt können Skripts ausgeführt werden. Für die Ausführung stehen unterschiedliche Ausprägungen der Methode \enword{eval()} zur Verfügung. Der Skriptcode kann entweder als Zeichenkette oder als \enword{Reader} übergeben werden. Mit einem \enword{Reader} kann man ein Skript direkt aus einer Datei einlesen. Der Codeauszug \ref{prog:scriptEngine} zeigt die Hauptimplementierung der \enword{eval()}-Methode aus der \enword{RaydenScriptEngine}-Klasse. Zu Beginn der Methode wird die Rayden-\enword{Runtime} instanziiert und initialisiert. Die \enword{Runtime} wird benötigt, um einen Rayden-Test ausführen zu können. Im nächsten Schritt wird überprüft, ob ein spezieller \enword{Reporter} verwendet werden soll. Standardmäßig wird die \enword{RaydenXMLReporter}-Implementierung verwendet, welche die gesamten Ausgaben einer Test-Ausführung in einer XML-Datei protokolliert. 
 
 \SuperPar
-Damit man in einem Rayden-Test eine Bibliothek verwenden kann, ist es für die \enword{Runtime} entscheidend, dass spezifiziert ist, wo die Bibliotheken gefunden werden. Dafür wird ein Arbeitsbereich (\enword{Working Folder}) definiert, in welchem Bibliotheken und andere externe Ressourcen gesucht werden. Der Arbeitsbereich ist standardmäßig das Ausführungsverzeichnis der \enword{Java}-Anwendung. Der Wert kann aber über einen Kontextparameter verändert werden. Kontextparameter werden verwendet, um Parameter an die \enword{Script Engine} übergeben zu können. 
+Damit man in einem Rayden-Test eine Bibliothek verwenden kann, ist es für die \enword{Runtime} entscheidend, dass spezifiziert ist, wo die Bibliotheken gefunden werden. Dafür wird ein Arbeitsbereich (\enword{Working Folder}) definiert, in welchem Bibliotheken und andere externe Ressourcen gesucht werden. Der Arbeitsbereich ist standardmäßig das Ausführungsverzeichnis der Java-Anwendung. Der Wert kann aber über einen Kontextparameter verändert werden. Kontextparameter werden verwendet, um Parameter an die \enword{Script Engine} übergeben zu können. 
 
 \begin{program}
 \lstinputlisting{samplecode/RuntimeLoadFile.java}
@@ -196,7 +196,7 @@ Die Rayden-Sprache unterstützt folgende Testtypen:
 \end{itemize}
 
 \SuperPar
-Alle gefunden Tests werden im nächsten Schritt sequenziell ausgeführt. Als Resultat der Skriptausführung wird das kumulierte Ergebnis der Tests geliefert. Das Ergebnis kann dann entweder in der \enword{Java}-Anwendung oder nachträglich über die XML-Datei ausgewertet werden.
+Alle gefunden Tests werden im nächsten Schritt sequenziell ausgeführt. Als Resultat der Skriptausführung wird das kumulierte Ergebnis der Tests geliefert. Das Ergebnis kann dann entweder in der Java-Anwendung oder nachträglich über die XML-Datei ausgewertet werden.
 
 \SuperPar
 In diesem Kapitel wurden einige essentielle Komponenten des Rayden-Systems gezeigt und wie die Komponenten umgesetzt wurden. Im nächsten Kapitel \ref{cha:Testen} wird gezeigt, wie man Tests mit dem Rayden-System schreiben kann. Dazu werden unterschiedliche Testmethoden verwendet, um die Stärken von Rayden zu zeigen.

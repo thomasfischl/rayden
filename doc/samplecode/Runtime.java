@@ -1,31 +1,32 @@
 public class RaydenRuntime {
 
-  private final Stack<RaydenScriptScope> stack = new Stack<>();
+  private final Stack<RaydenScriptScope> scopeStack = new Stack<>();
 
   ...
   
   private void executeKeyword(KeywordCall keywordCall) {
-    stack.clear();
+    scopeStack.clear();
 
     try {
       reporter.reportTestCaseStart(keywordCall.getName());
-      stack.push(new RaydenScriptScope(null, Lists.newArrayList(keywordCall)));
+      scopeStack.push(new RaydenScriptScope(null, 
+          Lists.newArrayList(keywordCall)));
 
       Object currKeyword = null;
       RaydenScriptScope currScope = null;
-      while (!stack.isEmpty()) {
+      while (!scopeStack.isEmpty()) {
 
-        currScope = stack.peek();
-        currKeyword = currScope.getNextOpt();
+        currScope = scopeStack.peek();
+        currKeyword = currScope.getNextKeyword();
         if (currKeyword == null) {
-          stack.pop();
+          scopeStack.pop();
           continue;
         }
 
         if (currKeyword instanceof KeywordCall) {
           KeywordCall keyword = (KeywordCall) currKeyword;
           executeKeywordCall(keyword, currScope);
-        }
+        } //if
 
         if (currKeyword instanceof KeywordDecl) {
           KeywordDecl keyword = (KeywordDecl) currKeyword;
@@ -34,14 +35,15 @@ public class RaydenRuntime {
             && currScope.getKeywordCall().getParameters() != null) {
             executeScriptedCompoundKeywordDecl(keyword, currScope);
           } else {
-            executeKeywordDecl(currScope, keyword);
+            executeKeywordDecl(keyword, currScope);
           }
-        }
-      }
+        } //if
+        
+      } //while
     } finally {
       reporter.reportTestCaseEnd(keywordCall.getName());
     }
-  }
+  } //executeKeyword
   
   ... 
 }

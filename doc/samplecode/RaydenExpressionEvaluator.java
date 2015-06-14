@@ -1,5 +1,9 @@
 public class RaydenExpressionEvaluator {
 
+  private static final String RESULT_TYPE_STRING = "string";
+  private String resultType;
+  ...
+  
   public RaydenExpressionEvaluator(RaydenScriptScope scope) {
     this.scope = scope;
   }
@@ -34,11 +38,7 @@ public class RaydenExpressionEvaluator {
 
   private Object eval(Fact expr) {
     if (expr.getBool() != null) {
-      if ("true".equals(expr.getBool())) {
-        return true;
-      } else {
-        return false;
-      }
+      return "true".equals(expr.getBool()));
     } else if (expr.getString() != null) {
       return expr.getString();
     } else if (expr.getIdent() != null) {
@@ -47,10 +47,11 @@ public class RaydenExpressionEvaluator {
       }
       return scope.getVariable(expr.getIdent());
     } else if (expr.getExpr() != null) {
-      return eval(expr.getExpr(), resultType);
+      return eval(expr.getExpr(), resultType); //recursion
     } else if (expr.getLocator() != null) {
       return evalLocator(expr.getLocator());
     } else {
       return expr.getNumber();
     }
-  }
+  } //eval
+} //RaydenExpressionEvaluator

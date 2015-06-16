@@ -427,7 +427,7 @@ acknowledged. I further declare that this or similar work has not been submitted
 %------------ Struktur der Frontseiten -------------------
 
 \renewcommand{\@matitelseiten}{
-\@matitel
+%%\@matitel
 %%\@copyrightseite
 \@erklaerungsseite
 }

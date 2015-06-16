@@ -8,6 +8,8 @@
 \logofile{logo.png}			% name of PDF, remove or use \logofile{} for no logo
 \bibliography{literatur}  	% name of the BibTeX (.bib) file
 
+\usepackage{pdfpages}
+
 %%%----------------------------------------------------------
 %% Custom Macros
 %%%----------------------------------------------------------
@@ -43,9 +45,12 @@
 %%\strictlicense  % erzeugt restriktive Lizenzformel
 
 %%%----------------------------------------------------------
+
+\includepdf[pages={1}]{Titelblatt_MSE}
 \frontmatter
 \maketitle
 \tableofcontents
+
 %%%----------------------------------------------------------
 
 \include{danksagung}

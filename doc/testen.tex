@@ -21,13 +21,13 @@ Für die Evaluierung des Rayden-Systems wird eine Anwendung zum Testen benötigt
 Bei der \enword{PetClinic}-Anwendung handelt es sich um eine Verwaltungssoftware für eine Tierklinik. Mit \enword{PetClinic} können Besuche bei einer Tierärztin oder einem Tierarzt protokolliert werden. Dazu gehört die Erfassung der Tierbesitzerinnen und -besitzer mit ihren Haustieren. Zu jedem Haustier werden alle Arztbesuche gespeichert, damit der Krankheitsverlauf dokumentiert ist. Neben den Besitzerinnen und Besitzern mit ihren Tieren werden zusätzlich Tierärztinnen und -ärzte verwaltet. 
 
 \SuperPar
-Da der Funktionsumfang von \enword{PetClinic} überschaubar ist, eignet sich diese ausgezeichnet als Beispielanwendung für die Evaluierung des Rayden-Systems. In den folgenden Abschnitten \ref{cha:TestenUnit}, \ref{cha:TestenApi} und \ref{cha:TestenUA} werden Tests für die \enword{PetClinic}-Anwendung vorgestellt. Diese Tests wurden mit drei unterschiedlichen Testmethoden umgesetzt, um zu zeigen, wie man die Testmethoden mit dem Rayden-System vereinen kann.
+Da der Funktionsumfang von \enword{PetClinic} überschaubar ist, eignet sich diese Anwendung ausgezeichnet als Beispielanwendung für die Evaluierung des Rayden-Systems. In den folgenden Abschnitten \ref{cha:TestenUnit}, \ref{cha:TestenApi} und \ref{cha:TestenUA} werden Tests für die \enword{PetClinic}-Anwendung vorgestellt. Diese Tests wurden mit drei unterschiedlichen Testmethoden umgesetzt, um zu zeigen, wie man die Testmethoden mit dem Rayden-System vereinen kann.
 
 %%------------------------------------------------------------------------------------------------------
 \section{Komponententest}
 \label{cha:TestenUnit}
 
-Dieser Abschnitt zeigt die Umsetzung eines Komponententests mit dem Rayden-System. Für einen Komponententest wird in Rayden zuerst ein \enword{Keyword} angelegt. Der Codeauszug \ref{prog:unitTest} zeigt die Definition dieses \enword{Keywords}. Ein Komponententest wird normalerweise als \enword{Scripted Keyword} umgesetzt und mit dem \enword{Keyword}-Art \enword{unittest} gekennzeichnet. In diesem Beispiel wird die Komponente \enword{PetTypeFormatter} getestet. Diese Komponente der \enword{PetClinic} ist dafür verantwortlich, für eine Zeichenkette das dazugehörige Domänenobjekt zu liefern und umgekehrt. 
+Dieser Abschnitt zeigt die Umsetzung eines Komponententests mit dem Rayden-System. Für einen Komponententest wird in Rayden zuerst ein \enword{Keyword} angelegt. Der Codeauszug \ref{prog:unitTest} zeigt die Definition dieses \enword{Keywords}. Ein Komponententest wird normalerweise als \enword{Scripted Keyword} umgesetzt und mit der \enword{Keyword}-Art \enword{unittest} gekennzeichnet. In diesem Beispiel wird die Komponente \enword{PetTypeFormatter} getestet. Diese Komponente der \enword{PetClinic} ist dafür verantwortlich, für eine Zeichenkette das dazugehörige Domänenobjekt zu liefern und umgekehrt. 
 
 \begin{program}
 \begin{JavaCode}
@@ -209,7 +209,7 @@ Damit in den \enword{Keywords} keine \enword{XPath}-Ausdrücke vorkommen müssen
 \label{cha:TestenUA2}
 
 
-Der zweite Abnahmetest testet den Anwendungsfall \enword{Add new pet owner}. Dieser Abnahmetest wird direkt im Abnahmetest-\enword{Keyword} spezifiziert. Zuerst wird wieder die Testumgebung mit dem \enword{Keyword} \enword{Prepare Browser} vorbereitet. Im nächsten Schritt navigiert der Test auf die Tierbesitzerinnen- und Tierbesitzerseite und betätigt auf die Schaltfläche \enword{Add Owner}. 
+Der zweite Abnahmetest testet den Anwendungsfall \enword{Add new pet owner}. Dieser Abnahmetest wird direkt im Abnahmetest-\enword{Keyword} spezifiziert. Zuerst wird wieder die Testumgebung mit dem \enword{Keyword} \enword{Prepare Browser} vorbereitet. Im nächsten Schritt navigiert der Test auf die Tierbesitzerinnen- und besitzerseite und betätigt die Schaltfläche \enword{Add Owner}. 
 
 
 \SuperPar

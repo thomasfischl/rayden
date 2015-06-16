@@ -1,21 +1,21 @@
 \chapter{Aufbau und Ablauf von Testprojekten}
 \label{cha:Konzept}
 
-Dieses Kapitel befasst sich mit den Testabläufen in einem Softwareprojekt. Diese Abläufe finden in unterschiedlichen Phasen eines Softwareprojekts statt und werden von unterschiedlichen Personengruppen durchgeführt. Dieses Kapitel gibt einen Einblick in diese Abläufe und beschreibt auch die Schwierigkeiten, die es in einem Testprojekt zu bewältigen gibt. Im zweiten Abschnitt dieses Kapitels wird die Evolution der Testautomatisierung beschrieben. Dabei werden unterschiedliche Testansätze vorgestellt, welche sich über die Zeit entwickelt haben. Einer dieser Testansätze stellt die Basis für das Rayden-System dar.
+Dieses Kapitel befasst sich mit den Testabläufen in einem Softwareprojekt. Die Abläufe finden in unterschiedlichen Phasen eines Softwareprojekts statt und werden von unterschiedlichen Personengruppen durchgeführt. Dieses Kapitel gibt einen Einblick in diese Abläufe und beschreibt auch die Schwierigkeiten, die es in einem Testprojekt zu bewältigen gibt. Im zweiten Abschnitt wird die Evolution der Testautomatisierung beschrieben. Dabei werden unterschiedliche Testansätze vorgestellt, welche sich über die Zeit entwickelt haben. Einer dieser Testansätze stellt die Basis für das Rayden-System dar.
 
 \section{Ablauf eines Testprojekts}
 
-In einem Softwareentwicklungsprojekt gibt es nicht nur die Testphase, in welcher die Testabteilung eine wichtige Rolle spielt. Die Testabteilung ist in den meisten Phasen eines Entwicklungsprojekts involviert. Um die gesamten Testaufgaben in einem großen Projekt zu koordinieren, wird oft ein Testprojekt aufgesetzt. In einem Testprojekt werden alle Aktivitäten rund um die Qualitätssicherung vereint. Diese Aktivitäten beschränken sich aber nicht nur auf die Testabteilung. Es müssen auch Personen aus der Fachabteilung und der Entwicklungsabteilung eingebunden werden. Diese Schnittstellen zwischen den einzelnen Abteilungen bieten eine große Herausforderung für die Testmanagerin oder den Testmanager.
+In einem Softwareentwicklungsprojekt gibt es nicht nur die Testphase, in welcher die Testabteilung eine wichtige Rolle spielt. Die Testabteilung ist in den meisten Phasen eines Entwicklungsprojekts involviert. Um die gesamten Testaufgaben in einem großen Projekt zu koordinieren, wird oft ein Testprojekt aufgesetzt. In einem Testprojekt werden alle Aktivitäten rund um die Qualitätssicherung vereint. Diese Aktivitäten beschränken sich aber nicht nur auf die Testabteilung. Es müssen auch Personen aus der Fachabteilung und der Entwicklungsabteilung eingebunden werden. Diese Schnittstellen zwischen den einzelnen Abteilungen stellen eine große Herausforderung für die Testmanagerin oder den Testmanager dar.
 
 \SuperPar
 Die Komponenten- und Integrationstests werden in diesem Abschnitt nicht behandelt, da diese Testaktivitäten primär in der Entwicklungsabteilung durchgeführt werden. Der Fokus der Testabteilung liegt auf den manuellen und automatisierten Abnahmetests der Anwendung.
 
 \SuperPar
-In den nachfolgenden fünf Unterabschnitten werden die einzelnen Aufgaben in einem Testprojekt beschrieben. Es wird beschrieben, wie Testfälle entwickelt werden und zu welchem Zeitpunkt in einem Softwareprojekt welche Testaktivitäten ablaufen.
+In den nachfolgenden fünf Unterabschnitten werden die einzelnen Aufgaben in einem Testprojekt beschrieben. Es wird beschrieben, wie Testfälle entwickelt werden und zu welchem Zeitpunkt in einem Softwareprojekt welche Testaktivitäten stattfinden.
 
 \subsection{Rollen in einem Testprojekt}
 
-Das Testteam besteht aus einer bunten Mischung an unterschiedlichen Personen. Die Verantwortung in einem Testprojekt trägt die Testmanagerin oder der Testmanager. Diese Person ist für die Koordination des Projekts zuständig und bildet die Schnittstelle zu anderen Abteilungen. Eine Schnittstelle besteht zu der Fachabteilung. Von der Fachabteilung werden die Anwendungsfälle geliefert, welche in weiterer Folge in der Testabteilung umgesetzt werden. Für die Umsetzung der Testfälle sind die Testerinnen und die Tester zuständig. Für die Automatisierung von Testfällen besteht eine Schnittstelle zu der Entwicklungsabteilung, falls die Testabteilung über keine eigenen Entwicklerinnen oder Entwickler verfügt.
+Das Testteam besteht aus einer bunten Mischung an unterschiedlichen Personen. Die Verantwortung in einem Testprojekt trägt die Testmanagerin oder der Testmanager. Diese Person ist für die Koordination des Projekts zuständig und bildet die Schnittstelle zu anderen Abteilungen. Eine dieser Schnittstellen besteht zu der Fachabteilung. Von der Fachabteilung werden die Anwendungsfälle geliefert, welche in weiterer Folge in der Testabteilung umgesetzt werden. Für die Umsetzung der Testfälle sind die Testerinnen und die Tester zuständig. Für die Automatisierung von Testfällen besteht eine Schnittstelle zu der Entwicklungsabteilung, falls die Testabteilung über keine eigenen Entwicklerinnen oder Entwickler verfügt.
 
 \subsection{Testfall}
 
@@ -62,7 +62,7 @@ Die erste Generation von Testtechniken sind die \enword{Record-Replay}-Ansätze.
 
 
 \SuperPar
-Der große Vorteil bei dieser Methode ist die Einfachheit. Zum Aufzeichnen von Tests muss die Testerin oder der Tester den Anwendungsfall nur durcharbeiten und im Hintergrund werden die Aktionen automatisch aufgezeichnet. Für diese Testtechnik werden keine speziellen Fähigkeiten benötigt. Jedoch hat diese Technik einen schwerwiegenden Nachteil: Sobald sich die zu testende Anwendung nur marginal an der Oberfläche ändert, funktioniert diese Testmethode nicht mehr. Auch müssen die Tests immer mit derselben Bildschirmauflösung ausgeführt werden, um die Aktionen korrekt wiedergeben zu können. Ein weiterer Nachteil ist, dass, sobald man einen Test ändern möchte, der gesamte Test neu aufzeichnet werden muss.
+Der große Vorteil bei dieser Methode ist die Einfachheit. Zum Aufzeichnen von Tests muss die Testerin oder der Tester den Anwendungsfall nur durcharbeiten und im Hintergrund werden die Aktionen automatisch aufgezeichnet. Für diese Testtechnik werden keine speziellen Fähigkeiten benötigt. Jedoch hat diese Technik einen schwerwiegenden Nachteil: Sobald sich die zu testende Anwendung nur marginal an der Oberfläche ändert, funktioniert diese Testmethode nicht mehr. Auch müssen die Tests immer mit derselben Bildschirmauflösung ausgeführt werden, um die Aktionen korrekt wiedergeben zu können. Ein weiterer Nachteil ist, dass, sobald man einen Test ändern möchte, der gesamte Test neu aufgezeichnet werden muss.
 
 \subsection{Zweite Generation - \enword{Functional Decomposition}}
 
@@ -73,7 +73,7 @@ Mit dieser Testmethode ist es nun auch möglich, Bibliotheken mit Testfunktionen
 
 \subsection{Dritte Generation - \enword{Data-Driven Testing}}
 
-In der dritten Generation von Testmethoden wird ein großes Augenmerk auf die Testdaten gelegt. In den vorgehenden Testtechniken lag der Fokus auf der Erstellung und Wartung von Testprojekten. Dabei mussten auch schon Testdaten verwendet werden, aber deren Stellenwert war nicht hoch. Die Testdaten stehen dafür nun in dieser Generation im Mittelpunkt. Man erkannte, dass man oft dieselbe Testsequenz durchläuft, aber jedes Mal andere Daten verwendet. Diese Testtechnik wird stark für datenzentrierte Anwendungen verwendet. 
+In der dritten Generation von Testmethoden wird ein großes Augenmerk auf die Testdaten gelegt. In den vorgehenden Testtechniken lag der Fokus auf der Erstellung und Wartung von Testprojekten. Dabei mussten auch schon Testdaten verwendet werden, aber deren Stellenwert war nicht hoch. Die Testdaten stehen dafür nun in dieser Generation im Mittelpunkt. Man erkannte, dass man oft dieselbe Testsequenz durchläuft, aber jedes Mal andere Daten verwendet. Diese Testtechnik wird häufig für datenzentrierte Anwendungen verwendet. 
 
 \SuperPar
 Bei einem \enword{Data-Driven Testing} werden im Test keine konkreten Werte verwendet. Stattdessen werden Platzhalter (in Form von Variablen) im Test eingebaut. Bei der Ausführung eines Tests werden die Platzhalter mit einem Wert aus einer Datenquelle verbunden. Als Datenquelle können Dateien oder Datenbanken dienen. Mit dieser Technik kann man denselben Test mit unterschiedlichen Parameterwerten ausführen. 
@@ -83,11 +83,11 @@ Bei einem \enword{Data-Driven Testing} werden im Test keine konkreten Werte verw
 In der vierten Generation von Testmethoden werden die Testdaten noch weiter in den Mittelpunkt gestellt. Bis zu diesem Zeitpunkt wurden die Tests entweder mithilfe eines \enword{Record-Replay}-Ansatzes aufgezeichnet oder in einer Programmiersprache entwickelt. Der \enword{Record-Replay}-Ansatz war einfach und auch von technisch nicht versierten Personen zu benutzen. Jedoch haben die aufgezeichneten Tests ein Problem mit der Zuverlässigkeit. Der zweite Ansatz \enword{Functional Decomposition} bedingt, dass die Personen aus der Testabteilung Programmierkenntnisse benötigen.
 
 \SuperPar
-Bei dem Ansatz \enword{Keyword-Driven Testing} wurden die Tests nun auch als Testdaten angesehen. Der Vorteil davon ist, dass Tests und Testdaten mit den gleichen Werkzeugen erstellt und verwaltet werden. Um einen \enword{Keyword-Driven}-Test ausführen zu können, wird ein spezieller Interpretierer benötigt. Der Interpretierer liest die Tests von einer Datenquelle ein und arbeitet diese ab. Für die Verarbeitung müssen die Tests in einem lesbaren Format für den Interpretierer vorliegen. Eine detaillierte Beschreibung liefert zum Beispiel Pekka Laukkanen von der Universität von Helsinki in seiner Masterarbeit \cite{Lauk06}. 
+Bei dem Ansatz \enword{Keyword-Driven Testing} werden die Tests nun auch als Testdaten angesehen. Der Vorteil davon ist, dass Tests und Testdaten mit den gleichen Werkzeugen erstellt und verwaltet werden. Um einen \enword{Keyword-Driven}-Test ausführen zu können, wird ein spezieller Interpretierer benötigt. Der Interpretierer liest die Tests von einer Datenquelle ein und arbeitet diese ab. Für die Verarbeitung müssen die Tests in einem lesbaren Format für den Interpretierer vorliegen. Eine detaillierte Beschreibung liefert zum Beispiel Pekka Laukkanen von der Universität von Helsinki in seiner Masterarbeit \cite{Lauk06}. 
 
 \subsection{Fünfte Generation - \enword{Scriptless Automation}}
 
-Der modernste Ansatz versucht die Testautomatisierung mit einer \enword{Scriptless-Automation} zu vereinfachen. Bei diesem Ansatz wird aus einer abstrakten Repräsentation eines Tests Code erzeugt. Bei der Transformation von der abstrakten Repräsentation zum Quellcode, werden Code-Vorlagen und Code-Generatoren verwendet.
+Der modernste Ansatz versucht die Testautomatisierung mit einer \enword{Scriptless Automation} zu vereinfachen. Bei diesem Ansatz wird aus einer abstrakten Repräsentation eines Tests Code erzeugt. Bei der Transformation von der abstrakten Repräsentation zum Quellcode, werden Code-Vorlagen und Code-Generatoren verwendet.
 
 \SuperPar
 Bei diesem Ansatz wird wiederum versucht, die Größe des Testprojekts zu reduzieren und somit die Wartbarkeit zu erhöhen. Dieser Ansatz befindet sich noch in einer frühen Phase und hat in der Praxis bis jetzt noch keine Relevanz. 

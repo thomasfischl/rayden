@@ -7,7 +7,7 @@ Dieses Kapitel beschreibt die Implementierung von ausgewählten Komponenten des 
 Die Abschnitte \ref{cha:KeywordGrammar} und \ref{cha:StackMachine} zeigen die Grammatik der Sprache Rayden und den Interpretierer für die Ausführung von \enword{Keywords}. Die Abschnitte enthalten Codeausschnitte der Implementierung und Teile der Grammatik.
 
 \SuperPar
-Der Abschnitt \ref{cha:Eval} befasst sich mit der Umsetzung von Ausdrücken im Rayden-System. Dazu werden in diesem Abschnitt Auszüge aus der Grammatik der Sprache Rayden und Teile der \enword{RaydenExpressionEvaluator}-Klasse erklärt. Die Klasse \enword{RaydenExpressionEvaluator} ist für die Auswertung der Ausdrücke zuständig. 
+Der Abschnitt \ref{cha:Eval} befasst sich mit der Umsetzung und Auswertung von Ausdrücken im Rayden-System. Dazu werden in diesem Abschnitt Auszüge aus der Grammatik der Sprache Rayden und Teile der \enword{RaydenExpressionEvaluator}-Klasse erklärt. Die Klasse \enword{RaydenExpressionEvaluator} ist für die Auswertung der Ausdrücke zuständig. 
 
 \SuperPar
 Im Abschnitt \ref{cha:validateKeyword} wird die Validierung von Rayden-Tests gezeigt. Dafür wird das Validierungssystem von xText verwendet. 
@@ -33,7 +33,7 @@ Die Sprache Rayden wurde mit dem xText-Compilerbauwerkzeug umgesetzt. Die Abbild
 Die geschwungenen Klammern definieren den Bereich der \enword{Keyword}-Implementierung. Am Anfang der Implementierung kann eine optionale Beschreibung angeführt werden. Auf diese folgt eine optionale Parameterliste. Ein Parameter wird mit der Regel \enword{ParameterDecl} beschrieben und kann 0 bis \enword{N} Mal wiederholt werden. Eine Parameter-Definition besteht aus dem Schlüsselwort \enword{parameter}, einem Namen, einem optionalen Datentyp und einer Richtung.
 
 \SuperPar
-Danach folgt entweder die Bindung an ein Codestück mit der Regel \enword{KeywordScript} oder die \enword{Keyword}-Liste mit der Regel \enword{KeywordList} im Fall eines \enword{Compound Keywords}. Die beiden Angaben sind wiederum optional, um \enword{Keyword}-Rümpfe anlegen zu können. Diese Eigenschaft ist hilfreich, wenn die Testmanagerin oder der Testmanager nur die Struktur festlegen möchte, die Umsetzung des \enword{Keywords} jedoch von anderem Testpersonal vorgenommen wird. 
+Danach folgt entweder die Bindung an ein Codestück mit der Regel \enword{KeywordScript} oder im Fall eines \enword{Compound Keywords} die \enword{Keyword}-Liste mit der Regel \enword{KeywordList}. Die beiden Angaben sind wiederum optional, um \enword{Keyword}-Rümpfe anlegen zu können. Diese Eigenschaft ist hilfreich, wenn die Testmanagerin oder der Testmanager nur die Struktur festlegen möchte, die Umsetzung des \enword{Keywords} jedoch von anderem Testpersonal vorgenommen wird. 
 
 \SuperPar
 Die Regel \enword{KeywordCall} definiert den Aufruf eines \enword{Keywords} in einer \enword{Keyword}-Liste. Die Regel fängt normalerweise mit dem Namen des aufzurufenden \enword{Keywords} an. Danach folgt optional die Parameterliste für den Aufruf eines \enword{Keywords}. Die Regel \enword{KeywordCallParameter} definiert die Parameterliste, welche durch runde Klammern umschlossen ist. Die Parameter können als Liste von \enword{Expr}-Regeln definiert werden und werden durch einen Beistrich separiert. Für die einfachere Verwendung und besserer Lesbarkeit enthält die Regel \enword{KeywordCall} auch noch syntaktischen Zucker. Falls der erste Parameter eines \enword{Keywords} vom Typ \enword{location} ist, kann dieser Parameter vor das \enword{Keyword} geschrieben werden. Somit lässt sich die Implementierung leichter lesen. Der Codeausschnitt \ref{prog:locatorSugar} zeigt dazu die Verwendung dieses syntaktischen Zuckers im Vergleich zur klassischen Verwendung. Am Ende der \enword{KeywordCall}-Regel ist es noch möglich, eine \enword{Keyword}-Liste zu definieren. Diese wird benötigt, falls es sich um ein \enword{Scripted Compound Keyword} oder um ein \enword{Inline Keyword} handelt.
@@ -57,7 +57,7 @@ Die Regel \enword{KeywordCall} definiert den Aufruf eines \enword{Keywords} in e
 \section{Ausführung von \enword{Keywords} mit dem Interpretierer}
 \label{cha:StackMachine}
 
-Im vorigen Abschnitt \ref{cha:KeywordGrammar} wurde die Grammatik eines \enword{Keywords} der Sprache Rayden erklärt. Dieser Abschnitt beschäftigt sich mit der Ausführung von \enword{Keywords}. Damit der Interpretierer arbeiten kann, benötigt diese den Zugriff auf den abstrakten Syntaxbaum. 
+Im vorigen Abschnitt \ref{cha:KeywordGrammar} wurde die Grammatik eines \enword{Keywords} der Sprache Rayden erklärt. Dieser Abschnitt beschäftigt sich mit der Ausführung von \enword{Keywords}. Damit der Interpretierer arbeiten kann, benötigt dieser den Zugriff auf den abstrakten Syntaxbaum. 
 
 \SuperPar
 Das Compilerbauwerkzeug xText stellt für den abstrakten Syntaxbaum ein \enword{Eclipse-ECore}-Modell zur Verfügung. Der generierte Compiler ist so konzipiert, dass dieser die gesamte Quelltextdatei einliest und daraus einen abstrakten Syntaxbaum erzeugt. Dieser abstrakte Syntaxbaum steht für die weitere Verarbeitung als \enword{ECore}-Modell zur Verfügung. Einen Auszug aus dem Modell zeigt die Abbildung \ref{fig:AST}. Diese Abbildung zeigt die Modell-Repräsentation der Grammatik-Regeln von Abbildung \ref{fig:keywordGrammar}. Dieser Ausschnitt aus dem Modell stellt die Basis für den Interpretierer dar. 
@@ -88,7 +88,7 @@ Wurde jedoch ein Wert zurückgeliefert, wird mit der Ausführung fortgefahren. H
 Dabei muss der Interpretierer überprüfen, ob es sich um ein \enword{Scripted Compound Keyword} handelt. Bei einem \enword{Scripted Compound Keyword} muss eine andere Ausführung gewählt werden, da sowohl eine Code-Implementierung, als auch eine \enword{Keyword}-Liste vorhanden sind. Bei allen anderen \enword{Keyword}-Metatypen wird die Methode \enword{executeKeywordDecl} ausgeführt. Diese Methode führt bei einem \enword{Scripted Keyword} das spezifizierte Codestück aus. Bei einem \enword{Compound Keyword} wird die \enword{Keyword}-Liste in den Gültigkeitsbereich geladen.
 
 \SuperPar
-Wurden alle Gültigkeitsbereich am \enword{Stack} erfolgreich abgearbeitet, werden am Ende noch alle \enword{Reporter-Objekte} aufgerufen. Danach wird die Ausführung des Interpretierers beendet.
+Wurden alle Gültigkeitsbereiche am \enword{Stack} erfolgreich abgearbeitet, werden am Ende noch alle \enword{Reporter}-Objekte aufgerufen. Danach wird die Ausführung des Interpretierers beendet.
 
 %%------------------------------------------------------------------------------------------------------
 \clearpage
@@ -198,10 +198,10 @@ Nachdem alle Einstellungen für die Rayden-\enword{Runtime} vorgenommen wurden, 
 Zum Laden der Rayden-Datei wird der generierte xText-\enword{Parser} verwendet. Im nächsten Schritt wird das Ergebnis des \enword{Parsers} abgefragt und auf Fehler überprüft. Bei einem Fehler wird die Ausführung sofort beendet. Konnte die Datei ohne Fehler geladen werden, liefert der \enword{Parser} eine Instanz des \enword{ECore}-Modells. Das Modell wird durchlaufen und alle \enword{Keyword}-Namen, die gefunden werden, in der \enword{Lookup}-Tabelle gespeichert. Im letzten Schritt werden noch alle Bibliotheken geladen. Das Laden einer Bibliothek funktioniert identisch wie das Laden der primären Rayden-Datei, nur werden in diesem Fall die \enword{Keywords} in eine andere \enword{Lookup}-Tabelle gespeichert. 
 
 \SuperPar
-Nachdem das Skript und alle externen Ressourcen erfolgreich geladen wurden, können die Rayden-Tests ausgeführt werden. Dazu stellt die Rayden-\enword{Runtime} die Methode \enword{executeAllTestSuites()} zur Verfügung. Die Methode sucht in der primären \enword{Lookup}-Tabelle nach \enword{Keywords} mit einem Testtyp. 
+Nachdem das Skript und alle externen Ressourcen erfolgreich geladen wurden, können die Rayden-Tests ausgeführt werden. Dazu stellt die Rayden-\enword{Runtime} die Methode \enword{executeAllTestSuites()} zur Verfügung. Die Methode sucht in der primären \enword{Lookup}-Tabelle nach \enword{Keywords} mit der \enword{Keyword}-Art \enword{testcase}. 
 
 \SuperPar
-Die Sprache Rayden unterstützt folgende Testtypen:
+Die Sprache Rayden unterstützt folgende Arten:
 
 \begin{itemize}
 \item Test-Suite (\enword{TestSuite}),
@@ -217,4 +217,4 @@ Die Sprache Rayden unterstützt folgende Testtypen:
 Alle gefunden Tests werden im nächsten Schritt sequenziell ausgeführt. Als Resultat der Skriptausführung wird das kumulierte Ergebnis der Tests geliefert. Das Ergebnis kann dann entweder in der Java-Anwendung, welche die Tests gestartet hat, oder nachträglich über die XML-Datei ausgewertet werden.
 
 \SuperPar
-In diesem Kapitel wurde für einige essentielle Komponenten des Rayden-Systems gezeigt wie diese umgesetzt wurden. Im nächsten Kapitel wird erläutert, wie man Tests mit dem Rayden-System schreiben und ausführen kann. Dazu werden unterschiedliche Testmethoden verwendet, um die Stärken von Rayden zu demonstrieren.
+In diesem Kapitel wurde gezeigt, wie einige essentielle Komponenten des Rayden-Systems umgesetzt wurden. Im nächsten Kapitel wird erläutert, wie man Tests mit dem Rayden-System schreiben und ausführen kann. Dazu werden unterschiedliche Testmethoden verwendet, um die Stärken von Rayden zu demonstrieren.

@@ -10,7 +10,7 @@ Im vorigen Kapitel wurde der Ablauf eines Testprojekts aufgezeigt und eine Einf�
 Das primäre Designziel von Rayden ist Offenheit. Rayden soll im gesamten Testprozess einsetzbar sein, darf aber die involvierten Personen nicht überfordern. Um dieses Ziel zu erreichen, setzt das Rayden-System auf mehreren Ebenen an.
 
 \SuperPar
-Die domänenspezifische Sprache Rayden ist speziell für Personen im Testbereich ausgelegt. Das wichtigste Ziel der Sprache ist Einfachheit. Die Sprache soll Personen ohne Programmierkenntnisse in die Lage versetzen, Tests in dieser Sprache lesen und bearbeiten zu können. Die Sprache Rayden ist daher stark an der natürlichen Sprache angelehnt, um den Einstieg zu erleichtern. Ein anderes Ziel beim Sprachdesign war die Flexibilität der Sprache. Der Testprozess setzt sich aus einer Vielzahl an unterschiedlichen Aufgaben zusammen. Um möglichst alle Aufgaben mit dieser Sprache abdecken zu können, wird eine hohe Flexibilität benötigt. 
+Die domänenspezifische Sprache Rayden ist speziell für Personen im Testbereich ausgelegt. Ein wichtiges Ziel der Sprache ist Einfachheit. Die Sprache soll Personen ohne Programmierkenntnisse in die Lage versetzen, Tests in dieser Sprache lesen und bearbeiten zu können. Die Sprache Rayden ist daher stark an der natürlichen Sprache angelehnt, um den Einstieg zu erleichtern. Ein anderes Ziel beim Sprachdesign war die Flexibilität der Sprache. Der Testprozess setzt sich aus einer Vielzahl an unterschiedlichen Aufgaben zusammen. Um möglichst alle Aufgaben mit dieser Sprache abdecken zu können, wird eine hohe Flexibilität benötigt. 
 
 \SuperPar
 Abgesehen von einer geeigneten Sprache gibt es noch weitere wichtige Ziele für das Rayden-System. Rayden muss plattformunabhängig sein, um viele Anwendungsszenarien abdecken zu können. Aus diesem Grund wird die Programmiersprache Java für die Entwicklung des Rayden-Systems gewählt. Der Interpretierer für Rayden läuft ebenfalls auf der \enword{Java Virtual Machine} (JVM).
@@ -59,7 +59,7 @@ Im Gegensatz zu \enword{Keyword-Driven Testing} unterteilt das Rayden-System die
 Rayden führt eine klare Trennung bei \enword{Low-Level Keywords} ein. Diese \enword{Keywords}, welche mit einem Codestück verbunden sind, werden in \enword{Library-} und \enword{Bridge-Keywords} unterteilt. \enword{Library-Keywords} stellen grundlegende Funktionen bereit, welche unabhängig von einem speziellen Anwendungsfall sind. Als Beispiel kann man sich ein \enword{For}- oder \enword{Print-Keyword} vorstellen. Im Gegensatz dazu sind \enword{Bridge-Keywords} speziell für eine Anwendungstechnologie angepasst, wie zum Beispiel \enword{Open Browser} oder \enword{Navigate To} für Web-Anwendungen. 
 
 \SuperPar
-Auch bei den \enword{High-Level Keywords} bietet Rayden eine größere Vielfalt. Grob werden diese in Test-Suiten und Testfälle unterteilt. Die Test-Suite dient als Gruppierungselement für Testfälle, um diese gemeinsam ausführen zu können. Bei der Definition von Testfällen können diese mit unterschiedlichen Testtypen angelegt werden. Eine nähere Beschreibung findet sich im Abschnitt \ref{cha:KeywordTypes}.
+Auch bei den \enword{High-Level Keywords} bietet Rayden eine größere Vielfalt. Grob werden diese in Test-Suiten und Testfälle unterteilt. Die Test-Suite dient als Gruppierungselement für Testfälle, um diese gemeinsam ausführen zu können. Bei der Definition von Testfällen können diese mit unterschiedlichen \enword{Keyword}-Arten angelegt werden. Eine nähere Beschreibung findet sich im Abschnitt \ref{cha:KeywordTypes}.
 
 \SuperPar
 Zum Abschluss ist noch auf das \enword{Object Repository} hinzuweisen. Diese Komponente verwaltet Testobjekte. Testobjekte können für die Beschreibung von Benutzeroberflächen-Komponenten wie Schaltflächen oder Eingabefelder verwendet werden. Dafür wird für jedes Testobjekt ein Bezeichner definiert, mit welchem man die Komponente in der Benutzeroberfläche der zu testenden Anwendung finden kann. Das ist im Fall einer Web-Anwendung ein \enword{XPath}- oder ein \enword{CSS}-Ausdruck. Das \enword{Object Repository} sorgt somit für eine klare Trennung zwischen Test- und Benutzeroberflächen-Beschreibung. Diese Trennung erhöht die Wiederverwendbarkeit von \enword{Keywords} und reduziert den Wartungsaufwand bei Änderungen an der Benutzeroberfläche.
@@ -84,7 +84,7 @@ Nachfolgend werden die einzelnen Komponenten der Rayden-Architektur beschrieben,
 
 \begin{itemize}
 
-\item \textbf{Runtime}
+\item \textbf{\enword{Runtime}}
 
 Die \enword{Runtime} ist der Einstiegspunkt für die Ausführung von Rayden-Tests. Dazu enthält diese Komponente die Implementierung für die \enword{Java Scripting API}. Wird ein Test ausgeführt, werden zuerst alle Projektressourcen in die \enword{Runtime} geladen. Das Projektverzeichnis kann man über einen Kontextparameter setzen. Falls dieser nicht gesetzt ist, wird das aktuelle Verzeichnis verwendet. Für das Laden der Ressourcen wird die Compiler-Komponente verwendet, welche ein Bestandteil der \enword{Runtime} ist. Die \enword{Runtime} baut bei diesem Lesevorgang eine \enword{Lookup}-Tabelle für alle \enword{Keyword}-Namen auf. Diese Tabelle wird für einen schnellen Zugriff im Interpretierer benötigt. Der Interpretierer ist eine weitere Komponente der \enword{Runtime}. Der Rayden-Test wird mithilfe des Interpretierers ausgeführt. Das Ergebnis des Tests wird als Resultat über die \enword{Java Scripting API} zurückgegeben.\\
 
@@ -96,17 +96,17 @@ Der Compiler für die Sprache Rayden wird mit dem Compilerbau-Werkzeug xText \ci
 
 Der Interpretierer, eine Teilkomponente der \enword{Runtime}, ist die wichtigste Komponente im Rayden-System. Der Interpretierer ist dafür verantwortlich, dass die Rayden-Tests ausgeführt werden. Zum Starten des Interpretierers wird der Aufruf eines Test-\enword{Keywords} übergeben. Dieses \enword{Keyword} wird auf den leeren \enword{Stack} geladen. Der Test wird dann mithilfe des Interpretierers abgearbeitet, welcher als \enword{Stack}-Maschine \cite{StackMachine} implementiert ist. Bei jedem Aufruf eines \enword{Keywords} wird die \enword{Keyword}-Implementierung auf den \enword{Stack} geladen. Zusätzlich wird für jeden neuen \enword{Keyword}-Aufruf ein neuer Gültigkeitsbereich (\enword{Scope}) angelegt. \\
 \\
-Der Gültigkeitsbereich ist für die Verwaltung der Parameter und Variablen zuständig. In Rayden haben Gültigkeitsbereiche Zugriff auf andere Gültigkeitsbereiche. Eine detaillierte Beschreibung dazu findet sich im Abschnitt \ref{cha:KeywordScope}. Die Auswertung von Ausdrücken wird von der \enword{Expression-Evaluator}-Komponente durchgeführt. Für die Auswertung eines Ausdrucks werden der aktuelle Gültigkeitsbereich und ein Teil des abstrakten Syntaxbaums, welcher den Ausdruck repräsentiert, an den \enword{Expression Evaluator} übergeben. Das Ergebnis des Ausdrucks wird wieder auf den \enword{Stack} gelegt. Ruft der Interpretierer ein \enword{Scripted-Keyword} (Beschreibung in Abschnitt \ref{cha:Keyword}) auf, wird entweder der dazugehörige Code ausgeführt oder es wird der Aufruf an die \enword{Bridge}-Schnittstelle weitergeleitet.\\
+Der Gültigkeitsbereich ist für die Verwaltung der Parameter und Variablen zuständig. In Rayden haben Gültigkeitsbereiche Zugriff auf andere Gültigkeitsbereiche. Eine detaillierte Beschreibung dazu findet sich im Abschnitt \ref{cha:KeywordScope}. Die Auswertung von Ausdrücken wird von der \enword{Expression-Evaluator}-Komponente durchgeführt. Für die Auswertung eines Ausdrucks werden der aktuelle Gültigkeitsbereich und ein Teil des abstrakten Syntaxbaums, welcher den Ausdruck repräsentiert, an den \enword{Expression Evaluator} übergeben. Das Ergebnis des Ausdrucks wird wieder auf den \enword{Stack} gelegt. Ruft der Interpretierer ein \enword{Scripted Keyword} (Beschreibung in Abschnitt \ref{cha:Keyword}) auf, wird entweder der dazugehörige Code ausgeführt oder es wird der Aufruf an die \enword{Bridge}-Schnittstelle weitergeleitet.\\
 
 \item \textbf{\enword{Expression Evaluator}}
 
 Der \enword{Expression Evaluator} ist eine weitere Komponente der \enword{Runtime}. Diese Komponente ist für die Auswertung von Ausdrücken verantwortlich. Damit die Ausdrücke im richtigen Gültigkeitsbereich ausgewertet werden, arbeiten der \enword{Expression Evaluator} und der Interpretierer eng zusammen.\\
 
-\item \textbf{Bridge-Schnittstelle}
+\item \textbf{\enword{Bridge}-Schnittstelle}
 
-Die \enword{Bridge}-Schnittstelle ist für die Anbindung von Test-Treibern verantwortlich. Um einen Test-Treiber verwenden zu können, muss eine Rayden-\enword{Bridge} implementiert werden. Die \enword{Bridge} mit der Schnittstelle bildet die Verbindung zwischen der Rayden-\enword{Runtime} und dem Test-Treiber.\\
+Die \enword{Bridge}-Schnittstelle ist für die Anbindung von Test-Treibern verantwortlich. Um einen Test-Treiber verwenden zu können, muss eine Rayden-\enword{Bridge} implementiert werden. Die \enword{Bridge} bildet die Verbindung zwischen der Rayden-\enword{Runtime} und dem Test-Treiber.\\
 
-\item \textbf{Object Repository}
+\item \textbf{\enword{Object Repository}}
 
 Das \enword{Object Repository} verwaltet Testobjekte, welche von \enword{Keywords} verwendet werden können. Die Testobjekte werden in einer Baumstruktur verwaltet. Die wichtigste Eigenschaft eines Testobjekts ist der Bezeichner (\enword{Locator}). Mit dem Bezeichner kann die Benutzerschnittstellen-Komponente identifiziert werden. Das Konzept ist an der Idee des \enword{Page-Object-Patterns} \cite{PageObject} angelehnt. \\
 
@@ -119,6 +119,9 @@ Das \enword{Object Repository} verwaltet Testobjekte, welche von \enword{Keyword
 
 Als Inspiration und Basis für die Sprache Rayden dient das Konzept von \enword{Keyword-Driven Testing}. Das Grundprinzip hinter \enword{Keyword-Driven Testing} ist die Verwendung von \enword{Keywords}. Ein \enword{Keyword} besteht aus einer Sequenz von anderen \enword{Keywords} oder ist mit einem Codestück verbunden. Einen \enword{Keyword-Driven}-Test kann man sich auch als gerichteten Graphen vorstellen, in dem die Knoten die \enword{Keywords} repräsentieren und die Kanten die Abhängigkeit zwischen den \enword{Keywords} beschreiben, wie in Abbildung \ref{fig:test-graph} dargestellt.
 
+\SuperPar
+Der gelbe Knoten repräsentiert ein \enword{High-Level Keyword}. Von diesem Knoten aus werden über gerichtete Kanten die Beziehungen zu den \enword{Mid-Level Keywords} in Grün definiert. Man sieht, dass die \enword{Mid-Level Keywords} entweder wieder in Beziehungen zu anderen \enword{Mid-Level Keywords} stehen oder \enword{Low-Level Keywords} referenzieren. Die \enword{Low-Level Keywords} werden in Blau dargestellt. Bei dem Graphen handelt es um einen gerichteten azyklischen Graphen (DAG).
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{Rayden-Testbaum.png}
@@ -127,13 +130,10 @@ Als Inspiration und Basis für die Sprache Rayden dient das Konzept von \enword{
 \end{figure}
 
 \SuperPar
-Der gelbe Knoten repräsentiert ein \enword{High-Level Keyword}. Von diesem Knoten aus werden über gerichtete Kanten die Beziehungen zu den \enword{Mid-Level Keywords} in Grün definiert. Man sieht, dass die \enword{Mid-Level Keywords} entweder wieder in Beziehungen zu anderen \enword{Mid-Level Keywords} stehen oder \enword{Low-Level Keywords} referenzieren. Die \enword{Low-Level Keywords} werden in Blau dargestellt. Bei dem Graphen handelt es um einen gerichteten azyklischen Graphen (DAG).
-
-\SuperPar
 Die Sprache Rayden setzt auch auf dieses Konzept von \enword{Keywords}. Im Unterschied zu \enword{Keyword-Driven Testing} setzt Rayden auf eine größere Vielfalt an unterschiedlichen \enword{Keywords}, welche im nächsten Abschnitt \ref{cha:Keyword} detailliert beschrieben werden. Ein weiterer Unterschied ist die Benennung von \enword{Keywords}. Normalerweise besteht der Name eines \enword{Keywords} nur aus einem Wort, damit die Verarbeitung der Tests für den Compiler erleichtert wird. In Rayden wird großes Augenmerk darauf gelegt, dass man nicht nur auf ein Wort beschränkt ist, sondern auch ganze Sätze als \enword{Keywords} verwenden kann. Diese Eigenschaft ist sehr nützlich, um die Testfälle wie in einer natürlichen Sprache beschreiben zu können. Der wesentliche Vorteil ist, dass man somit ohne weiteren Aufwand eine ordentliche Dokumentation des Tests bekommt.
 
 \SuperPar
-Eine andere interessante Eigenschaft der Sprache Rayden ist, dass in ihr keine Sprung-Operationen enthalten sind. Die Konsequenz daraus ist, dass in der Sprache auch keine Schleifen- oder Verzweigungs-Konstrukte enthalten sind. Die einzige Möglichkeit, um ähnliche Konstrukte zur Verfügung zu stellen, sind \enword{Scripted Compound Keywords}, wobei man bei diesem Metatyp von \enword{Keyword} auch nur entscheiden kann, ob eine Sequenz von \enword{Keywords} ausgeführt werden soll. Das Konzept der Metatypen wird im Abschnitt \ref{cha:Keyword} beschrieben. 
+Eine andere interessante Eigenschaft der Sprache Rayden ist, dass in ihr keine Sprung-Operationen vorgesehen sind. Die Konsequenz daraus ist, dass in der Sprache auch keine Schleifen- oder Verzweigungs-Konstrukte enthalten sind. Die einzige Möglichkeit, um ähnliche Konstrukte zur Verfügung zu stellen, sind \enword{Scripted Compound Keywords}, wobei man bei diesem Metatyp von \enword{Keyword} auch nur entscheiden kann, ob eine Sequenz von \enword{Keywords} ausgeführt werden soll. Das Konzept der Metatypen wird im Abschnitt \ref{cha:Keyword} beschrieben. 
 
 \SuperPar
 Da Sprung-Operationen vermieden werden und die Sprache blockstrukturiert ist, gewinnt man die Fähigkeit, Tests visuell darstellen zu können. Diese Fähigkeit ist hilfreich, um eine bessere Unterstützung und einen leichteren Einstieg in die Sprache zu ermöglichen. Das ist vor allem von Vorteil, wenn Personen aus einer Fachabteilung nur unregelmäßig damit arbeiten müssen. 
@@ -143,7 +143,7 @@ Da Sprung-Operationen vermieden werden und die Sprache blockstrukturiert ist, ge
 \section{\enword{Keywords} von Rayden}
 \label{cha:Keyword}
 
-Das \enword{Keyword} ist die Schlüsselkomponente der Sprache Rayden. In diesem Abschnitt werden die unterschiedlichen Arten und Metatypen erklärt und gezeigt, wofür diese verwendet werden können. Zu Beginn werden die vier Metatypen von \enword{Keywords} erklärt. Die Metatypen bilden die Basis für den Funktionsumfang der Sprache. Ferner werden die unterstützten Arten beschrieben und wofür diese verwendet werden können. Zum Schluss werden noch Themen wie Sichtbarkeit, Benennung und Parameter erläutert.
+Das \enword{Keyword} ist die Schlüsselkomponente der Sprache Rayden. In diesem Abschnitt werden die unterschiedlichen Arten und Metatypen erklärt und gezeigt, wofür diese verwendet werden können. Zu Beginn werden die vier Metatypen von \enword{Keywords} erklärt. Die Metatypen bilden die Basis für den Funktionsumfang der Sprache. Ferner werden die unterstützten Arten beschrieben und wofür diese verwendet werden können. Zum Schluss werden noch Themen wie Gültigkeitsbereich, Datentypen und Parameter erläutert.
 
 %%------------------------------------------------------------------------------------------------------
 
@@ -184,7 +184,7 @@ Ein klares Ziel bei der Erstellung von \enword{Compound Keywords} ist die Wieder
 
 \subsection{Metatyp: \enword{Inline Keyword}}
 
-Der Metatyp \enword{Inline Keyword} ist eine Kurzform des \enword{Compound Keywords}. Dabei kann man in einem \enword{Compound Keyword} ein neues \enword{Keyword} erstellen. Daher kommt auch der Name \enword{Inline Keyword}, weil es innerhalb eines anderen \enword{Keywords} erstellt wird. Im Beispiel \ref{prog:inlineKeyword} wird im \enword{Keyword} \enword{Anmelden an der PetClinic Anwendung} das \enword{Inline Keyword} \enword{Besitzer anlegen} definiert. In diesem \enword{Inline Keyowrd} werden alle Schritte zum Anlegen eines neuen Besitzers zusammengefasst. Ein \enword{Inline Keyword} muss nicht explizit aufgerufen werden. Die Definition eines \enword{Inline Keywords} ist auch automatisch auch der Aufruf dieses \enword{Keywords}. Der Anwendungsfall dieses Metatyps ist wiederum die Strukturierung, aber in diesem Fall innerhalb eines \enword{Keywords}. 
+Der Metatyp \enword{Inline Keyword} ist eine Kurzform des \enword{Compound Keywords}. Dabei kann man in einem \enword{Compound Keyword} ein neues \enword{Keyword} erstellen. Daher kommt auch der Name \enword{Inline Keyword}, weil es innerhalb eines anderen \enword{Keywords} erstellt wird. Im Beispiel \ref{prog:inlineKeyword} wird im \enword{Keyword} \enword{Anmelden an der PetClinic Anwendung} das \enword{Inline Keyword} \enword{Besitzer anlegen} definiert. In diesem \enword{Inline Keyword} werden alle Schritte zum \enword{Anlegen eines neuen Besitzers} zusammengefasst. Ein \enword{Inline Keyword} muss nicht explizit aufgerufen werden. Die Definition eines \enword{Inline Keywords} ist auch automatisch auch der Aufruf dieses \enword{Keywords}. Der Anwendungsfall dieses Metatyps ist wiederum die Strukturierung, aber in diesem Fall innerhalb eines \enword{Keywords}. 
 
 \begin{program}
 \begin{JavaCode}
@@ -203,7 +203,7 @@ testcase Anlegen eines neuen Besitzers {
 	Abmelden von der Anwendung
 }
 \end{JavaCode}
-\caption{Beispiel eines \enword{Inline Keywords}}
+\caption{Beispiel \enword{Inline Keyword}}
 \label{prog:inlineKeyword}
 \end{program}
 
@@ -225,7 +225,7 @@ keyword Print {
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.PrintKeyword"
 }
 \end{JavaCode}
-\caption{Rayden: Beispiel \enword{Scripted Keyword}}
+\caption{Beispiel \enword{Scripted Keyword}}
 \label{prog:scriptedKeyword}
 \end{program}
 
@@ -245,7 +245,7 @@ public class PrintKeyword implements ScriptedKeyword {
 	
 }
 \end{JavaCode}
-\caption{Rayden: Java-Implementierung des \enword{Print Keywords}}
+\caption{Java-Implementierung des \enword{Print Keywords}}
 \label{prog:scriptedKeywordImpl}
 \end{program}
 
@@ -268,15 +268,15 @@ keyword IF {
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
 }
 \end{JavaCode}
-\caption{Beispiel eines \enword{Scripted Compound Keywords}}
+\caption{Beispiel \enword{Scripted Compound Keyword}}
 \label{prog:ifKeyword}
 \end{program}
 
 \SuperPar
-Das \enword{Scripted Compound Keyword} ist mit einem Codestück verbunden und hat zusätzlich noch eine \enword{Keyword}-Liste. In der Implementierung des \enword{Scripted Compound Keyword} hat man die Möglichkeit, die Ausführung der \enword{Keyword}-Liste zu beeinflussen. Man kann damit eine bedingte bzw. mehrmalige Ausführung der Liste realisieren. Es ist aber zu beachten, dass man die Liste nur als Ganzes ausführen kann. Eine teilweise Ausführung der Liste ist nicht möglich.
+Das \enword{Scripted Compound Keyword} ist mit einem Codestück verbunden und hat zusätzlich noch eine \enword{Keyword}-Liste. In der Implementierung des \enword{Scripted Compound Keywords} hat man die Möglichkeit, die Ausführung der \enword{Keyword}-Liste zu beeinflussen. Man kann damit eine bedingte bzw. mehrmalige Ausführung der Liste realisieren. Es ist aber zu beachten, dass man die Liste nur als Ganzes ausführen kann. Eine teilweise Ausführung der Liste ist nicht möglich.
 
 \SuperPar
-Das Beispiel \ref{prog:ifKeyword} zeigt die Definition für ein \enword{IF Keyword}. Dabei werden wie bei einem \enword{Scripted Keyword} die Programmiersprache und der Bezeichner definiert. Im Fall von einem \enword{Scripted Compound Keyword} muss die Klasse das \enword{Interface} \enword{ScriptedCompoundKeyword} implementieren. Dieses \enword{Interface} ist deutlich aufwendiger zu implementieren, wie man im Beispiel-Code \ref{prog:ifKeywordImpl} sehen kann. In der Methode \enword{executeBefore} wird mithilfe des Parameters \enword{condition} entschieden, ob die \enword{Keyword}-Liste ausgeführt wird. Die Definition des Parameters \enword{condition} zeigt das Codebeispiel \ref{prog:ifKeyword}. 
+Das Beispiel \ref{prog:ifKeyword} zeigt die Definition für ein \enword{IF Keyword}. Dabei werden, wie bei einem \enword{Scripted Keyword}, die Programmiersprache und der Bezeichner definiert. Im Fall eines \enword{Scripted Compound Keywords} muss die Klasse das \enword{Interface} \enword{ScriptedCompoundKeyword} implementieren. Dieses \enword{Interface} ist deutlich aufwendiger zu implementieren, wie man im Beispiel-Code \ref{prog:ifKeywordImpl} sehen kann. In der Methode \enword{executeBefore} wird mithilfe des Parameters \enword{condition} entschieden, ob die \enword{Keyword}-Liste ausgeführt wird. Die Definition des Parameters \enword{condition} zeigt das Codebeispiel \ref{prog:ifKeyword}. 
 
 \begin{program}
 \begin{JavaCode}
@@ -317,7 +317,7 @@ Das \enword{Interface} enthält für jede der vier Phasen eines \enword{Scripted
 \begin{itemize}
 
 \item \textbf{Phase 1: Initialisierung (\enword{initializeKeyword})}\\
-In der Initialisierungsphase wird der aktuelle Zustand von dem Interpretierer an die \enword{Keyword}-Implementierung übergeben. Falls die Informationen für die Ausführung benötigt werden, können diese im Objekt der\enword{Keyword}-Implementierung gespeichert werden. Für jede Ausführung eines \enword{Keywords} wird ein neues Objekt der \enword{Keyword}-Implementierung angelegt. Das heißt, man kann keinen globalen Zustand für zukünftige Ausführungen speichern. Falls man diese Funktionalität benötigt, muss man diese Daten in Klassendatenkomponenten speichern.\\
+In der Initialisierungsphase wird der aktuelle Zustand von dem Interpretierer an die \enword{Keyword}-Implementierung übergeben. Falls die Informationen für die Ausführung benötigt werden, können diese im Objekt der \enword{Keyword}-Implementierung gespeichert werden. Für jede Ausführung eines \enword{Keywords} wird ein neues Objekt der \enword{Keyword}-Implementierung angelegt. Das heißt, man kann keinen globalen Zustand für zukünftige Ausführungen speichern. Falls man diese Funktionalität benötigt, muss man diese Daten in Klassendatenkomponenten speichern.\\
 
 \item \textbf{Phase 2: Beginn der Auswertung (\enword{executeBefore})}\\
 Die Auswertung der \enword{Keyword}-Liste kann in dieser Phase beeinflusst werden. Diese Methode wird vor jeder Auswertung der \enword{Keyword}-Liste aufgerufen. Wenn diese Methode \enword{false} liefert, wird die Liste nicht ausgewertet und es wird zur Phase 4 gesprungen.\\
@@ -331,7 +331,7 @@ In der letzten Phase können noch Abschlussarbeiten vorgenommen werden, wie beis
 \end{itemize}
 
 \SuperPar
-Die Verwendung eines \enword{Scripted Compound Keywords} sieht wie ein \enword{Inline Keyword} aus. Der große Unterschied ist, dass ein \enword{Inline Keyword} keine Parametersignatur im Gegensatz zu einem \enword{Scripted Compound Keyword} hat. Ein Beispiel für die Verwendung des \enword{IF Keywords} findet man im Codeausschnitt \ref{prog:ifKeywordUsage}.
+Die Verwendung eines \enword{Scripted Compound Keywords} sieht wie ein \enword{Inline Keyword} aus. Der große Unterschied ist, dass ein \enword{Inline Keyword} im Gegensatz zu einem \enword{Scripted Compound Keyword} keine Parametersignatur hat. Ein Beispiel für die Verwendung des \enword{IF Keywords} findet man im Codeausschnitt \ref{prog:ifKeywordUsage}.
 
 \begin{program}
 \begin{JavaCode}
@@ -352,7 +352,7 @@ keyword If Keyword Bespiel {
 \subsection{Arten}
 \label{cha:KeywordTypes}
 
-Neben den Metatypen für \enword{Keywords} gibt es in Rayden auch unterschiedliche Arten von \enword{Keywords}. Die Arten liefern keine zusätzliche Funktionalität für die Sprache, sondern dienen als Strukturierungselement für Testprojekte. Mithilfe der Arten kann man Testfälle unterscheiden und eine klare Zuordnung zu einer Testmethode treffen. Durch die Arten wird es auch möglich, eine Aussage über die Verteilung der Testmethoden in einem Testprojekt treffen zu können. 
+Neben den Metatypen gibt es in Rayden auch unterschiedliche Arten von \enword{Keywords}. Die Arten liefern keine zusätzliche Funktionalität für die Sprache, sondern dienen als Strukturierungselement für Testprojekte. Mithilfe der Arten kann man Testfälle unterscheiden und eine klare Zuordnung zu einer Testmethode treffen. Durch die Arten wird es auch möglich, eine Aussage über die Verteilung der Testmethoden in einem Testprojekt treffen zu können. 
 
 \SuperPar
 Rayden unterstützt die folgenden \enword{Keyword}-Arten:
@@ -510,10 +510,10 @@ keyword For {
 \end{program}
 
 \SuperPar
-Der letzte Datentyp ist \enword{variable}. Dieser Datentyp wird verwendet, wenn man den Namen einer Variable an ein \enword{Keyword} übergeben will. Dieser Datentyp beeinflusst die Auswertung von Ausdrücken. Wird ein Ausdruck mit dem Datentyp \enword{variable} typisiert, werden alle Verwendungen von Variablen in diesem Ausdruck nicht ausgewertet. Ein gutes Beispiel dazu ist das \enword{For-Keyword} aus dem Codeausschnitt \ref{prog:variable}.
+Der letzte Datentyp ist \enword{variable}. Dieser Datentyp wird verwendet, wenn man den Namen einer Variable an ein \enword{Keyword} übergeben will. Dieser Datentyp beeinflusst die Auswertung von Ausdrücken. Wird ein Ausdruck mit dem Datentyp \enword{variable} typisiert, werden alle Verwendungen von Variablen in diesem Ausdruck nicht ausgewertet. Ein gutes Beispiel dazu ist das \enword{For Keyword} aus dem Codeausschnitt \ref{prog:variable}.
 
 \SuperPar
-In diesem Beispiel ist der Parameter \enword{var} als \enword{variable} deklariert. Dadurch wird der Ausdruck \enword{i} nicht ausgewertet, sondern als Zeichenkette der \enword{Keyword}-Implementierung übergeben. Somit kann die Implementierung eine neue Variable mit dem Namen \enword{i} anlegen. Würde man den Parameter \enword{var} mit einem anderen Datentyp versehen, würde die Ausführungseinheit für Ausdrücke versuchen, diese Variable mit einem Wert aus dem Gültigkeitsbereich zu ersetzen. Wird kein Wert für \enword{} gefunden, wird die Ausführung mit einem Fehler abgebrochen.
+In diesem Beispiel ist der Parameter \enword{var} als \enword{variable} deklariert. Dadurch wird der Ausdruck \enword{i} nicht ausgewertet, sondern als Zeichenkette der \enword{Keyword}-Implementierung übergeben. Somit kann die Implementierung eine neue Variable mit dem Namen \enword{i} anlegen. Würde man den Parameter \enword{var} mit einem anderen Datentyp versehen, würde der \enword{Expression Evaluator} versuchen, diese Variable mit einem Wert aus dem Gültigkeitsbereich zu ersetzen. Wird kein Wert für \enword{i} gefunden, wird die Ausführung mit einem Fehler abgebrochen.
 
 \SuperPar
 Eine Typumwandlung ist in der Sprache Rayden nicht vorgesehen. Es besteht zwar die Möglichkeit, alle Datentypen in einen \enword{string} umzuwandeln, aber andere Kombinationen sind nicht möglich. In der Implementierung eines \enword{Keywords} können die Werte beliebig konvertiert werden. Die Laufzeitumgebung stellt den Datentyp nur innerhalb der Gültigkeitsbereiche sicher.
@@ -560,7 +560,7 @@ keyword Print {
 In einer Bibliothek werden \enword{Keywords} thematisch zusammengefasst. Es wäre beispielsweise möglich, dass es eine Standard-Bibliothek gibt, wie im Code-Beispiel \ref{prog:library} zu sehen ist. In diesem Beispiel sind \enword{For-, If-} und \enword{Print-Keyword}-Definitionen enthalten. Die Datei \enword{stdlibrary} und das dazugehörige Java-Archiv bilden eine Rayden-Bibliothek. 
 
 \SuperPar
-Um eine Bibliothek verwenden zu können, muss man diese über die Direktive \enword{import library} einbinden. Codeausschnitt sieht man dazu im Codeausschnitt \ref{prog:libraryUsage}. Nachdem die Bibliothek eingebunden wurde, können alle \enword{Keywords} daraus verwendet werden. Für \enword{Keywords} gibt es nur einen Namensraum. Falls es durch das Einbinden von Bibliotheken zu Namenskonflikten kommen sollte, wird die erste Implementierung, die gefunden wird, verwendet. In der Reihenfolge kommen zuerst die \enword{Keywords} aus der aktuellen Datei und danach die \enword{Keywords} aus den Bibliotheken.
+Um eine Bibliothek verwenden zu können, muss man diese über die Direktive \enword{import library} einbinden. Codeausschnitt \ref{prog:libraryUsage} zeigt ein Beispiel. Nachdem die Bibliothek eingebunden wurde, können alle \enword{Keywords} daraus verwendet werden. Für \enword{Keywords} gibt es nur einen Namensraum. Falls es durch das Einbinden von Bibliotheken zu Namenskonflikten kommen sollte, wird die erste Implementierung, die gefunden wird, verwendet. In der Reihenfolge kommen zuerst die \enword{Keywords} aus der aktuellen Datei und danach die \enword{Keywords} aus den Bibliotheken.
 
 \begin{program}
 \begin{JavaCode}
@@ -660,7 +660,7 @@ ScriptEngineManager manager = new ScriptEngineManager();
 manager.registerEngineName("RaydenLangScriptEngine", 
     new RaydenScriptEngineFactory());
 \end{JavaCode}
-\caption{\enword{ScriptEngineFactory} für Rayden registrieren}
+\caption{Registrierung der \enword{ScriptEngineFactory} für Rayden}
 \label{prog:registerFactory}
 \end{program}
 
@@ -682,5 +682,5 @@ RaydenScriptResult resultObj = (RaydenScriptResult) result;
 Über die \enword{ScriptEngineFactory} kann der \enword{ScriptEngineManager} eine neue Instanz einer \enword{ScriptEngine} anlegen. Das Code-Beispiel \ref{prog:runEngine} zeigt, wie man einen Test aus einer Datei einliest und diesen über die \enword{ScriptEngine} ausführen lassen kann.
 
 \SuperPar
-In diesem Kapitel wurden der Aufbau und die Verwendung des Rayden-Systems beschrieben. Im nächsten Kapitel werden ausgewählte Teile der Rayden-Implementierung gezeigt.
+In diesem Kapitel wurden der Aufbau und das Design des Rayden-Systems beschrieben. Im nächsten Kapitel werden ausgewählte Teile der Rayden-Implementierung gezeigt.
 

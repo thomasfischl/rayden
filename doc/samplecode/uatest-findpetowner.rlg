@@ -1,16 +1,14 @@
 uatest Find a pet owner and check the details {
 	Prepare Browser
-	
 	Find a specific Pet Owner("Davis")
 	Check Owner Details ("Betty Davis", "638 Cardinal Ave.", 
 	                     "Sun Prairie", "6085551749")
-	
 	Cleanup Browser
 }
 
 keyword Find a specific Pet Owner {
 	parameter in petOwner as string
-	
+
 	@PetClinicWeb.Find Owners :: Click
 	@PetClinicWeb.Find Owners Page.Title :: Verify Text("Find Owners")
 	@PetClinicWeb.Find Owners Page.Find :: Click
@@ -24,7 +22,6 @@ keyword Find a specific Pet Owner {
 }
 
 keyword Check Owner Details  {
-
 	parameter name as string
 	parameter address as string
 	parameter city as string

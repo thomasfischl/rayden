@@ -30,7 +30,6 @@ public class RaydenRuntime {
 
         if (currKeyword instanceof KeywordDecl) {
           KeywordDecl keyword = (KeywordDecl) currKeyword;
-
           if (currScope.getKeywordCall().getKeywordList() != null 
             && currScope.getKeywordCall().getParameters() != null) {
             executeScriptedCompoundKeywordDecl(keyword, currScope);

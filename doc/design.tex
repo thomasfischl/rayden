@@ -263,7 +263,7 @@ Das \enword{Scripted Compound Keyword} ist die komplizierteste Variante der vier
 
 \begin{program}
 \begin{JavaCode}
-keyword IF { 
+keyword If { 
 	parameter in condition as boolean
 	implemented in java -> "com.github.thomasfischl.rayden.runtime.keywords.impl.IfKeyword"
 }
@@ -276,7 +276,7 @@ keyword IF {
 Das \enword{Scripted Compound Keyword} ist mit einem Codestück verbunden und hat zusätzlich noch eine \enword{Keyword}-Liste. In der Implementierung des \enword{Scripted Compound Keywords} hat man die Möglichkeit, die Ausführung der \enword{Keyword}-Liste zu beeinflussen. Man kann damit eine bedingte bzw. mehrmalige Ausführung der Liste realisieren. Es ist aber zu beachten, dass man die Liste nur als Ganzes ausführen kann. Eine teilweise Ausführung der Liste ist nicht möglich.
 
 \SuperPar
-Das Beispiel \ref{prog:ifKeyword} zeigt die Definition für ein \enword{IF Keyword}. Dabei werden, wie bei einem \enword{Scripted Keyword}, die Programmiersprache und der Bezeichner definiert. Im Fall eines \enword{Scripted Compound Keywords} muss die Klasse das \enword{Interface} \enword{ScriptedCompoundKeyword} implementieren. Dieses \enword{Interface} ist deutlich aufwendiger zu implementieren, wie man im Beispiel-Code \ref{prog:ifKeywordImpl} sehen kann. In der Methode \enword{executeBefore} wird mithilfe des Parameters \enword{condition} entschieden, ob die \enword{Keyword}-Liste ausgeführt wird. Die Definition des Parameters \enword{condition} zeigt das Codebeispiel \ref{prog:ifKeyword}. 
+Das Beispiel \ref{prog:ifKeyword} zeigt die Definition für ein \enword{If Keyword}. Dabei werden, wie bei einem \enword{Scripted Keyword}, die Programmiersprache und der Bezeichner definiert. Im Fall eines \enword{Scripted Compound Keywords} muss die Klasse das \enword{Interface} \enword{ScriptedCompoundKeyword} implementieren. Dieses \enword{Interface} ist deutlich aufwendiger zu implementieren, wie man im Beispiel-Code \ref{prog:ifKeywordImpl} sehen kann. In der Methode \enword{executeBefore} wird mithilfe des Parameters \enword{condition} entschieden, ob die \enword{Keyword}-Liste ausgeführt wird. Die Definition des Parameters \enword{condition} zeigt das Codebeispiel \ref{prog:ifKeyword}. 
 
 \begin{program}
 \begin{JavaCode}
@@ -307,7 +307,7 @@ public class IfKeyword implements ScriptedCompoundKeyword {
 	
 }
 \end{JavaCode}
-\caption{Java-Implementierung des \enword{IF Keywords}}
+\caption{Java-Implementierung des \enword{If Keywords}}
 \label{prog:ifKeywordImpl}
 \end{program}
 
@@ -331,11 +331,11 @@ In der letzten Phase können noch Abschlussarbeiten vorgenommen werden, wie beis
 \end{itemize}
 
 \SuperPar
-Die Verwendung eines \enword{Scripted Compound Keywords} sieht wie ein \enword{Inline Keyword} aus. Der große Unterschied ist, dass ein \enword{Inline Keyword} im Gegensatz zu einem \enword{Scripted Compound Keyword} keine Parametersignatur hat. Ein Beispiel für die Verwendung des \enword{IF Keywords} findet man im Codeausschnitt \ref{prog:ifKeywordUsage}.
+Die Verwendung eines \enword{Scripted Compound Keywords} sieht wie ein \enword{Inline Keyword} aus. Der große Unterschied ist, dass ein \enword{Inline Keyword} im Gegensatz zu einem \enword{Scripted Compound Keyword} keine Parametersignatur hat. Ein Beispiel für die Verwendung des \enword{If Keywords} findet man im Codeausschnitt \ref{prog:ifKeywordUsage}.
 
 \begin{program}
 \begin{JavaCode}
-keyword If Keyword Bespiel {
+keyword If Keyword Beispiel {
 	If (a == 1) {
 		Print("Condition is true")
 	}
@@ -344,7 +344,7 @@ keyword If Keyword Bespiel {
 	}
 }
 \end{JavaCode}
-\caption{Verwendung des \enword{IF Keywords}}
+\caption{Verwendung des \enword{If Keywords}}
 \label{prog:ifKeywordUsage}
 \end{program}
 
@@ -567,10 +567,10 @@ Um eine Bibliothek verwenden zu können, muss man diese über die Direktive \enw
 import library "stdlibrary"
 
 keyword Library Beispiel {
-	If (1 == 1){
+	If (1 == 1) {
 		Print("Condition is true")
 	}
-	For ("i", 0, 2){
+	For ("i", 0, 2) {
 		Print("Hello - " + i)
 	}
 }
